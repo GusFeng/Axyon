@@ -1,0 +1,7 @@
+# Runtime catalog and performance
+
+The Railway service stays a single Node process. Discord Gateway events invalidate a bounded two-second snapshot cache used only for chat without explicit identity restrictions and harmless ping/status. REST remains authoritative for writes, confirmation and restricted access. Concurrent misses share one promise; invalidation fences in-flight reads. No custom transport or public administrative endpoint is introduced.
+
+The runtime catalog receives command contracts verified against Discord's actual guild registration. It refreshes every five minutes and on gateway resume or command events where available; unverified roots are excluded. AI consumes a core contract without importing Commands. Local catalog questions bypass inference; targeted context is bounded. Eligibility is not a guarantee of target permissions; the kernel always authorizes execution.
+
+Independent origin and identity lookups overlap; same origin/target is reused. Read dispatch no longer performs duplicate access checks, but re-reads settings before dispatch. Writes retain independent fresh validation. Structured timings are recorded for interactions, model calls and authorization. Cache statistics are emitted once a minute. Railway tracing is optional and separate from the application. HTTP/gRPC private networking would only be beneficial if independent services are introduced. No new service or paid plan is required.

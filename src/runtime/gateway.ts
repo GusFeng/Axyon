@@ -140,7 +140,7 @@ export async function main(env: NodeJS.ProcessEnv = process.env, sdkOverride?: S
     const store = new Store(env.AXYON_DB_PATH || ':memory:');
     if (!sdkOverride) log('DATABASE_READY', { persistent: !!env.AXYON_DB_PATH, integrity: store.db.prepare('PRAGMA quick_check').get()?.quick_check === 'ok', uid:process.getuid?.()??null, smokeRecorded:store.db.prepare("SELECT status FROM receipts WHERE guild=? AND nonce='integration-smoke-v1'").get(guildId)?.status??null });
     log('RECOVERY', { uncertain: recoverInterrupted(store) });
-    const adapter = new DiscordAdapter(client);
+    const adapter = new DiscordAdapter(client,()=>client.isReady()&&env.DISCORD_GUILD_MEMBERS==='true');
     const app = application(store, adapter);
     let aiConfig = null;
     try {
@@ -149,10 +149,17 @@ export async function main(env: NodeJS.ProcessEnv = process.env, sdkOverride?: S
     catch (e) {
         log('AI_CONFIG_INVALID', { code: errorName(e) });
     }
-    const ai = new Intelligence(app.kernel, aiConfig);
+    const ai = new Intelligence(app.kernel, aiConfig, fetch, app.runtimeCatalog);
     let ready = false, stopping = false;
     let timer: NodeJS.Timeout | undefined;
     let maintenance: NodeJS.Timeout | undefined;
+    let catalogRefresh:NodeJS.Timeout|undefined;
+    let refreshing=false;
+    function publishCatalog(observed:unknown[]){const verified=new Set(app.catalog.roots.filter(root=>{const remote=observed.find(x=>x&&typeof x==='object'&&(x as {name?:string}).name===root.name);return remote&&commandSignature([remote])===commandSignature([root]);}).map(x=>x.name)); app.runtimeCatalog.replace(app.catalog.entries().filter(e=>verified.has(e.root)).map(e=>({root:e.root,sub:e.sub,cap:e.cap,description:e.description,options:Object.keys(e.options),required:Object.entries(e.options).filter(([,v])=>v.required).map(([k])=>k),mask:app.registry.get(e.cap).actorMask|BigInt(app.catalog.roots.find(r=>r.name===e.root)?.default_member_permissions??'0')})));log('RUNTIME_CATALOG_SYNC',{roots:verified.size,entries:app.runtimeCatalog.entries().length});}
+    async function refreshCatalog(){if(refreshing||!client.isReady()||!client.application)return;refreshing=true;try{const observed=await client.rest.get(`/applications/${client.application.id}/guilds/${guildId}/commands`);if(!Array.isArray(observed))throw new Fault('catalog_read_failed');publishCatalog(observed);}catch(e){app.runtimeCatalog.clear();log('CATALOG_SYNC_FAILED',{code:errorName(e)});}finally{refreshing=false;}}
+    client.on('raw',raw=>{const type=(raw as {t?:string}|null)?.t??'';if(/^(GUILD_(MEMBER|ROLE|CREATE|DELETE|UPDATE)|CHANNEL_|THREAD_|VOICE_STATE_UPDATE)/.test(type))adapter.invalidate();if(type.startsWith('APPLICATION_COMMAND_')){app.runtimeCatalog.clear();track(refreshCatalog());}});
+    client.on('shardDisconnect',()=>{adapter.invalidate();app.runtimeCatalog.clear();});
+    client.on('shardResume',()=>{adapter.invalidate();track(refreshCatalog());});
     const botReplies = new Set<string>();
     const active = new Set<Promise<unknown>>();
     function track(p: Promise<unknown>) { active.add(p); void p.catch(e => log('EVENT_FAILED', { code: errorName(e) })).finally(() => active.delete(p)); }
@@ -178,21 +185,22 @@ export async function main(env: NodeJS.ProcessEnv = process.env, sdkOverride?: S
         const result = unchanged ? current : await client.rest.put(route, { body: desired });
         if (!Array.isArray(result) || result.length !== app.catalog.roots.length || result.some(x => !known.has(String((x as Record<string, unknown>).name))))
             throw new Fault('registration_verification_failed');
-        const observed = await client.rest.get(route);
+        const observed = unchanged ? current : await client.rest.get(route);
         if (!Array.isArray(observed) || observed.length !== known.size || observed.some(x => !known.has(String((x as Record<string,unknown>).name))) || commandSignature(observed)!==commandSignature(desired)) throw new Fault('registration_readback_failed');
+        publishCatalog(observed);
         log('COMMANDS_REGISTERED', { count: observed.length, scope: 'guild', changed: !unchanged });
         if (!sdkOverride && env.AXYON_CLEAN_LEGACY_GLOBAL_COMMANDS === 'true') { const globalRoute=`/applications/${client.application.id}/commands`; const global=await client.rest.get(globalRoute); if(!Array.isArray(global))throw new Fault('global_registration_read_failed'); const legacy=new Set(['ping','deletemsg','createchannel']); let removed=0; for(const item of global){const r=item as {id?:string;name?:string;type?:number}; if(r.type===1 && r.name && legacy.has(r.name) && known.has(r.name)){await client.rest.delete(globalRoute+'/'+id(r.id));removed++;}} const after=await client.rest.get(globalRoute);if(!Array.isArray(after)||after.some(x=>{const r=x as {type?:number;name?:string};return r.type===1&&r.name&&legacy.has(r.name);}))throw new Fault('legacy_global_readback_failed');log('LEGACY_GLOBAL_COMMANDS_RECONCILED',{removed,remaining:after.length}); }
     }
-    else
-        log('COMMAND_REGISTRATION_DISABLED', { candidate: app.catalog.roots.length }); ready = true; log('GATEWAY_READY', { runtime: process.version, modules: app.registry.manifest().length, capabilities: app.registry.list().length, persistent: !!env.AXYON_DB_PATH, revision: env.RAILWAY_GIT_COMMIT_SHA ?? 'unknown', messageContent:env.DISCORD_MESSAGE_CONTENT==='true',guildMembers:env.DISCORD_GUILD_MEMBERS==='true',dmTransport:env.AXYON_ENABLE_DMS==='true' }); if (!sdkOverride && env.AI_STARTUP_CHECK === 'true') track((async()=>{ if (!aiConfig) { log('AI_PROVIDER_UNCONFIGURED'); return; } const t=performance.now(); try {const result=await askAI(aiConfig,'Responda apenas OK.',fetch,[],'Teste técnico de conectividade. Responda OK.'); log('AI_PROVIDER_VERIFIED',{model:aiConfig.model,ms:Math.round(performance.now()-t),nonempty:!!result.trim()});} catch(e){log('AI_PROVIDER_FAILED',{code:e instanceof AIError?e.kind:errorName(e),status:e instanceof AIError?e.status??0:0});} })()); if (!sdkOverride && env.AXYON_LIVE_SMOKE === 'true') track(liveSmoke(client,app,ai,guildId)); timer = setInterval(() => track(app.scheduler.tick()), 5000); maintenance = setInterval(() => { try {
-        store.prune();
+    else {log('COMMAND_REGISTRATION_DISABLED', { candidate: app.catalog.roots.length });if(!sdkOverride)await refreshCatalog();} ready = true;
+    if(!sdkOverride)catalogRefresh=setInterval(()=>track(refreshCatalog()),300000); log('GATEWAY_READY', { runtime: process.version, modules: app.registry.manifest().length, capabilities: app.registry.list().length, persistent: !!env.AXYON_DB_PATH, revision: env.RAILWAY_GIT_COMMIT_SHA ?? 'unknown', messageContent:env.DISCORD_MESSAGE_CONTENT==='true',guildMembers:env.DISCORD_GUILD_MEMBERS==='true',dmTransport:env.AXYON_ENABLE_DMS==='true' }); if (!sdkOverride && env.AI_STARTUP_CHECK === 'true') track((async()=>{ if (!aiConfig) { log('AI_PROVIDER_UNCONFIGURED'); return; } const t=performance.now(); try {const result=await askAI(aiConfig,'Responda apenas OK.',fetch,[],'Teste técnico de conectividade. Responda OK.'); log('AI_PROVIDER_VERIFIED',{model:aiConfig.model,ms:Math.round(performance.now()-t),nonempty:!!result.trim()});} catch(e){log('AI_PROVIDER_FAILED',{code:e instanceof AIError?e.kind:errorName(e),status:e instanceof AIError?e.status??0:0});} })()); if (!sdkOverride && env.AXYON_LIVE_SMOKE === 'true') track(liveSmoke(client,app,ai,guildId)); timer = setInterval(() => track(app.scheduler.tick()), 5000); maintenance = setInterval(() => { try {
+        store.prune();if(!sdkOverride)log('PERFORMANCE_SNAPSHOT',adapter.performance());
     }
     catch (e) {
         log('MAINTENANCE_FAILED', { code: errorName(e) });
     } }, 60000); })()));
     client.on('interactionCreate', i => track((async () => { if (!ready || stopping || i.guildId !== guildId || i.user.bot || (!i.isChatInputCommand() && !i.isButton()))
         return; const c = context(i.guildId, i.channelId, i.user, i.id, i.isButton() ? 'component' : 'slash'); try {
-        await i.deferReply({ ephemeral: true });
+        const received=performance.now();await i.deferReply({ ephemeral: true });const ackMs=Math.round(performance.now()-received);
         let reply: Reply;
         if (i.isButton()) {
             const panel=panelAction(i.customId);if(panel){await app.kernel.execute(panel.capability,panel.input,c);reply=describe(await app.kernel.execute(panel.refresh,{}, {...c,nonce:c.nonce+':refresh'}),panel.refresh);}else{
@@ -215,7 +223,7 @@ export async function main(env: NodeJS.ProcessEnv = process.env, sdkOverride?: S
             reply = describe(await app.kernel.execute(p.cap, p.input, c), p.cap);
         }
         await i.editReply(reply);
-        if (!sdkOverride) log('INTERACTION_REPLY_SENT',{command:i.isButton()?'component':i.commandName});
+        if (!sdkOverride) log('INTERACTION_REPLY_SENT',{command:i.isButton()?'component':i.commandName,ackMs,totalMs:Math.round(performance.now()-received)});
     }
     catch (e) {
         log('INTERACTION_FAILED', { code: errorName(e), command: i.commandName ?? 'component' });
@@ -244,7 +252,7 @@ export async function main(env: NodeJS.ProcessEnv = process.env, sdkOverride?: S
         return; const c = context(m.guildId, m.channelId, m.author, m.id, 'ai'); const mention = m.mentions.users.has(client.user.id) || !!(m.reference?.messageId && botReplies.has(m.reference.messageId)); const prompt = m.content.replace(new RegExp(`<@!?${client.user.id}>`, 'g'), '').trim(); if (!prompt)
         return; const s = store.settings(guildId).value; const direct = s.ai.direct.includes(c.channel); if (mention || direct) {
         try {
-            const r = await ai.handle({ context: c, prompt, mention, thread: !!m.channel.isThread?.() });
+            const received=performance.now();const r = await ai.handle({ context: c, prompt, mention, thread: !!m.channel.isThread?.() });
             if (r.kind === 'ignored')
                 return;
             const sendReply = async (o: Reply) => { const sent = await m.reply(o); if (sent && typeof sent === 'object' && 'id' in sent && typeof sent.id === 'string') {
@@ -262,7 +270,7 @@ export async function main(env: NodeJS.ProcessEnv = process.env, sdkOverride?: S
                         await m.channel.send(message(part));
                 }
             }
-            if (!sdkOverride) log('AI_REPLY_SENT',{kind:r.kind, model:aiConfig?.model??'none'});
+            if (!sdkOverride) log('AI_REPLY_SENT',{kind:r.kind, model:aiConfig?.model??'none',totalMs:Math.round(performance.now()-received)});
         }
         catch (e) {
             log('AI_FAILED', { code: errorName(e) });
@@ -292,7 +300,7 @@ export async function main(env: NodeJS.ProcessEnv = process.env, sdkOverride?: S
     async function stop() { if (stopping)
         return; stopping = true; ready = false; if (timer)
         clearInterval(timer); if (maintenance)
-        clearInterval(maintenance); server.close(); await Promise.race([Promise.allSettled([...active]), new Promise(r => setTimeout(r, 10000).unref())]); client.destroy(); await app.registry.stop(); store.close(); }
+        clearInterval(maintenance);if(catalogRefresh)clearInterval(catalogRefresh);adapter.invalidate();app.runtimeCatalog.clear(); server.close(); await Promise.race([Promise.allSettled([...active]), new Promise(r => setTimeout(r, 10000).unref())]); client.destroy(); await app.registry.stop(); store.close(); }
     if(!sdkOverride){process.once('SIGTERM', () => void stop());process.once('SIGINT', () => void stop());}
     try {
         await client.login(token);

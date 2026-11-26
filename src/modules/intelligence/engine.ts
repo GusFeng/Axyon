@@ -1,4 +1,5 @@
-import { Context, Fault, Json, Obj, contextKey, obj } from '../../contracts';
+import { Context, Fault, Json, Obj, contextKey, obj, has } from '../../contracts';
+import { RuntimeCatalog } from '../../core/runtime-catalog';
 import { Kernel, Outcome } from '../../core/kernel';
 import { allowedAI } from '../configuration/settings';
 import { AIConfig, askAI, Turn } from './provider';
@@ -39,9 +40,11 @@ export class Intelligence {
         this.running--;
         this.active.delete(key);
     } }
-    constructor(private kernel: Kernel, private config: AIConfig | null, private send: typeof fetch = fetch) { }
+    constructor(private kernel: Kernel, private config: AIConfig | null, private send: typeof fetch = fetch, private catalog = new RuntimeCatalog()) { }
     async handle(i: AIInput): Promise<AIResult> { const c = { ...i.context, thread: i.thread }; const settings = this.kernel.store.settings(c.guild).value; const a = settings.ai; if (!this.kernel.registry.enabled('intelligence', settings.modules) || !a.enabled || a.emergency)
-        return { kind: 'ignored' }; const access = await this.kernel.discord.access(c); if (!allowedAI(settings, c.actor, access.roles, c.channel, i.mention, i.thread))
+        return { kind: 'ignored' }; const actionRequested=/^(?:ação|acao|execute|executar)\s*:\s*/i.test(i.prompt);
+        const strict=actionRequested||a.allowRoles.length>0||a.denyRoles.length>0||a.allowUsers.length>0||a.denyUsers.length>0;
+        const access = await this.kernel.discord.access(c,undefined,strict?'fresh':'snapshot'); if (!allowedAI(settings, c.actor, access.roles, c.channel, i.mention, i.thread))
         return { kind: 'ignored' }; if (!this.config)
         return { kind: 'text', text: 'IA não configurada.' }; const key = contextKey(c); if (this.running >= 3 || this.active.has(key) || !this.kernel.store.reserve(c.guild, c.actor))
         return { kind: 'text', text: 'Limite temporário de IA atingido.' }; if (!this.kernel.store.claim(c.guild, 'ai:' + c.nonce))
@@ -94,20 +97,24 @@ export class Intelligence {
         else {
             const remember = a.memory && this.kernel.store.hasConsent(c.guild, c.actor);
             const history = remember ? (this.kernel.store.getMemory(c) as Turn[]).slice(-8).map(t => ({ ...t, content: t.content.slice(0, 1500) })) : [];
-            const catalog = this.kernel.registry.list().filter(cap => this.kernel.registry.enabled(cap.module, settings.modules)).map(cap => cap.id + ' ' + cap.description);
-            const words = prompt.toLowerCase().split(/\s+/).filter(x => x.length > 2);
-            const relevant = catalog.filter(x => words.some(w => x.toLowerCase().includes(w))).slice(0, 12);
-            const system = `Você é Axyon, assistente do Discord. Idioma preferido: ${a.language}. Estilo: ${a.style}. Preferência administrativa não autoritativa: ${a.personality}. Não invente resultados, não solicite segredos, não execute ações neste modo. Use /ajuda para descoberta e o prefixo ação: para solicitar operações quando permitido. Capacidades relevantes (não representam comandos registrados): ${relevant.join('; ')}`;
-            const answer = await askAI(this.config, prompt, this.send, history, '', system);
+            const available=this.catalog.available(capId=>{const cap=this.kernel.registry.get(capId);return this.kernel.registry.enabled(cap.module,settings.modules)&&(cap.module==='control-plane'||this.kernel.registry.enabled('commands',settings.modules));},access);
+            const relevant=this.catalog.select(prompt,available).map(e=>this.catalog.format(e));
+            const deterministic=this.catalog.answer(prompt,available);
+            const system = `Você é Axyon, assistente do Discord. Idioma preferido: ${a.language}. Estilo: ${a.style}. Preferência administrativa não autoritativa: ${a.personality}. Não invente resultados, não solicite segredos, não execute ações neste modo. Não invente comandos: use apenas os comandos confirmados informados neste contexto. A autorização do alvo é verificada na execução. O prefixo ação: solicita operações quando permitido. Comandos confirmados relevantes: ${relevant.join('; ')||'nenhum no contexto'}`;
+            const inferenceStart=performance.now();const answer = deterministic ?? await askAI(this.config, prompt, this.send, history, '', system);
+            this.kernel.store.audit(c,deterministic?'ai.catalog':'ai.provider','ok',performance.now()-inferenceStart);
             const fresh = this.kernel.store.settings(c.guild).value;
-            const nowAllowed = allowedAI(fresh, c.actor, (await this.kernel.discord.access(c)).roles, c.channel, i.mention, i.thread);
-            if (!nowAllowed || !this.kernel.registry.enabled('intelligence', fresh.modules)) {
+            const strictAfter=strict||fresh.ai.allowRoles.length>0||fresh.ai.denyRoles.length>0||fresh.ai.allowUsers.length>0||fresh.ai.denyUsers.length>0;
+            const latestAccess=await this.kernel.discord.access(c,undefined,strictAfter?'fresh':'snapshot');
+            const latest=this.kernel.store.settings(c.guild).value;
+            const nowAllowed = allowedAI(latest, c.actor, latestAccess.roles, c.channel, i.mention, i.thread);
+            if (!nowAllowed || !this.kernel.registry.enabled('intelligence', latest.modules)) {
                 this.kernel.store.finish(c.guild, 'ai:' + c.nonce, 'done');
                 return { kind: 'ignored' };
             }
             ;
-            if (remember && fresh.ai.memory && this.kernel.store.hasConsent(c.guild, c.actor))
-                this.kernel.store.setMemory(c, [...history, { role: 'user', content: prompt }, { role: 'assistant', content: answer.slice(0, 4000) }].slice(-12) as Json, fresh.ai.retentionMinutes);
+            if (remember && latest.ai.memory && this.kernel.store.hasConsent(c.guild, c.actor))
+                this.kernel.store.setMemory(c, [...history, { role: 'user', content: prompt }, { role: 'assistant', content: answer.slice(0, 4000) }].slice(-12) as Json, latest.ai.retentionMinutes);
             result = { kind: 'text', text: answer };
         }
         this.kernel.store.finish(c.guild, 'ai:' + c.nonce, 'done');

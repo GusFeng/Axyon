@@ -44,7 +44,8 @@ export class Kernel {
                 const selection = obj(sealed);
                 plan = { ...plan, body: { ...obj(plan.body), ids: selection.ids } };
             }
-            const access = await this.discord.access(effective, plan);
+            const fast = !plan && cap.effect === 'read' && ['system.ping','system.status'].includes(cap.id) && !token && effective.source === 'slash';
+            const access = await this.discord.access(effective, plan, fast ? 'snapshot' : 'fresh');
             authorize(this.registry, config, cap, effective, access, plan);
             if (!token && needsConfirmation(cap, effective) && !(effective.source === 'ai' && config.ai.dryRun)) {
                 if (plan && this.discord.prepare)
@@ -63,7 +64,9 @@ export class Kernel {
             if (!this.store.claim(ctx.guild, ctx.nonce))
                 throw new Fault('duplicate', 'Evento já processado.');
             claimed = true;
-            const freshAccess = await this.discord.access(effective, plan);
+            // Reads have no asynchronous gap between this authorization and dispatch.
+            // Writes and confirmed operations retain an independent fresh verification.
+            const freshAccess = cap.effect === 'read' && !token ? access : await this.discord.access(effective, plan, 'fresh');
             const fresh = this.store.settings(ctx.guild).value;
             authorize(this.registry, fresh, cap, effective, freshAccess, plan);
             if (!token && effective.source === 'ai' && config.ai.dryRun && !fresh.ai.dryRun && cap.effect !== 'read')

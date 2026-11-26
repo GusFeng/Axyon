@@ -1,4 +1,5 @@
 import { Access, Context, DiscordPort, Fault, Json, Obj, P, Plan, has, id, obj, str } from '../../contracts';
+import { SnapshotCache } from '../../modules/performance/cache';
 // A narrow structural boundary for discord.js. No SDK object enters the kernel.
 export interface Bits {
     bitfield: bigint;
@@ -88,14 +89,25 @@ export function publicData(v: unknown, depth = 0): Json { if (depth > 5)
     return result;
 } return null; }
 export class DiscordAdapter implements DiscordPort {
-    constructor(private client: ClientPort) { }
+    private snapshots=new SnapshotCache<Access>();
+    private totals={calls:0,fresh:0,ms:0};
+    constructor(private client: ClientPort,private gatewayHealthy:()=>boolean=()=>false) { }
+    invalidate(){this.snapshots.invalidate();}
+    performance(){return {...this.totals,...this.snapshots.counters};}
     private async channel(g: Guild, channel: string): Promise<Channel> { const c = await g.channels.fetch(id(channel), { force: true }); if (!c || c.guildId !== g.id)
         throw new Fault('channel_scope', 'Canal não pertence ao servidor.'); return c; }
     private async identities(c: Context) { const g = await this.client.guilds.fetch(c.guild); if (g.id !== c.guild)
-        throw new Fault('guild_scope'); const [a, b] = await Promise.all([member(g, c.actor), g.members.fetchMe({ force: true })]); return { g, a, b }; }
-    async access(ctx: Context, plan?: Plan): Promise<Access> {
-        const { g, a, b } = await this.identities(ctx);
-        const origin = await this.channel(g, ctx.channel);
+        throw new Fault('guild_scope'); const [a, b] = c.actor===this.client.user?.id ? await g.members.fetchMe({force:true}).then(m=>[m,m] as const) : await Promise.all([member(g, c.actor), g.members.fetchMe({ force: true })]); return { g, a, b }; }
+    async access(ctx: Context, plan?: Plan, mode:'fresh'|'snapshot'='fresh'): Promise<Access> {
+        const start=performance.now();this.totals.calls++;
+        try {if(mode==='snapshot'&&!plan&&this.gatewayHealthy())return await this.snapshots.get(ctx.guild+':'+ctx.channel+':'+ctx.actor,()=>this.accessFresh(ctx));return await this.accessFresh(ctx,plan);}
+        finally{this.totals.ms+=Math.round(performance.now()-start);}
+    }
+    private async accessFresh(ctx:Context,plan?:Plan):Promise<Access>{
+        this.totals.fresh++;
+        const g=await this.client.guilds.fetch(ctx.guild);if(g.id!==ctx.guild)throw new Fault('guild_scope');
+        const self=g.members.fetchMe({force:true});
+        const [a,b,origin]=await Promise.all([ctx.actor===this.client.user?.id?self:member(g,ctx.actor),self,this.channel(g,ctx.channel)]);
         if (!has(permissions(origin, a), P.view) || !has(permissions(origin, b), P.view))
             throw new Fault('origin_access');
         const resolvedChannels: string[] = [];
@@ -103,7 +115,7 @@ export class DiscordAdapter implements DiscordPort {
         const owner = g.ownerId === a.id;
         if (plan) {
             const t = plan.target;
-            const target = t.channel ? await this.channel(g, t.channel) : null;
+            const target = t.channel ? t.channel===origin.id ? origin : await this.channel(g, t.channel) : null;
             if (target) {
                 resolvedChannels.push(target.id);
                 actor = permissions(target, a);
@@ -127,7 +139,7 @@ export class DiscordAdapter implements DiscordPort {
                         other.add(id(o.id));
                 }
             for (const cid of other) {
-                const ch = await this.channel(g, cid);
+                const ch = cid===origin.id?origin:target?.id===cid?target:await this.channel(g, cid);
                 resolvedChannels.push(ch.id);
                 const mask = plan.id === 'discord.update-guild-member.move' ? P.view | (1n << 20n) | (1n << 24n) : plan.id === 'discord.follow-channel' ? P.view | P.manageWebhooks : plan.id === 'discord.create-guild-scheduled-event' ? P.view | (1n << 33n) : P.view | P.manageChannels;
                 if (!has(permissions(ch, a), mask) || !has(permissions(ch, b), mask))
@@ -273,6 +285,7 @@ export class DiscordAdapter implements DiscordPort {
         const options: RestOptions = { ...(plan.body === undefined ? {} : { body: plan.body }), ...(Object.keys(plan.query).length ? { query: new URLSearchParams(plan.query) } : {}), ...(plan.reason ? { reason: plan.reason } : {}) };
         const method = plan.method.toLowerCase() as 'get' | 'post' | 'put' | 'patch' | 'delete';
         const r = await this.client.rest[method](plan.path, options);
+        if(plan.effect!=='read')this.invalidate();
         if (plan.id === 'discord.guild-role-member-counts') {
             const source = object(r);
             const counts: Obj = {};

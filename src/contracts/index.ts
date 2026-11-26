@@ -57,7 +57,7 @@ export interface Access {
 }
 export interface DiscordPort {
     prepare?(plan: Plan, ctx: Context): Promise<Plan>;
-    access(ctx: Context, plan?: Plan): Promise<Access>;
+    access(ctx: Context, plan?: Plan, mode?: 'fresh' | 'snapshot'): Promise<Access>;
     execute(plan: Plan, ctx: Context): Promise<Json>;
     verify(plan: Plan, ctx: Context, result: Json): Promise<Json>;
 }
