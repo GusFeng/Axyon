@@ -1,4 +1,5 @@
 import { main } from './runtime/gateway';
+import { startTelemetry, stopTelemetry } from './modules/performance/telemetry';
 import { Fault } from './contracts';
 import { lstatSync, chownSync, chmodSync, existsSync } from 'node:fs';
 
@@ -24,7 +25,8 @@ function prepareVolume(): void {
     process.setuid?.(1000);
     if (process.getuid?.() === 0) throw new Fault('privilege_drop_failed');
 }
-void (async () => { prepareVolume(); await main(); })().catch(e => {
+void (async () => { prepareVolume(); startTelemetry(); await main(); })().catch(async e => {
     console.error('START_FAILED', e instanceof Fault ? e.code : e instanceof Error ? e.name : 'unknown');
+    await stopTelemetry();
     process.exitCode = 1;
 });

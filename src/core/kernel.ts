@@ -1,4 +1,5 @@
 import { Capability, Context, DiscordPort, Fault, Json, Obj, id, obj, str, validate } from '../contracts';
+import { span } from '../modules/performance/telemetry';
 import { Store } from '../modules/persistence/store';
 import { Registry } from './registry';
 import { authorize, needsConfirmation } from '../modules/security/policy';
@@ -45,7 +46,7 @@ export class Kernel {
                 plan = { ...plan, body: { ...obj(plan.body), ids: selection.ids } };
             }
             const fast = !plan && cap.effect === 'read' && ['system.ping','system.status'].includes(cap.id) && !token && effective.source === 'slash';
-            const access = await this.discord.access(effective, plan, fast ? 'snapshot' : 'fresh');
+            const access = await span('discord.authorize',()=>this.discord.access(effective, plan, fast ? 'snapshot' : 'fresh'));
             authorize(this.registry, config, cap, effective, access, plan);
             if (!token && needsConfirmation(cap, effective) && !(effective.source === 'ai' && config.ai.dryRun)) {
                 if (plan && this.discord.prepare)
@@ -66,7 +67,7 @@ export class Kernel {
             claimed = true;
             // Reads have no asynchronous gap between this authorization and dispatch.
             // Writes and confirmed operations retain an independent fresh verification.
-            const freshAccess = cap.effect === 'read' && !token ? access : await this.discord.access(effective, plan, 'fresh');
+            const freshAccess = cap.effect === 'read' && !token ? access : await span('discord.revalidate',()=>this.discord.access(effective, plan, 'fresh'));
             const fresh = this.store.settings(ctx.guild).value;
             authorize(this.registry, fresh, cap, effective, freshAccess, plan);
             if (!token && effective.source === 'ai' && config.ai.dryRun && !fresh.ai.dryRun && cap.effect !== 'read')
@@ -80,8 +81,8 @@ export class Kernel {
             let result: Json;
             if (plan) {
                 status = 'executing';
-                result = await this.discord.execute(plan, effective);
-                result = await this.discord.verify(plan, effective, result);
+                result = await span('discord.execute',()=>this.discord.execute(plan!, effective));
+                const returned=result;result = await span('discord.verify',()=>this.discord.verify(plan!, effective, returned));
             }
             else if (cap.local) {
                 status = 'executing';

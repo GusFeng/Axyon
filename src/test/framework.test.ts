@@ -143,3 +143,5 @@ test('invalidating a pending shared snapshot fences both callers',async()=>{cons
 
 import { collectSSE } from '../modules/intelligence/provider';
 test('SSE streaming assembles deltas and rejects incomplete streams',async()=>{const stream=new Response('data: {"choices":[{"delta":{"content":"O"}}]}\n\ndata: {"choices":[{"delta":{"content":"K"},"finish_reason":"stop"}]}\n\ndata: [DONE]\n\n');assert.equal(await collectSSE(stream),'OK');await assert.rejects(collectSSE(new Response('data: {"choices":[{"delta":{"content":"incomplete"}}]}\n\n')));});
+
+test('catalog administrative and general queries select distinct registered entries',()=>{const c=new RuntimeCatalog();const entries=[{root:'ping',cap:'system.ping',description:'Ping',options:[],required:[],mask:0n},{root:'modulos',cap:'system.modulos.listar',description:'Admin',options:[],required:[],mask:P.manageGuild}];c.replace(entries);assert.doesNotMatch(c.answer('quais comandos administrativos existem?',entries)??'',/\/ping/);assert.doesNotMatch(c.answer('quais comandos gerais existem?',entries)??'',/\/modulos/);});

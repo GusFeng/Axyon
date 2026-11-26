@@ -1,3 +1,4 @@
+import { span } from '../performance/telemetry';
 export type AIConfig = {
     url: string;
     model: string;
@@ -68,6 +69,9 @@ export function extractReply(data: unknown, format: AIConfig["format"]): string 
     return reply.trim();
 }
 export async function askAI(config: AIConfig, prompt: string, send: typeof fetch = fetch, history: readonly Turn[] = [], documentation = "", systemOverride?: string): Promise<string> {
+    return span('ai.inference',()=>performAI(config,prompt,send,history,documentation,systemOverride));
+}
+async function performAI(config:AIConfig,prompt:string,send:typeof fetch,history:readonly Turn[],documentation:string,systemOverride?:string):Promise<string>{
     const data = requestData(config, prompt, history, documentation, systemOverride);
     if(config.streaming&&config.format==='openai')data.body.stream=true;
     let response: Response;

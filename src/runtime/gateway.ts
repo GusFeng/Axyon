@@ -10,6 +10,7 @@ import { recoverInterrupted } from '../modules/recovery/reconcile';
 import { panelFor,panelAction } from '../modules/control-plane/panels';
 import { Outcome } from '../core/kernel';
 import { liveSmoke } from './smoke';
+import { span, stopTelemetry } from '../modules/performance/telemetry';
 import { commandSignature } from '../modules/commands/catalog';
 // SDK boundary intentionally small; verified against the actual SDK at integration time.
 interface Option {
@@ -193,13 +194,13 @@ export async function main(env: NodeJS.ProcessEnv = process.env, sdkOverride?: S
         if (!sdkOverride && env.AXYON_CLEAN_LEGACY_GLOBAL_COMMANDS === 'true') { const globalRoute=`/applications/${client.application.id}/commands`; const global=await client.rest.get(globalRoute); if(!Array.isArray(global))throw new Fault('global_registration_read_failed'); const legacy=new Set(['ping','deletemsg','createchannel']); let removed=0; for(const item of global){const r=item as {id?:string;name?:string;type?:number}; if(r.type===1 && r.name && legacy.has(r.name) && known.has(r.name)){await client.rest.delete(globalRoute+'/'+id(r.id));removed++;}} const after=await client.rest.get(globalRoute);if(!Array.isArray(after)||after.some(x=>{const r=x as {type?:number;name?:string};return r.type===1&&r.name&&legacy.has(r.name);}))throw new Fault('legacy_global_readback_failed');log('LEGACY_GLOBAL_COMMANDS_RECONCILED',{removed,remaining:after.length}); }
     }
     else {log('COMMAND_REGISTRATION_DISABLED', { candidate: app.catalog.roots.length });if(!sdkOverride)await refreshCatalog();} ready = true;
-    if(!sdkOverride)catalogRefresh=setInterval(()=>track(refreshCatalog()),300000); log('GATEWAY_READY', { runtime: process.version, modules: app.registry.manifest().length, capabilities: app.registry.list().length, persistent: !!env.AXYON_DB_PATH, revision: env.RAILWAY_GIT_COMMIT_SHA ?? 'unknown', messageContent:env.DISCORD_MESSAGE_CONTENT==='true',guildMembers:env.DISCORD_GUILD_MEMBERS==='true',dmTransport:env.AXYON_ENABLE_DMS==='true' }); if (!sdkOverride && env.AI_STARTUP_CHECK === 'true') track((async()=>{ if (!aiConfig) { log('AI_PROVIDER_UNCONFIGURED'); return; } const t=performance.now(); try {const result=await askAI(aiConfig,'Responda apenas OK.',fetch,[],'Teste técnico de conectividade. Responda OK.'); log('AI_PROVIDER_VERIFIED',{model:aiConfig.model,ms:Math.round(performance.now()-t),nonempty:!!result.trim()});} catch(e){log('AI_PROVIDER_FAILED',{code:e instanceof AIError?e.kind:errorName(e),status:e instanceof AIError?e.status??0:0});} })()); if (!sdkOverride && env.AXYON_LIVE_SMOKE === 'true') track(liveSmoke(client,app,ai,guildId)); timer = setInterval(() => track(app.scheduler.tick()), 5000); maintenance = setInterval(() => { try {
+    if(!sdkOverride)catalogRefresh=setInterval(()=>track(refreshCatalog()),300000); log('GATEWAY_READY', { runtime: process.version, modules: app.registry.manifest().length, capabilities: app.registry.list().length, persistent: !!env.AXYON_DB_PATH, revision: env.RAILWAY_GIT_COMMIT_SHA ?? 'unknown', messageContent:env.DISCORD_MESSAGE_CONTENT==='true',guildMembers:env.DISCORD_GUILD_MEMBERS==='true',dmTransport:env.AXYON_ENABLE_DMS==='true' }); if (!sdkOverride && env.AI_STARTUP_CHECK === 'true') track((async()=>{ if (!aiConfig) { log('AI_PROVIDER_UNCONFIGURED'); return; } const t=performance.now(); try {const result=await span('startup.ai.verify',()=>askAI(aiConfig!,'Responda apenas OK.',fetch,[],'Teste técnico de conectividade. Responda OK.')); log('AI_PROVIDER_VERIFIED',{model:aiConfig.model,ms:Math.round(performance.now()-t),nonempty:!!result.trim(),streamRequested:!!aiConfig.streaming});} catch(e){log('AI_PROVIDER_FAILED',{code:e instanceof AIError?e.kind:errorName(e),status:e instanceof AIError?e.status??0:0});} })()); if (!sdkOverride && env.AXYON_LIVE_SMOKE === 'true') track(liveSmoke(client,app,ai,guildId)); timer = setInterval(() => track(app.scheduler.tick()), 5000); maintenance = setInterval(() => { try {
         store.prune();if(!sdkOverride)log('PERFORMANCE_SNAPSHOT',adapter.performance());
     }
     catch (e) {
         log('MAINTENANCE_FAILED', { code: errorName(e) });
     } }, 60000); })()));
-    client.on('interactionCreate', i => track((async () => { if (!ready || stopping || i.guildId !== guildId || i.user.bot || (!i.isChatInputCommand() && !i.isButton()))
+    client.on('interactionCreate', i => track(span('discord.interaction',async () => { if (!ready || stopping || i.guildId !== guildId || i.user.bot || (!i.isChatInputCommand() && !i.isButton()))
         return; const c = context(i.guildId, i.channelId, i.user, i.id, i.isButton() ? 'component' : 'slash'); try {
         const received=performance.now();await i.deferReply({ ephemeral: true });const ackMs=Math.round(performance.now()-received);
         let reply: Reply;
@@ -233,8 +234,8 @@ export async function main(env: NodeJS.ProcessEnv = process.env, sdkOverride?: S
             await i.editReply(r).catch(() => { });
         else
             await i.reply({ ...r, ephemeral: true }).catch(() => { });
-    } })()));
-    client.on('messageCreate', m => track((async () => { if (!ready || stopping || m.author.bot || m.webhookId || !client.user)
+    } })));
+    client.on('messageCreate', m => track(span('discord.message',async () => { if (!ready || stopping || m.author.bot || m.webhookId || !client.user)
         return; if (!m.guildId) {
         if (env.AXYON_ENABLE_DMS !== 'true')
             return;
@@ -279,7 +280,7 @@ export async function main(env: NodeJS.ProcessEnv = process.env, sdkOverride?: S
         }
     }
     else if (env.DISCORD_MESSAGE_CONTENT === 'true')
-        await app.automation.event(guildId, c.channel, c.actor, m.id, prompt); })()));
+        await app.automation.event(guildId, c.channel, c.actor, m.id, prompt); })));
     client.on(sdk.Events.ChannelDelete, raw => { if (!raw || typeof raw !== 'object')
         return; const ch = raw as {
         id?: string;
@@ -301,7 +302,7 @@ export async function main(env: NodeJS.ProcessEnv = process.env, sdkOverride?: S
     async function stop() { if (stopping)
         return; stopping = true; ready = false; if (timer)
         clearInterval(timer); if (maintenance)
-        clearInterval(maintenance);if(catalogRefresh)clearInterval(catalogRefresh);adapter.invalidate();app.runtimeCatalog.clear(); server.close(); await Promise.race([Promise.allSettled([...active]), new Promise(r => setTimeout(r, 10000).unref())]); client.destroy(); await app.registry.stop(); store.close(); }
+        clearInterval(maintenance);if(catalogRefresh)clearInterval(catalogRefresh);adapter.invalidate();app.runtimeCatalog.clear(); server.close(); await Promise.race([Promise.allSettled([...active]), new Promise(r => setTimeout(r, 10000).unref())]); client.destroy(); await app.registry.stop(); store.close(); if(!sdkOverride)await stopTelemetry(); }
     if(!sdkOverride){process.once('SIGTERM', () => void stop());process.once('SIGINT', () => void stop());}
     try {
         await client.login(token);
