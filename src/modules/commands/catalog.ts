@@ -51,3 +51,12 @@ export class CommandCatalog {
     describe() { return this.entries().map(p => `/${p.root}${p.sub ? ' ' + p.sub : ''}: ${p.description}`).join('\n'); }
 }
 
+
+// Compare the desired guild command contract with Discord's read-back, ignoring
+// server-generated IDs, versions and default false/empty values.
+export function commandSignature(input:unknown[]):string {
+    const o=(x:unknown)=>x&&typeof x==='object'&&!Array.isArray(x)?x as Record<string,unknown>:{};
+    const array=(x:unknown):unknown[]=>Array.isArray(x)?x:[];
+    const option=(raw:unknown):unknown=>{const x=o(raw);return {name:x.name,description:x.description,type:x.type,required:x.required===true,choices:array(x.choices).map(v=>{const c=o(v);return {name:c.name,value:c.value}}),min_value:x.min_value??null,max_value:x.max_value??null,min_length:x.min_length??null,max_length:x.max_length??null,options:array(x.options).map(option)}};
+    return JSON.stringify(input.map(raw=>{const x=o(raw);return {name:String(x.name),description:x.description,type:x.type??1,default_member_permissions:x.default_member_permissions??null,options:array(x.options).map(option)}}).sort((a,b)=>a.name.localeCompare(b.name)));
+}

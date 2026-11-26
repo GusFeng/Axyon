@@ -10,6 +10,7 @@ import { recoverInterrupted } from '../modules/recovery/reconcile';
 import { panelFor,panelAction } from '../modules/control-plane/panels';
 import { Outcome } from '../core/kernel';
 import { liveSmoke } from './smoke';
+import { commandSignature } from '../modules/commands/catalog';
 // SDK boundary intentionally small; verified against the actual SDK at integration time.
 interface Option {
     name: string;
@@ -137,7 +138,7 @@ export async function main(env: NodeJS.ProcessEnv = process.env, sdkOverride?: S
         intents.push(intent.DirectMessages);
     const client = new sdk.Client({ intents, ...(env.AXYON_ENABLE_DMS === 'true' ? { partials: [sdk.Partials.Channel] } : {}) });
     const store = new Store(env.AXYON_DB_PATH || ':memory:');
-    if (!sdkOverride) log('DATABASE_READY', { persistent: !!env.AXYON_DB_PATH, integrity: store.db.prepare('PRAGMA quick_check').get()?.quick_check === 'ok' });
+    if (!sdkOverride) log('DATABASE_READY', { persistent: !!env.AXYON_DB_PATH, integrity: store.db.prepare('PRAGMA quick_check').get()?.quick_check === 'ok', uid:process.getuid?.()??null, smokeRecorded:store.db.prepare("SELECT status FROM receipts WHERE guild=? AND nonce='integration-smoke-v1'").get(guildId)?.status??null });
     log('RECOVERY', { uncertain: recoverInterrupted(store) });
     const adapter = new DiscordAdapter(client);
     const app = application(store, adapter);
@@ -172,16 +173,18 @@ export async function main(env: NodeJS.ProcessEnv = process.env, sdkOverride?: S
         const known = new Set(app.catalog.roots.map(x => x.name));
         if (current.some(x => !x || typeof x !== 'object' || !known.has(String((x as Record<string, unknown>).name))))
             throw new Fault('unrelated_commands', 'Comandos externos detectados; registro recusado.');
-        const result = await client.rest.put(route, { body: app.catalog.roots.map(({ dm_permission, ...r }) => r) });
+        const desired = app.catalog.roots.map(({ dm_permission, ...r }) => r);
+        const unchanged=commandSignature(current)===commandSignature(desired);
+        const result = unchanged ? current : await client.rest.put(route, { body: desired });
         if (!Array.isArray(result) || result.length !== app.catalog.roots.length || result.some(x => !known.has(String((x as Record<string, unknown>).name))))
             throw new Fault('registration_verification_failed');
         const observed = await client.rest.get(route);
-        if (!Array.isArray(observed) || observed.length !== known.size || observed.some(x => !known.has(String((x as Record<string,unknown>).name)))) throw new Fault('registration_readback_failed');
-        log('COMMANDS_REGISTERED', { count: observed.length, scope: 'guild' });
+        if (!Array.isArray(observed) || observed.length !== known.size || observed.some(x => !known.has(String((x as Record<string,unknown>).name))) || commandSignature(observed)!==commandSignature(desired)) throw new Fault('registration_readback_failed');
+        log('COMMANDS_REGISTERED', { count: observed.length, scope: 'guild', changed: !unchanged });
         if (!sdkOverride && env.AXYON_CLEAN_LEGACY_GLOBAL_COMMANDS === 'true') { const globalRoute=`/applications/${client.application.id}/commands`; const global=await client.rest.get(globalRoute); if(!Array.isArray(global))throw new Fault('global_registration_read_failed'); const legacy=new Set(['ping','deletemsg','createchannel']); let removed=0; for(const item of global){const r=item as {id?:string;name?:string;type?:number}; if(r.type===1 && r.name && legacy.has(r.name) && known.has(r.name)){await client.rest.delete(globalRoute+'/'+id(r.id));removed++;}} const after=await client.rest.get(globalRoute);if(!Array.isArray(after)||after.some(x=>{const r=x as {type?:number;name?:string};return r.type===1&&r.name&&legacy.has(r.name);}))throw new Fault('legacy_global_readback_failed');log('LEGACY_GLOBAL_COMMANDS_RECONCILED',{removed,remaining:after.length}); }
     }
     else
-        log('COMMAND_REGISTRATION_DISABLED', { candidate: app.catalog.roots.length }); ready = true; log('GATEWAY_READY', { runtime: process.version, modules: app.registry.manifest().length, capabilities: app.registry.list().length, persistent: !!env.AXYON_DB_PATH, revision: env.RAILWAY_GIT_COMMIT_SHA ?? 'unknown' }); if (!sdkOverride && env.AI_STARTUP_CHECK === 'true') track((async()=>{ if (!aiConfig) { log('AI_PROVIDER_UNCONFIGURED'); return; } const t=performance.now(); try {const result=await askAI(aiConfig,'Responda apenas OK.',fetch,[],'Teste técnico de conectividade. Responda OK.'); log('AI_PROVIDER_VERIFIED',{model:aiConfig.model,ms:Math.round(performance.now()-t),nonempty:!!result.trim()});} catch(e){log('AI_PROVIDER_FAILED',{code:e instanceof AIError?e.kind:errorName(e),status:e instanceof AIError?e.status??0:0});} })()); if (!sdkOverride && env.AXYON_LIVE_SMOKE === 'true') track(liveSmoke(client,app,ai,guildId)); timer = setInterval(() => track(app.scheduler.tick()), 5000); maintenance = setInterval(() => { try {
+        log('COMMAND_REGISTRATION_DISABLED', { candidate: app.catalog.roots.length }); ready = true; log('GATEWAY_READY', { runtime: process.version, modules: app.registry.manifest().length, capabilities: app.registry.list().length, persistent: !!env.AXYON_DB_PATH, revision: env.RAILWAY_GIT_COMMIT_SHA ?? 'unknown', messageContent:env.DISCORD_MESSAGE_CONTENT==='true',guildMembers:env.DISCORD_GUILD_MEMBERS==='true',dmTransport:env.AXYON_ENABLE_DMS==='true' }); if (!sdkOverride && env.AI_STARTUP_CHECK === 'true') track((async()=>{ if (!aiConfig) { log('AI_PROVIDER_UNCONFIGURED'); return; } const t=performance.now(); try {const result=await askAI(aiConfig,'Responda apenas OK.',fetch,[],'Teste técnico de conectividade. Responda OK.'); log('AI_PROVIDER_VERIFIED',{model:aiConfig.model,ms:Math.round(performance.now()-t),nonempty:!!result.trim()});} catch(e){log('AI_PROVIDER_FAILED',{code:e instanceof AIError?e.kind:errorName(e),status:e instanceof AIError?e.status??0:0});} })()); if (!sdkOverride && env.AXYON_LIVE_SMOKE === 'true') track(liveSmoke(client,app,ai,guildId)); timer = setInterval(() => track(app.scheduler.tick()), 5000); maintenance = setInterval(() => { try {
         store.prune();
     }
     catch (e) {
