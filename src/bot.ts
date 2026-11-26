@@ -1,4 +1,4 @@
-import { ApplicationCommandType, Client, Events, GatewayIntentBits, MessageFlags, PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
+import { ApplicationCommandType, Client, Events, GatewayIntentBits, MessageFlags, PermissionFlagsBits, Routes, SlashCommandBuilder } from "discord.js";
 import { createChannel, deleteMessages, errorCode, InputError, isTextTarget, ping } from "./operations";
 import { startControl } from "./control";
 
@@ -19,13 +19,14 @@ const server = startControl(client, () => ready);
 client.once(Events.ClientReady, async c => {
   try {
     const guildId = process.env.DISCORD_GUILD_ID;
-    const manager = guildId ? (await c.guilds.fetch(guildId)).commands : c.application.commands;
-    const existing = await manager.fetch();
+    const route = guildId ? Routes.applicationGuildCommands(c.application.id, guildId) : Routes.applicationCommands(c.application.id);
+    type Registered = {name:string;type:number;id:string};
+    const existing = await c.rest.get(route) as Registered[];
     if (existing.some(cmd => !expected.has(cmd.name) || cmd.type !== ApplicationCommandType.ChatInput))
       throw new Error("Unexpected unrelated commands; registration aborted");
-    await manager.set(commands.map(command => command.toJSON()));
-    const confirmed = await manager.fetch();
-    if (confirmed.size !== expected.size || confirmed.some(cmd => !expected.has(cmd.name)))
+    await c.rest.put(route, {body:commands.map(command => command.toJSON())});
+    const confirmed = await c.rest.get(route) as Registered[];
+    if (confirmed.length !== expected.size || confirmed.some(cmd => !expected.has(cmd.name)))
       throw new Error("Command registration verification failed");
     for (const cmd of confirmed.values()) console.log("COMMAND_VERIFIED", JSON.stringify({name:cmd.name,command_id:cmd.id,scope:guildId?"guild":"global"}));
     ready = true;
