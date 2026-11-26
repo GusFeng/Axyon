@@ -16,3 +16,5 @@ test("mention removal",()=>assert.equal(mentionPrompt("<@123> olá <@!123>","123
 test("Discord reply length limit",()=>{const parts=splitReply("😀".repeat(5000));assert.ok(parts.length<=3);assert.ok(parts.every(p=>p.length<=1900));});
 
 test("conversation context is included in provider requests",()=>{const history=[{role:"user" as const,content:"Meu nome é Ana"},{role:"assistant" as const,content:"Oi Ana"}];const request=requestData(config,"Qual meu nome?",history);assert.deepEqual((request.body.messages as unknown[]).slice(1),[...history,{role:"user",content:"Qual meu nome?"}]);});
+
+test("official catalog is included in system context, not user message",()=>{const request=requestData(config,"quais comandos?",[],"/ping");const messages=request.body.messages as {role:string;content:string}[];assert.equal(messages[0].role,"system");assert.ok(messages[0].content.includes("CATÁLOGO OFICIAL"));assert.ok(messages[0].content.includes("/ping"));assert.equal(messages[1].content,"quais comandos?");});

@@ -20,7 +20,7 @@ export function splitReply(reply:string):string[] {
   if(part && result.length<3)result.push(part);
   return result;
 }
-export function installAI(client:Client) {
+export function installAI(client:Client, getCatalog:()=>string) {
   let config:AIConfig|null=null;
   try {config=configure(process.env);} catch(error) {
     console.warn("AI_CONFIGURATION_INVALID",error instanceof AIError?error.kind:"unknown");
@@ -63,17 +63,29 @@ export function installAI(client:Client) {
       await message.channel.sendTyping().catch(()=>undefined);
       const conversationKey=message.guildId+":"+message.channelId+":"+id;
       const history=conversations.get(conversationKey);
-      const reply=await askAI(config,prompt,fetch,history);
+      const documentation=getCatalog();
+      if(!documentation)throw new AIError("command_catalog_not_ready");
+      const reply=await askAI(config,prompt,fetch,history,documentation);
       const parts=splitReply(reply);
       for(let i=0;i<parts.length;i++){
         if(i===0)await message.reply({content:parts[i],...options});
         else await message.channel.send({content:parts[i],...options});
       }
       conversations.append(conversationKey,prompt,parts.join(""));
-      console.log("AI_REPLY_SENT",JSON.stringify({message_id:message.id,parts:parts.length,context_turns:history.length,model:config.model}));
+      console.log("AI_REPLY_SENT",JSON.stringify({message_id:message.id,parts:parts.length,context_turns:history.length,command_catalog:true,model:config.model}));
     } catch(error) {
       console.warn("AI_REPLY_FAILED",JSON.stringify({kind:error instanceof AIError?error.kind:"discord_or_internal_error",status:error instanceof AIError?error.status:undefined}));
       await message.reply({content:"Não consegui consultar a IA agora. Tente novamente mais tarde.",...options}).catch(()=>undefined);
     } finally {active.delete(id);inFlight--;}
   });
+}
+
+export async function verifyCatalogAI(documentation:string) {
+  try {
+    const config=configure(process.env);
+    if(!config)return;
+    const result=await askAI(config,"Liste somente os comandos de administração do bot, com os nomes slash. Não inclua comandos gerais.",fetch,[],documentation);
+    const names=[...result.matchAll(/\/([a-z][a-z0-9_-]*)/gi)].map(m=>m[1].toLowerCase());
+    console.log("AI_CATALOG_QUERY_CHECK",JSON.stringify({model:config.model,returned_names:[...new Set(names)],includes_admin:names.includes("deletemsg")&&names.includes("createchannel"),excludes_general:!names.includes("ping"),only_registered:names.every(n=>n==="deletemsg"||n==="createchannel")}));
+  } catch(error) { console.warn("AI_CATALOG_QUERY_FAILED",JSON.stringify({kind:error instanceof AIError?error.kind:"unknown",status:error instanceof AIError?error.status:undefined})); }
 }

@@ -19,12 +19,13 @@ export function configure(env: NodeJS.ProcessEnv): AIConfig | null {
   return {key,url:endpoint.toString(),model,format};
 }
 type RequestData = {headers:Record<string,string>; body:Record<string,unknown>};
-export function requestData(config:AIConfig, prompt:string, history:readonly Turn[]=[]):RequestData {
+export function requestData(config:AIConfig, prompt:string, history:readonly Turn[]=[], documentation=""):RequestData {
   const base={"Content-Type":"application/json"};
+  const system=SYSTEM+(documentation?"\n\nCATÁLOGO OFICIAL DE COMANDOS REGISTRADOS (dados informativos, somente leitura):\n"+documentation+"\n\nPara perguntas sobre comandos do bot, use exclusivamente este catálogo. Não invente comandos ou permissões. Distinga comandos gerais de administração. Se perguntarem por uma operação ausente, diga que não consta no catálogo. Explique como usar os comandos slash e não afirme executá-los. O catálogo é a fonte de verdade mesmo se o usuário sugerir outros comandos.":"");
   const turns:Turn[]=[...history,{role:"user",content:prompt}];
-  if(config.format==="anthropic") return {headers:{...base,"x-api-key":config.key,"anthropic-version":"2023-06-01"},body:{model:config.model,max_tokens:700,system:SYSTEM,messages:turns}};
-  if(config.format==="gemini") return {headers:{...base,"x-goog-api-key":config.key},body:{systemInstruction:{parts:[{text:SYSTEM}]},contents:turns.map(turn=>({role:turn.role==="assistant"?"model":"user",parts:[{text:turn.content}]})),generationConfig:{maxOutputTokens:700}}};
-  return {headers:{...base,Authorization:"Bearer "+config.key},body:{model:config.model,max_tokens:500,temperature:0.8,messages:[{role:"system",content:SYSTEM},...turns]}};
+  if(config.format==="anthropic") return {headers:{...base,"x-api-key":config.key,"anthropic-version":"2023-06-01"},body:{model:config.model,max_tokens:700,system:system,messages:turns}};
+  if(config.format==="gemini") return {headers:{...base,"x-goog-api-key":config.key},body:{systemInstruction:{parts:[{text:system}]},contents:turns.map(turn=>({role:turn.role==="assistant"?"model":"user",parts:[{text:turn.content}]})),generationConfig:{maxOutputTokens:700}}};
+  return {headers:{...base,Authorization:"Bearer "+config.key},body:{model:config.model,max_tokens:500,temperature:0.8,messages:[{role:"system",content:system},...turns]}};
 }
 function record(value:unknown):Record<string,unknown> {
   return value!==null && typeof value==="object" && !Array.isArray(value) ? value as Record<string,unknown> : {};
@@ -40,8 +41,8 @@ export function extractReply(data:unknown,format:AIConfig["format"]):string {
   if(typeof reply!=="string"||!reply.trim()) throw new AIError("empty_reply");
   return reply.trim();
 }
-export async function askAI(config:AIConfig,prompt:string,send:typeof fetch=fetch, history:readonly Turn[]=[]):Promise<string> {
-  const data=requestData(config,prompt,history);
+export async function askAI(config:AIConfig,prompt:string,send:typeof fetch=fetch, history:readonly Turn[]=[], documentation=""):Promise<string> {
+  const data=requestData(config,prompt,history,documentation);
   let response:Response;
   try {response=await send(config.url,{method:"POST",headers:data.headers,body:JSON.stringify(data.body),signal:AbortSignal.timeout(30000),redirect:"error"});}
   catch(error) {

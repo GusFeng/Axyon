@@ -1,28 +1,22 @@
-import { ApplicationCommandType, Client, Events, GatewayIntentBits, MessageFlags, PermissionFlagsBits, Routes, SlashCommandBuilder } from "discord.js";
+import { ApplicationCommandType, Client, Events, GatewayIntentBits, MessageFlags, PermissionFlagsBits, Routes } from "discord.js";
 import { createChannel, deleteMessages, errorCode, InputError, isTextTarget, ping } from "./operations";
 import { startControl } from "./control";
-import { installAI } from "./ai/handler";
+import { installAI, verifyCatalogAI } from "./ai/handler";
+import { commands } from "./commands";
+import { describeCatalog, RegisteredCommand } from "./commandCatalog";
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages] });
-const commands = [
-  new SlashCommandBuilder().setName("ping").setDescription("Responde pong."),
-  new SlashCommandBuilder().setName("deletemsg").setDescription("Apaga até 100 mensagens recentes do canal atual.")
-    .setDMPermission(false).setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
-    .addIntegerOption(o => o.setName("quantidade").setDescription("Quantidade de mensagens recentes a apagar").setRequired(true).setMinValue(1).setMaxValue(100)),
-  new SlashCommandBuilder().setName("createchannel").setDescription("Cria um canal de texto ou voz.")
-    .setDMPermission(false).setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
-    .addStringOption(o => o.setName("nome").setDescription("Nome do canal").setRequired(true))
-    .addStringOption(o => o.setName("tipo").setDescription("Texto ou voz").setRequired(true).addChoices({name:"Texto",value:"text"},{name:"Voz",value:"voice"})),
-];
+
 let ready = false;
 const expected = new Set(commands.map(c => c.name));
 const server = startControl(client, () => ready);
-installAI(client);
+let commandCatalog="";
+installAI(client,()=>commandCatalog);
 client.once(Events.ClientReady, async c => {
   try {
     const guildId = process.env.DISCORD_GUILD_ID;
     const route = guildId ? Routes.applicationGuildCommands(c.application.id, guildId) : Routes.applicationCommands(c.application.id);
-    type Registered = {name:string;type:number;id:string};
+    type Registered = RegisteredCommand & {type:number;id:string};
     const existing = await c.rest.get(route) as Registered[];
     if (existing.some(cmd => !expected.has(cmd.name) || cmd.type !== ApplicationCommandType.ChatInput))
       throw new Error("Unexpected unrelated commands; registration aborted");
@@ -31,7 +25,10 @@ client.once(Events.ClientReady, async c => {
     if (confirmed.length !== expected.size || confirmed.some(cmd => !expected.has(cmd.name)))
       throw new Error("Command registration verification failed");
     for (const cmd of confirmed.values()) console.log("COMMAND_VERIFIED", JSON.stringify({name:cmd.name,command_id:cmd.id,scope:guildId?"guild":"global"}));
+    commandCatalog = describeCatalog(confirmed);
+    console.log("AI_COMMAND_CATALOG_VERIFIED",JSON.stringify({count:confirmed.length,names:confirmed.map(cmd=>cmd.name)}));
     ready = true;
+    if(process.env.AI_STARTUP_CHECK==="true")void verifyCatalogAI(commandCatalog);
     console.log("GATEWAY_READY", JSON.stringify({bot_id:c.user.id,guild_count:c.guilds.cache.size,runtime:process.version,language:"TypeScript"}));
   } catch (error) {
     console.error("REGISTRATION_FAILED", error instanceof Error ? error.name : "unknown", errorCode(error));

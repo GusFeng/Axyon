@@ -29,3 +29,7 @@ Sem URL e modelo, o bot não envia a chave a nenhum provedor. A IA está pronta 
 ### Cloudflare Workers AI
 
 Use AI_FORMAT=openai, AI_API_URL=https://api.cloudflare.com/client/v4/accounts/<account_id>/ai/v1/chat/completions e AI_MODEL=@cf/meta/llama-3.1-8b-instruct-fast. O token existente API precisa de permissão Workers AI Write. AI_STARTUP_CHECK=true habilita três consultas curtas de diagnóstico por inicialização (respostas distintas e continuidade de contexto), sem publicar mensagens no Discord. Respostas têm limite de 500 tokens no formato chat completions. O consumo está sujeito à franquia e ao plano Cloudflare.
+
+### Catálogo de comandos para IA
+
+As definições slash estão em src/commands.ts. Depois de registrar os comandos, o bot consulta o Discord e gera um catálogo em src/commandCatalog.ts com nomes, descrições, parâmetros, escolhas e permissões padrão. Detalhes operacionais adicionais são documentados no mesmo módulo. A IA recebe esse catálogo junto ao histórico em cada consulta e pode explicar comandos em linguagem natural, sem acesso a funções de execução. Exemplo: @Buteco Quais são os comandos de administração? O diagnóstico de inicialização também consulta a IA sobre o catálogo, sem publicar mensagens no Discord. Nenhuma credencial ou arquivo arbitrário é incluído no catálogo.
