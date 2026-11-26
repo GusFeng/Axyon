@@ -1,9 +1,11 @@
 # RaiBot
 
-Bot experimental do Discord, independente do Axyon-Z. Único comando: `/ping` → `pong`.
+Discord bot com três comandos slash permanentes:
+- /ping → pong
+- /deletemsg quantidade: 1–100 mensagens recentes do canal atual; exige Gerenciar mensagens e acesso ao histórico. Inclui mensagens fixadas se estiverem entre as selecionadas; mensagens antigas são apagadas individualmente quando necessário. Exclusão irreversível.
+- /createchannel nome tipo: Texto ou Voz; exige Gerenciar canais.
 
-Deploy pelo Railway, a partir da branch `main`. Configure `DISCORD_BOT_TOKEN` como variável secreta no Railway (nunca no GitHub). Use uma aplicação Discord dedicada a este teste, instalada no servidor com o escopo `bot` e `applications.commands`. Opcionalmente defina `DISCORD_GUILD_ID` para registrar o comando imediatamente no servidor de teste.
+O núcleo em operations.py é compartilhado com a interface remota control.py.
+A interface HTTP aceita POST /operate via JSON com Authorization: Bearer ou formulário autenticado na raiz. Operações permitidas: ping, createchannel, deletemsg. Parâmetros: request_id único, operation, name/kind (text ou voice), channel_id e count, confirmation=DELETE para exclusão. Ping pode receber channel_id para publicar pong. Escopo remoto restrito ao servidor configurado. Não há execução arbitrária de código. Não repita uma operação de escrita sem conferir o estado; a deduplicação de request_id reside em memória e reinicia com o processo.
 
-O runtime executa autotestes, verifica a conectividade HTTPS com Discord e, quando houver token, conecta ao Gateway, registra `/ping` e confirma o registro por leitura da API. Os logs registram a execução real e a confirmação da resposta sem expor credenciais. Sem token, o processo termina após o diagnóstico para não manter consumo contínuo.
-
-Teste local: `python -m unittest -v`. Execução: `python bot.py`.
+Railway variables: DISCORD_BOT_TOKEN (secreto), RAIBOT_CONTROL_KEY (secreto independente), RAIBOT_CONTROL_GUILD (ID de servidor autorizado), PORT (Railway). Não publique segredos no repositório ou em URLs. O bot precisa estar instalado com bot e applications.commands.
