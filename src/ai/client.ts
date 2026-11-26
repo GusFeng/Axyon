@@ -21,7 +21,7 @@ export function requestData(config:AIConfig, prompt:string):RequestData {
   const base={"Content-Type":"application/json"};
   if(config.format==="anthropic") return {headers:{...base,"x-api-key":config.key,"anthropic-version":"2023-06-01"},body:{model:config.model,max_tokens:700,system:SYSTEM,messages:[{role:"user",content:prompt}]}};
   if(config.format==="gemini") return {headers:{...base,"x-goog-api-key":config.key},body:{systemInstruction:{parts:[{text:SYSTEM}]},contents:[{role:"user",parts:[{text:prompt}]}],generationConfig:{maxOutputTokens:700}}};
-  return {headers:{...base,Authorization:"Bearer "+config.key},body:{model:config.model,messages:[{role:"system",content:SYSTEM},{role:"user",content:prompt}]}};
+  return {headers:{...base,Authorization:"Bearer "+config.key},body:{model:config.model,max_tokens:500,messages:[{role:"system",content:SYSTEM},{role:"user",content:prompt}]}};
 }
 function record(value:unknown):Record<string,unknown> {
   return value!==null && typeof value==="object" && !Array.isArray(value) ? value as Record<string,unknown> : {};

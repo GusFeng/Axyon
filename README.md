@@ -25,3 +25,7 @@ Variáveis Railway:
 - AI_GUILD_ID: opcional; usa RAIBOT_CONTROL_GUILD se omitida.
 
 Sem URL e modelo, o bot não envia a chave a nenhum provedor. A IA está pronta para configuração, não há memória persistente. Não envie credenciais no Discord, logs ou repositório.
+
+### Cloudflare Workers AI
+
+Use AI_FORMAT=openai, AI_API_URL=https://api.cloudflare.com/client/v4/accounts/<account_id>/ai/v1/chat/completions e AI_MODEL=@cf/meta/llama-3.1-8b-instruct-fast. O token existente API precisa de permissão Workers AI Write. AI_STARTUP_CHECK=true habilita uma consulta curta de diagnóstico por inicialização, sem publicar mensagens no Discord. Respostas têm limite de 500 tokens no formato chat completions. O consumo está sujeito à franquia e ao plano Cloudflare.

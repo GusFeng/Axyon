@@ -26,6 +26,14 @@ export function installAI(client:Client) {
   }
   const guildId=process.env.AI_GUILD_ID || process.env.RAIBOT_CONTROL_GUILD;
   console.log("AI_MENTION_HANDLER",JSON.stringify({configured:Boolean(config),guild_scoped:Boolean(guildId),format:config?.format??null}));
+  if(config && process.env.AI_STARTUP_CHECK==="true") {
+    const current=config;
+    void askAI(current,"Responda apenas com a palavra OK.").then(reply=>{
+      console.log("AI_PROVIDER_VERIFIED",JSON.stringify({model:current.model,nonempty:Boolean(reply.trim())}));
+    }).catch(error=>{
+      console.warn("AI_PROVIDER_CHECK_FAILED",JSON.stringify({kind:error instanceof AIError?error.kind:"unknown",status:error instanceof AIError?error.status:undefined}));
+    });
+  }
   let inFlight=0;
   let recent:number[]=[];
   const active=new Set<string>(), last=new Map<string,number>();
