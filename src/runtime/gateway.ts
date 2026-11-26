@@ -9,6 +9,7 @@ import { log } from '../modules/observability/metrics';
 import { recoverInterrupted } from '../modules/recovery/reconcile';
 import { panelFor,panelAction } from '../modules/control-plane/panels';
 import { Outcome } from '../core/kernel';
+import { liveSmoke } from './smoke';
 // SDK boundary intentionally small; verified against the actual SDK at integration time.
 interface Option {
     name: string;
@@ -164,7 +165,7 @@ export async function main(env: NodeJS.ProcessEnv = process.env, sdkOverride?: S
     await new Promise<void>((resolve, reject) => { server.once('error', reject); server.listen(port, '0.0.0.0', resolve); });
     await app.registry.start();
     client.once(sdk.Events.ClientReady, () => track((async () => { if (!client.application)
-        throw new Fault('application_missing'); const route = `/applications/${client.application.id}/guilds/${guildId}/commands`; if (!sdkOverride) { const guild = await client.guilds.fetch(guildId); if (guild.id !== guildId) throw new Fault('guild_scope'); const me = await guild.members.fetchMe({force:true}); if (me.id !== client.user?.id) throw new Fault('bot_identity'); log('DISCORD_REST_VERIFIED', { guild: guild.id, bot: me.id }); } if (env.AXYON_REGISTER_COMMANDS === 'true') {
+        throw new Fault('application_missing'); const route = `/applications/${client.application.id}/guilds/${guildId}/commands`; if (!sdkOverride) { const guild = await client.guilds.fetch(guildId); if (guild.id !== guildId) throw new Fault('guild_scope'); const me = await guild.members.fetchMe({force:true}); if (me.id !== client.user?.id) throw new Fault('bot_identity'); log('DISCORD_REST_VERIFIED', { guild: guild.id, bot: me.id }); try {const info=await client.rest.get('/applications/@me') as {flags?:number}; const flags=Number(info.flags??0); log('DISCORD_INTENT_FLAGS',{messageContent:!!(flags & ((1<<18)|(1<<19))),guildMembers:!!(flags & ((1<<14)|(1<<15)))});} catch(e){log('DISCORD_INTENT_FLAGS_UNAVAILABLE',{code:errorName(e)});} } if (env.AXYON_REGISTER_COMMANDS === 'true') {
         const current = await client.rest.get(route);
         if (!Array.isArray(current))
             throw new Fault('registration_read_failed');
@@ -177,9 +178,10 @@ export async function main(env: NodeJS.ProcessEnv = process.env, sdkOverride?: S
         const observed = await client.rest.get(route);
         if (!Array.isArray(observed) || observed.length !== known.size || observed.some(x => !known.has(String((x as Record<string,unknown>).name)))) throw new Fault('registration_readback_failed');
         log('COMMANDS_REGISTERED', { count: observed.length, scope: 'guild' });
+        if (!sdkOverride && env.AXYON_CLEAN_LEGACY_GLOBAL_COMMANDS === 'true') { const globalRoute=`/applications/${client.application.id}/commands`; const global=await client.rest.get(globalRoute); if(!Array.isArray(global))throw new Fault('global_registration_read_failed'); const legacy=new Set(['ping','deletemsg','createchannel']); let removed=0; for(const item of global){const r=item as {id?:string;name?:string;type?:number}; if(r.type===1 && r.name && legacy.has(r.name) && known.has(r.name)){await client.rest.delete(globalRoute+'/'+id(r.id));removed++;}} const after=await client.rest.get(globalRoute);if(!Array.isArray(after)||after.some(x=>{const r=x as {type?:number;name?:string};return r.type===1&&r.name&&legacy.has(r.name);}))throw new Fault('legacy_global_readback_failed');log('LEGACY_GLOBAL_COMMANDS_RECONCILED',{removed,remaining:after.length}); }
     }
     else
-        log('COMMAND_REGISTRATION_DISABLED', { candidate: app.catalog.roots.length }); ready = true; log('GATEWAY_READY', { runtime: process.version, modules: app.registry.manifest().length, capabilities: app.registry.list().length, persistent: !!env.AXYON_DB_PATH, revision: env.RAILWAY_GIT_COMMIT_SHA ?? 'unknown' }); if (!sdkOverride && env.AI_STARTUP_CHECK === 'true') track((async()=>{ if (!aiConfig) { log('AI_PROVIDER_UNCONFIGURED'); return; } const t=performance.now(); try {const result=await askAI(aiConfig,'Responda apenas OK.',fetch,[],'Teste técnico de conectividade. Responda OK.'); log('AI_PROVIDER_VERIFIED',{model:aiConfig.model,ms:Math.round(performance.now()-t),nonempty:!!result.trim()});} catch(e){log('AI_PROVIDER_FAILED',{code:e instanceof AIError?e.kind:errorName(e),status:e instanceof AIError?e.status??0:0});} })()); timer = setInterval(() => track(app.scheduler.tick()), 5000); maintenance = setInterval(() => { try {
+        log('COMMAND_REGISTRATION_DISABLED', { candidate: app.catalog.roots.length }); ready = true; log('GATEWAY_READY', { runtime: process.version, modules: app.registry.manifest().length, capabilities: app.registry.list().length, persistent: !!env.AXYON_DB_PATH, revision: env.RAILWAY_GIT_COMMIT_SHA ?? 'unknown' }); if (!sdkOverride && env.AI_STARTUP_CHECK === 'true') track((async()=>{ if (!aiConfig) { log('AI_PROVIDER_UNCONFIGURED'); return; } const t=performance.now(); try {const result=await askAI(aiConfig,'Responda apenas OK.',fetch,[],'Teste técnico de conectividade. Responda OK.'); log('AI_PROVIDER_VERIFIED',{model:aiConfig.model,ms:Math.round(performance.now()-t),nonempty:!!result.trim()});} catch(e){log('AI_PROVIDER_FAILED',{code:e instanceof AIError?e.kind:errorName(e),status:e instanceof AIError?e.status??0:0});} })()); if (!sdkOverride && env.AXYON_LIVE_SMOKE === 'true') track(liveSmoke(client,app,ai,guildId)); timer = setInterval(() => track(app.scheduler.tick()), 5000); maintenance = setInterval(() => { try {
         store.prune();
     }
     catch (e) {
