@@ -1,11 +1,14 @@
-# RaiBot
+# RaiBot — TypeScript
 
-Discord bot com três comandos slash permanentes:
-- /ping → pong
-- /deletemsg quantidade: 1–100 mensagens recentes do canal atual; exige Gerenciar mensagens e acesso ao histórico. Inclui mensagens fixadas se estiverem entre as selecionadas; mensagens antigas são apagadas individualmente quando necessário. Exclusão irreversível.
-- /createchannel nome tipo: Texto ou Voz; exige Gerenciar canais.
+Bot Discord em TypeScript, Node.js 22 e discord.js 14.18.0, executado por Docker no Railway.
 
-O núcleo em operations.py é compartilhado com a interface remota control.py.
-A interface HTTP aceita POST /operate via JSON com Authorization: Bearer ou formulário autenticado na raiz. Operações permitidas: ping, createchannel, deletemsg. Parâmetros: request_id único, operation, name/kind (text ou voice), channel_id e count, confirmation=DELETE para exclusão. Ping pode receber channel_id para publicar pong. Escopo remoto restrito ao servidor configurado. Não há execução arbitrária de código. Não repita uma operação de escrita sem conferir o estado; a deduplicação de request_id reside em memória e reinicia com o processo.
+Comandos slash permanentes:
+- /ping: responde pong e verifica a mensagem.
+- /deletemsg quantidade: apaga até 100 mensagens recentes do canal atual, com verificação. Mensagens antigas são apagadas individualmente; mensagens fixadas podem ser incluídas. Exige Gerenciar mensagens e Ler histórico. Exclusão irreversível.
+- /createchannel nome tipo: cria e verifica um canal de texto ou voz. Exige Gerenciar canais.
 
-Railway variables: DISCORD_BOT_TOKEN (secreto), RAIBOT_CONTROL_KEY (secreto independente), RAIBOT_CONTROL_GUILD (ID de servidor autorizado), PORT (Railway). Não publique segredos no repositório ou em URLs. O bot precisa estar instalado com bot e applications.commands.
+O núcleo reutilizável está em src/operations.ts. O código da interface remota permanece em src/control.ts, mas a execução remota está desativada por padrão (RAIBOT_CONTROL_ENABLED=true seria necessário para reativá-la). A chave e o escopo devem ser configurados e revisados antes de reativar. O GET /health permanece disponível. POST /operate aceita os mesmos parâmetros JSON, com chave Bearer, e não executa código arbitrário.
+
+Variáveis: DISCORD_BOT_TOKEN (secreto), DISCORD_GUILD_ID (opcional), PORT, RAIBOT_CONTROL_ENABLED (opcional), RAIBOT_CONTROL_KEY e RAIBOT_CONTROL_GUILD (somente controle remoto).
+
+Build: npm install; npm run build; npm test; npm start. Docker executa os testes antes de publicar a imagem.
