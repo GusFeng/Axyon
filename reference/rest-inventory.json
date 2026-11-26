@@ -1,0 +1,2502 @@
+[
+  {
+    "id": "get_my_application",
+    "method": "GET",
+    "path": "/applications/@me",
+    "category_id": "C01",
+    "screening": "conditional",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/application.mdx",
+    "description": ""
+  },
+  {
+    "id": "update_my_application",
+    "method": "PATCH",
+    "path": "/applications/@me",
+    "category_id": "C01",
+    "screening": "conditional",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/application.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_application",
+    "method": "GET",
+    "path": "/applications/{application_id}",
+    "category_id": "C01",
+    "screening": "verify_before_implementation",
+    "auth_spec": "bot",
+    "doc_file": "",
+    "description": ""
+  },
+  {
+    "id": "update_application",
+    "method": "PATCH",
+    "path": "/applications/{application_id}",
+    "category_id": "C01",
+    "screening": "verify_before_implementation",
+    "auth_spec": "bot",
+    "doc_file": "",
+    "description": ""
+  },
+  {
+    "id": "upload_application_attachment",
+    "method": "POST",
+    "path": "/applications/{application_id}/attachment",
+    "category_id": "C01",
+    "screening": "verify_before_implementation",
+    "auth_spec": "bot_or_oauth2_unverified",
+    "doc_file": "",
+    "description": ""
+  },
+  {
+    "id": "get_application_role_connections_metadata",
+    "method": "GET",
+    "path": "/applications/{application_id}/role-connections/metadata",
+    "category_id": "C02",
+    "screening": "conditional",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/application-role-connection-metadata.mdx",
+    "description": ""
+  },
+  {
+    "id": "update_application_role_connections_metadata",
+    "method": "PUT",
+    "path": "/applications/{application_id}/role-connections/metadata",
+    "category_id": "C02",
+    "screening": "conditional",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/application-role-connection-metadata.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_my_oauth2_authorization",
+    "method": "GET",
+    "path": "/oauth2/@me",
+    "category_id": "C02",
+    "screening": "conditional",
+    "auth_spec": "bot_or_oauth2_unverified",
+    "doc_file": "developers/topics/oauth2.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_my_oauth2_application",
+    "method": "GET",
+    "path": "/oauth2/applications/@me",
+    "category_id": "C02",
+    "screening": "conditional",
+    "auth_spec": "bot",
+    "doc_file": "developers/topics/oauth2.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_public_keys",
+    "method": "GET",
+    "path": "/oauth2/keys",
+    "category_id": "C02",
+    "screening": "verify_before_implementation",
+    "auth_spec": "bot",
+    "doc_file": "",
+    "description": ""
+  },
+  {
+    "id": "get_openid_connect_userinfo",
+    "method": "GET",
+    "path": "/oauth2/userinfo",
+    "category_id": "C02",
+    "screening": "verify_before_implementation",
+    "auth_spec": "bot_or_oauth2_unverified",
+    "doc_file": "",
+    "description": ""
+  },
+  {
+    "id": "list_my_guilds",
+    "method": "GET",
+    "path": "/users/@me/guilds",
+    "category_id": "C02",
+    "screening": "conditional",
+    "auth_spec": "bot_or_oauth2_unverified",
+    "doc_file": "developers/resources/user.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_my_guild_member",
+    "method": "GET",
+    "path": "/users/@me/guilds/{guild_id}/member",
+    "category_id": "C02",
+    "screening": "conditional",
+    "auth_spec": "oauth2",
+    "doc_file": "developers/resources/user.mdx",
+    "description": ""
+  },
+  {
+    "id": "list_application_commands",
+    "method": "GET",
+    "path": "/applications/{application_id}/commands",
+    "category_id": "C03",
+    "screening": "eligible",
+    "auth_spec": "bot_or_oauth2_unverified",
+    "doc_file": "developers/interactions/application-commands.mdx",
+    "description": ""
+  },
+  {
+    "id": "create_application_command",
+    "method": "POST",
+    "path": "/applications/{application_id}/commands",
+    "category_id": "C03",
+    "screening": "eligible",
+    "auth_spec": "bot_or_oauth2_unverified",
+    "doc_file": "developers/interactions/application-commands.mdx",
+    "description": ""
+  },
+  {
+    "id": "bulk_set_application_commands",
+    "method": "PUT",
+    "path": "/applications/{application_id}/commands",
+    "category_id": "C03",
+    "screening": "eligible",
+    "auth_spec": "bot_or_oauth2_unverified",
+    "doc_file": "developers/interactions/application-commands.mdx",
+    "description": ""
+  },
+  {
+    "id": "delete_application_command",
+    "method": "DELETE",
+    "path": "/applications/{application_id}/commands/{command_id}",
+    "category_id": "C03",
+    "screening": "eligible",
+    "auth_spec": "bot_or_oauth2_unverified",
+    "doc_file": "developers/interactions/application-commands.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_application_command",
+    "method": "GET",
+    "path": "/applications/{application_id}/commands/{command_id}",
+    "category_id": "C03",
+    "screening": "eligible",
+    "auth_spec": "bot_or_oauth2_unverified",
+    "doc_file": "developers/interactions/application-commands.mdx",
+    "description": ""
+  },
+  {
+    "id": "update_application_command",
+    "method": "PATCH",
+    "path": "/applications/{application_id}/commands/{command_id}",
+    "category_id": "C03",
+    "screening": "eligible",
+    "auth_spec": "bot_or_oauth2_unverified",
+    "doc_file": "developers/interactions/application-commands.mdx",
+    "description": ""
+  },
+  {
+    "id": "list_guild_application_commands",
+    "method": "GET",
+    "path": "/applications/{application_id}/guilds/{guild_id}/commands",
+    "category_id": "C03",
+    "screening": "eligible",
+    "auth_spec": "bot_or_oauth2_unverified",
+    "doc_file": "developers/interactions/application-commands.mdx",
+    "description": ""
+  },
+  {
+    "id": "create_guild_application_command",
+    "method": "POST",
+    "path": "/applications/{application_id}/guilds/{guild_id}/commands",
+    "category_id": "C03",
+    "screening": "eligible",
+    "auth_spec": "bot_or_oauth2_unverified",
+    "doc_file": "developers/interactions/application-commands.mdx",
+    "description": ""
+  },
+  {
+    "id": "bulk_set_guild_application_commands",
+    "method": "PUT",
+    "path": "/applications/{application_id}/guilds/{guild_id}/commands",
+    "category_id": "C03",
+    "screening": "eligible",
+    "auth_spec": "bot_or_oauth2_unverified",
+    "doc_file": "developers/interactions/application-commands.mdx",
+    "description": ""
+  },
+  {
+    "id": "list_guild_application_command_permissions",
+    "method": "GET",
+    "path": "/applications/{application_id}/guilds/{guild_id}/commands/permissions",
+    "category_id": "C03",
+    "screening": "eligible",
+    "auth_spec": "bot_or_oauth2_unverified",
+    "doc_file": "developers/interactions/application-commands.mdx",
+    "description": ""
+  },
+  {
+    "id": "delete_guild_application_command",
+    "method": "DELETE",
+    "path": "/applications/{application_id}/guilds/{guild_id}/commands/{command_id}",
+    "category_id": "C03",
+    "screening": "eligible",
+    "auth_spec": "bot_or_oauth2_unverified",
+    "doc_file": "developers/interactions/application-commands.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_guild_application_command",
+    "method": "GET",
+    "path": "/applications/{application_id}/guilds/{guild_id}/commands/{command_id}",
+    "category_id": "C03",
+    "screening": "eligible",
+    "auth_spec": "bot_or_oauth2_unverified",
+    "doc_file": "developers/interactions/application-commands.mdx",
+    "description": ""
+  },
+  {
+    "id": "update_guild_application_command",
+    "method": "PATCH",
+    "path": "/applications/{application_id}/guilds/{guild_id}/commands/{command_id}",
+    "category_id": "C03",
+    "screening": "eligible",
+    "auth_spec": "bot_or_oauth2_unverified",
+    "doc_file": "developers/interactions/application-commands.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_guild_application_command_permissions",
+    "method": "GET",
+    "path": "/applications/{application_id}/guilds/{guild_id}/commands/{command_id}/permissions",
+    "category_id": "C03",
+    "screening": "eligible",
+    "auth_spec": "bot_or_oauth2_unverified",
+    "doc_file": "developers/interactions/application-commands.mdx",
+    "description": ""
+  },
+  {
+    "id": "set_guild_application_command_permissions",
+    "method": "PUT",
+    "path": "/applications/{application_id}/guilds/{guild_id}/commands/{command_id}/permissions",
+    "category_id": "C03",
+    "screening": "eligible",
+    "auth_spec": "bot_or_oauth2_unverified",
+    "doc_file": "developers/interactions/application-commands.mdx",
+    "description": ""
+  },
+  {
+    "id": "create_interaction_response",
+    "method": "POST",
+    "path": "/interactions/{interaction_id}/{interaction_token}/callback",
+    "category_id": "C04",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/interactions/receiving-and-responding.mdx",
+    "description": ""
+  },
+  {
+    "id": "list_messages",
+    "method": "GET",
+    "path": "/channels/{channel_id}/messages",
+    "category_id": "C05",
+    "screening": "eligible",
+    "auth_spec": "bot_or_oauth2_unverified",
+    "doc_file": "developers/resources/message.mdx",
+    "description": ""
+  },
+  {
+    "id": "create_message",
+    "method": "POST",
+    "path": "/channels/{channel_id}/messages",
+    "category_id": "C05",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/message.mdx",
+    "description": ""
+  },
+  {
+    "id": "bulk_delete_messages",
+    "method": "POST",
+    "path": "/channels/{channel_id}/messages/bulk-delete",
+    "category_id": "C05",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/message.mdx",
+    "description": ""
+  },
+  {
+    "id": "list_pins",
+    "method": "GET",
+    "path": "/channels/{channel_id}/messages/pins",
+    "category_id": "C05",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/change-log.mdx",
+    "description": ""
+  },
+  {
+    "id": "delete_pin",
+    "method": "DELETE",
+    "path": "/channels/{channel_id}/messages/pins/{message_id}",
+    "category_id": "C05",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/change-log.mdx",
+    "description": ""
+  },
+  {
+    "id": "create_pin",
+    "method": "PUT",
+    "path": "/channels/{channel_id}/messages/pins/{message_id}",
+    "category_id": "C05",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/change-log.mdx",
+    "description": ""
+  },
+  {
+    "id": "delete_message",
+    "method": "DELETE",
+    "path": "/channels/{channel_id}/messages/{message_id}",
+    "category_id": "C05",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/message.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_message",
+    "method": "GET",
+    "path": "/channels/{channel_id}/messages/{message_id}",
+    "category_id": "C05",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/message.mdx",
+    "description": ""
+  },
+  {
+    "id": "update_message",
+    "method": "PATCH",
+    "path": "/channels/{channel_id}/messages/{message_id}",
+    "category_id": "C05",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/message.mdx",
+    "description": ""
+  },
+  {
+    "id": "crosspost_message",
+    "method": "POST",
+    "path": "/channels/{channel_id}/messages/{message_id}/crosspost",
+    "category_id": "C05",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/message.mdx",
+    "description": ""
+  },
+  {
+    "id": "delete_all_message_reactions",
+    "method": "DELETE",
+    "path": "/channels/{channel_id}/messages/{message_id}/reactions",
+    "category_id": "C05",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/message.mdx",
+    "description": ""
+  },
+  {
+    "id": "delete_all_message_reactions_by_emoji",
+    "method": "DELETE",
+    "path": "/channels/{channel_id}/messages/{message_id}/reactions/{emoji_name}",
+    "category_id": "C05",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/message.mdx",
+    "description": ""
+  },
+  {
+    "id": "list_message_reactions_by_emoji",
+    "method": "GET",
+    "path": "/channels/{channel_id}/messages/{message_id}/reactions/{emoji_name}",
+    "category_id": "C05",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/message.mdx",
+    "description": ""
+  },
+  {
+    "id": "delete_my_message_reaction",
+    "method": "DELETE",
+    "path": "/channels/{channel_id}/messages/{message_id}/reactions/{emoji_name}/@me",
+    "category_id": "C05",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/message.mdx",
+    "description": ""
+  },
+  {
+    "id": "add_my_message_reaction",
+    "method": "PUT",
+    "path": "/channels/{channel_id}/messages/{message_id}/reactions/{emoji_name}/@me",
+    "category_id": "C05",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/message.mdx",
+    "description": ""
+  },
+  {
+    "id": "delete_user_message_reaction",
+    "method": "DELETE",
+    "path": "/channels/{channel_id}/messages/{message_id}/reactions/{emoji_name}/{user_id}",
+    "category_id": "C05",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/message.mdx",
+    "description": ""
+  },
+  {
+    "id": "deprecated_list_pins",
+    "method": "GET",
+    "path": "/channels/{channel_id}/pins",
+    "category_id": "C05",
+    "screening": "deprecated",
+    "auth_spec": "bot",
+    "doc_file": "developers/change-log.mdx",
+    "description": ""
+  },
+  {
+    "id": "deprecated_delete_pin",
+    "method": "DELETE",
+    "path": "/channels/{channel_id}/pins/{message_id}",
+    "category_id": "C05",
+    "screening": "deprecated",
+    "auth_spec": "bot",
+    "doc_file": "developers/change-log.mdx",
+    "description": ""
+  },
+  {
+    "id": "deprecated_create_pin",
+    "method": "PUT",
+    "path": "/channels/{channel_id}/pins/{message_id}",
+    "category_id": "C05",
+    "screening": "deprecated",
+    "auth_spec": "bot",
+    "doc_file": "developers/change-log.mdx",
+    "description": ""
+  },
+  {
+    "id": "trigger_typing_indicator",
+    "method": "POST",
+    "path": "/channels/{channel_id}/typing",
+    "category_id": "C05",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/channel.mdx",
+    "description": ""
+  },
+  {
+    "id": "guild_search",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/messages/search",
+    "category_id": "C05",
+    "screening": "eligible",
+    "auth_spec": "bot_or_oauth2_unverified",
+    "doc_file": "developers/resources/message.mdx",
+    "description": ""
+  },
+  {
+    "id": "create_thread_from_message",
+    "method": "POST",
+    "path": "/channels/{channel_id}/messages/{message_id}/threads",
+    "category_id": "C06",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/channel.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_answer_voters",
+    "method": "GET",
+    "path": "/channels/{channel_id}/polls/{message_id}/answers/{answer_id}",
+    "category_id": "C06",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/poll.mdx",
+    "description": ""
+  },
+  {
+    "id": "poll_expire",
+    "method": "POST",
+    "path": "/channels/{channel_id}/polls/{message_id}/expire",
+    "category_id": "C06",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/poll.mdx",
+    "description": ""
+  },
+  {
+    "id": "list_thread_members",
+    "method": "GET",
+    "path": "/channels/{channel_id}/thread-members",
+    "category_id": "C06",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/channel.mdx",
+    "description": ""
+  },
+  {
+    "id": "leave_thread",
+    "method": "DELETE",
+    "path": "/channels/{channel_id}/thread-members/@me",
+    "category_id": "C06",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/channel.mdx",
+    "description": ""
+  },
+  {
+    "id": "join_thread",
+    "method": "PUT",
+    "path": "/channels/{channel_id}/thread-members/@me",
+    "category_id": "C06",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/channel.mdx",
+    "description": ""
+  },
+  {
+    "id": "delete_thread_member",
+    "method": "DELETE",
+    "path": "/channels/{channel_id}/thread-members/{user_id}",
+    "category_id": "C06",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/channel.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_thread_member",
+    "method": "GET",
+    "path": "/channels/{channel_id}/thread-members/{user_id}",
+    "category_id": "C06",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/channel.mdx",
+    "description": ""
+  },
+  {
+    "id": "add_thread_member",
+    "method": "PUT",
+    "path": "/channels/{channel_id}/thread-members/{user_id}",
+    "category_id": "C06",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/channel.mdx",
+    "description": ""
+  },
+  {
+    "id": "create_thread",
+    "method": "POST",
+    "path": "/channels/{channel_id}/threads",
+    "category_id": "C06",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/channel.mdx",
+    "description": ""
+  },
+  {
+    "id": "list_private_archived_threads",
+    "method": "GET",
+    "path": "/channels/{channel_id}/threads/archived/private",
+    "category_id": "C06",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/channel.mdx",
+    "description": ""
+  },
+  {
+    "id": "list_public_archived_threads",
+    "method": "GET",
+    "path": "/channels/{channel_id}/threads/archived/public",
+    "category_id": "C06",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/channel.mdx",
+    "description": ""
+  },
+  {
+    "id": "thread_search",
+    "method": "GET",
+    "path": "/channels/{channel_id}/threads/search",
+    "category_id": "C06",
+    "screening": "verify_before_implementation",
+    "auth_spec": "bot",
+    "doc_file": "",
+    "description": ""
+  },
+  {
+    "id": "list_my_private_archived_threads",
+    "method": "GET",
+    "path": "/channels/{channel_id}/users/@me/threads/archived/private",
+    "category_id": "C06",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/channel.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_active_guild_threads",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/threads/active",
+    "category_id": "C06",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "delete_channel",
+    "method": "DELETE",
+    "path": "/channels/{channel_id}",
+    "category_id": "C07",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/channel.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_channel",
+    "method": "GET",
+    "path": "/channels/{channel_id}",
+    "category_id": "C07",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/channel.mdx",
+    "description": ""
+  },
+  {
+    "id": "update_channel",
+    "method": "PATCH",
+    "path": "/channels/{channel_id}",
+    "category_id": "C07",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/channel.mdx",
+    "description": ""
+  },
+  {
+    "id": "follow_channel",
+    "method": "POST",
+    "path": "/channels/{channel_id}/followers",
+    "category_id": "C07",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/channel.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_guild",
+    "method": "GET",
+    "path": "/guilds/{guild_id}",
+    "category_id": "C07",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "update_guild",
+    "method": "PATCH",
+    "path": "/guilds/{guild_id}",
+    "category_id": "C07",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "list_guild_channels",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/channels",
+    "category_id": "C07",
+    "screening": "eligible",
+    "auth_spec": "bot_or_oauth2_unverified",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "bulk_update_guild_channels",
+    "method": "PATCH",
+    "path": "/guilds/{guild_id}/channels",
+    "category_id": "C07",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "create_guild_channel",
+    "method": "POST",
+    "path": "/guilds/{guild_id}/channels",
+    "category_id": "C07",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_guild_preview",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/preview",
+    "category_id": "C07",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_guild_vanity_url",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/vanity-url",
+    "category_id": "C07",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_guild_webhooks",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/webhooks",
+    "category_id": "C07",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/webhook.mdx",
+    "description": ""
+  },
+  {
+    "id": "leave_guild",
+    "method": "DELETE",
+    "path": "/users/@me/guilds/{guild_id}",
+    "category_id": "C07",
+    "screening": "conditional",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/user.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_channel_member_permissions",
+    "method": "GET",
+    "path": "/channels/{channel_id}/permissions/member/{user_id}",
+    "category_id": "C08",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/channel.mdx",
+    "description": "Returns the fully cascaded permissions for a member in this channel, applying their roles and the channel's permission o"
+  },
+  {
+    "id": "get_channel_role_permissions",
+    "method": "GET",
+    "path": "/channels/{channel_id}/permissions/role/{role_id}",
+    "category_id": "C08",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/channel.mdx",
+    "description": "Returns the permissions a role grants in this channel, applying the channel's permission overwrites on top of the role's"
+  },
+  {
+    "id": "delete_channel_permission_overwrite",
+    "method": "DELETE",
+    "path": "/channels/{channel_id}/permissions/{overwrite_id}",
+    "category_id": "C08",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/channel.mdx",
+    "description": ""
+  },
+  {
+    "id": "set_channel_permission_overwrite",
+    "method": "PUT",
+    "path": "/channels/{channel_id}/permissions/{overwrite_id}",
+    "category_id": "C08",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/channel.mdx",
+    "description": ""
+  },
+  {
+    "id": "list_guild_members",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/members",
+    "category_id": "C08",
+    "screening": "conditional",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "update_my_guild_member",
+    "method": "PATCH",
+    "path": "/guilds/{guild_id}/members/@me",
+    "category_id": "C08",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "search_guild_members",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/members/search",
+    "category_id": "C08",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "delete_guild_member",
+    "method": "DELETE",
+    "path": "/guilds/{guild_id}/members/{user_id}",
+    "category_id": "C08",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_guild_member",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/members/{user_id}",
+    "category_id": "C08",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "update_guild_member",
+    "method": "PATCH",
+    "path": "/guilds/{guild_id}/members/{user_id}",
+    "category_id": "C08",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "add_guild_member",
+    "method": "PUT",
+    "path": "/guilds/{guild_id}/members/{user_id}",
+    "category_id": "C08",
+    "screening": "conditional",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "delete_guild_member_role",
+    "method": "DELETE",
+    "path": "/guilds/{guild_id}/members/{user_id}/roles/{role_id}",
+    "category_id": "C08",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "add_guild_member_role",
+    "method": "PUT",
+    "path": "/guilds/{guild_id}/members/{user_id}/roles/{role_id}",
+    "category_id": "C08",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_guild_member_permissions",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/permissions/member/{user_id}",
+    "category_id": "C08",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": "Returns the fully cascaded guild-level permissions for a member, applying all of their roles including @everyone's"
+  },
+  {
+    "id": "get_guild_role_permissions",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/permissions/role/{role_id}",
+    "category_id": "C08",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": "Returns the permissions a role grants at the guild level, combining the role's own permissions with @everyone's."
+  },
+  {
+    "id": "list_guild_roles",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/roles",
+    "category_id": "C08",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "bulk_update_guild_roles",
+    "method": "PATCH",
+    "path": "/guilds/{guild_id}/roles",
+    "category_id": "C08",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "create_guild_role",
+    "method": "POST",
+    "path": "/guilds/{guild_id}/roles",
+    "category_id": "C08",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "guild_role_member_counts",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/roles/member-counts",
+    "category_id": "C08",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "delete_guild_role",
+    "method": "DELETE",
+    "path": "/guilds/{guild_id}/roles/{role_id}",
+    "category_id": "C08",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_guild_role",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/roles/{role_id}",
+    "category_id": "C08",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "update_guild_role",
+    "method": "PATCH",
+    "path": "/guilds/{guild_id}/roles/{role_id}",
+    "category_id": "C08",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "list_guild_bans",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/bans",
+    "category_id": "C09",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "unban_user_from_guild",
+    "method": "DELETE",
+    "path": "/guilds/{guild_id}/bans/{user_id}",
+    "category_id": "C09",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_guild_ban",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/bans/{user_id}",
+    "category_id": "C09",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "ban_user_from_guild",
+    "method": "PUT",
+    "path": "/guilds/{guild_id}/bans/{user_id}",
+    "category_id": "C09",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "bulk_ban_users_from_guild",
+    "method": "POST",
+    "path": "/guilds/{guild_id}/bulk-ban",
+    "category_id": "C09",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "update_guild_incident_actions",
+    "method": "PUT",
+    "path": "/guilds/{guild_id}/incident-actions",
+    "category_id": "C09",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": "Modifies the incident actions of the guild"
+  },
+  {
+    "id": "preview_prune_guild",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/prune",
+    "category_id": "C09",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "prune_guild",
+    "method": "POST",
+    "path": "/guilds/{guild_id}/prune",
+    "category_id": "C09",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "list_auto_moderation_rules",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/auto-moderation/rules",
+    "category_id": "C10",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/auto-moderation.mdx",
+    "description": ""
+  },
+  {
+    "id": "create_auto_moderation_rule",
+    "method": "POST",
+    "path": "/guilds/{guild_id}/auto-moderation/rules",
+    "category_id": "C10",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/auto-moderation.mdx",
+    "description": ""
+  },
+  {
+    "id": "delete_auto_moderation_rule",
+    "method": "DELETE",
+    "path": "/guilds/{guild_id}/auto-moderation/rules/{rule_id}",
+    "category_id": "C10",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/auto-moderation.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_auto_moderation_rule",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/auto-moderation/rules/{rule_id}",
+    "category_id": "C10",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/auto-moderation.mdx",
+    "description": ""
+  },
+  {
+    "id": "update_auto_moderation_rule",
+    "method": "PATCH",
+    "path": "/guilds/{guild_id}/auto-moderation/rules/{rule_id}",
+    "category_id": "C10",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/auto-moderation.mdx",
+    "description": ""
+  },
+  {
+    "id": "list_guild_audit_log_entries",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/audit-logs",
+    "category_id": "C11",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/audit-log.mdx",
+    "description": ""
+  },
+  {
+    "id": "list_channel_invites",
+    "method": "GET",
+    "path": "/channels/{channel_id}/invites",
+    "category_id": "C12",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/channel.mdx",
+    "description": ""
+  },
+  {
+    "id": "create_channel_invite",
+    "method": "POST",
+    "path": "/channels/{channel_id}/invites",
+    "category_id": "C12",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/channel.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_guild_template",
+    "method": "GET",
+    "path": "/guilds/templates/{code}",
+    "category_id": "C12",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild-template.mdx",
+    "description": ""
+  },
+  {
+    "id": "list_guild_invites",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/invites",
+    "category_id": "C12",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_guild_new_member_welcome",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/new-member-welcome",
+    "category_id": "C12",
+    "screening": "verify_before_implementation",
+    "auth_spec": "bot",
+    "doc_file": "",
+    "description": ""
+  },
+  {
+    "id": "get_guilds_onboarding",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/onboarding",
+    "category_id": "C12",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "put_guilds_onboarding",
+    "method": "PUT",
+    "path": "/guilds/{guild_id}/onboarding",
+    "category_id": "C12",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_guild_join_requests",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/requests",
+    "category_id": "C12",
+    "screening": "verify_before_implementation",
+    "auth_spec": "bot",
+    "doc_file": "",
+    "description": "List join requests for guild, optionally filtered by application status"
+  },
+  {
+    "id": "action_guild_join_request",
+    "method": "PATCH",
+    "path": "/guilds/{guild_id}/requests/{request_id}",
+    "category_id": "C12",
+    "screening": "verify_before_implementation",
+    "auth_spec": "bot",
+    "doc_file": "",
+    "description": "Approve or reject guild join request"
+  },
+  {
+    "id": "list_guild_templates",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/templates",
+    "category_id": "C12",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild-template.mdx",
+    "description": ""
+  },
+  {
+    "id": "create_guild_template",
+    "method": "POST",
+    "path": "/guilds/{guild_id}/templates",
+    "category_id": "C12",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild-template.mdx",
+    "description": ""
+  },
+  {
+    "id": "delete_guild_template",
+    "method": "DELETE",
+    "path": "/guilds/{guild_id}/templates/{code}",
+    "category_id": "C12",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild-template.mdx",
+    "description": ""
+  },
+  {
+    "id": "update_guild_template",
+    "method": "PATCH",
+    "path": "/guilds/{guild_id}/templates/{code}",
+    "category_id": "C12",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild-template.mdx",
+    "description": ""
+  },
+  {
+    "id": "sync_guild_template",
+    "method": "PUT",
+    "path": "/guilds/{guild_id}/templates/{code}",
+    "category_id": "C12",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild-template.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_guild_welcome_screen",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/welcome-screen",
+    "category_id": "C12",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "update_guild_welcome_screen",
+    "method": "PATCH",
+    "path": "/guilds/{guild_id}/welcome-screen",
+    "category_id": "C12",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_guild_widget_settings",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/widget",
+    "category_id": "C12",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "update_guild_widget_settings",
+    "method": "PATCH",
+    "path": "/guilds/{guild_id}/widget",
+    "category_id": "C12",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_guild_widget",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/widget.json",
+    "category_id": "C12",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_guild_widget_png",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/widget.png",
+    "category_id": "C12",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "invite_revoke",
+    "method": "DELETE",
+    "path": "/invites/{code}",
+    "category_id": "C12",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/invite.mdx",
+    "description": ""
+  },
+  {
+    "id": "invite_resolve",
+    "method": "GET",
+    "path": "/invites/{code}",
+    "category_id": "C12",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/invite.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_invite_target_users",
+    "method": "GET",
+    "path": "/invites/{code}/target-users",
+    "category_id": "C12",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/invite.mdx",
+    "description": "Get the target users for an invite."
+  },
+  {
+    "id": "update_invite_target_users",
+    "method": "PUT",
+    "path": "/invites/{code}/target-users",
+    "category_id": "C12",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/invite.mdx",
+    "description": "Update the target users for an existing invite."
+  },
+  {
+    "id": "bulk_add_invite_target_users",
+    "method": "POST",
+    "path": "/invites/{code}/target-users/bulk-add",
+    "category_id": "C12",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/invite.mdx",
+    "description": "Add multiple target users to an existing invite."
+  },
+  {
+    "id": "bulk_remove_invite_target_users",
+    "method": "POST",
+    "path": "/invites/{code}/target-users/bulk-delete",
+    "category_id": "C12",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/invite.mdx",
+    "description": "Remove multiple target users from an existing invite."
+  },
+  {
+    "id": "get_invite_target_users_job_status",
+    "method": "GET",
+    "path": "/invites/{code}/target-users/job-status",
+    "category_id": "C12",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/invite.mdx",
+    "description": "Get the target users job status for an invite."
+  },
+  {
+    "id": "remove_invite_target_user",
+    "method": "DELETE",
+    "path": "/invites/{code}/target-users/{user_id}",
+    "category_id": "C12",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/invite.mdx",
+    "description": "Remove a target user from an existing invite."
+  },
+  {
+    "id": "add_invite_target_user",
+    "method": "PUT",
+    "path": "/invites/{code}/target-users/{user_id}",
+    "category_id": "C12",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/invite.mdx",
+    "description": "Add a target user to an existing invite."
+  },
+  {
+    "id": "list_guild_scheduled_events",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/scheduled-events",
+    "category_id": "C13",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild-scheduled-event.mdx",
+    "description": ""
+  },
+  {
+    "id": "create_guild_scheduled_event",
+    "method": "POST",
+    "path": "/guilds/{guild_id}/scheduled-events",
+    "category_id": "C13",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild-scheduled-event.mdx",
+    "description": ""
+  },
+  {
+    "id": "delete_guild_scheduled_event",
+    "method": "DELETE",
+    "path": "/guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}",
+    "category_id": "C13",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild-scheduled-event.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_guild_scheduled_event",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}",
+    "category_id": "C13",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild-scheduled-event.mdx",
+    "description": ""
+  },
+  {
+    "id": "update_guild_scheduled_event",
+    "method": "PATCH",
+    "path": "/guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}",
+    "category_id": "C13",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild-scheduled-event.mdx",
+    "description": ""
+  },
+  {
+    "id": "create_guild_scheduled_event_exception",
+    "method": "POST",
+    "path": "/guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/exceptions",
+    "category_id": "C13",
+    "screening": "verify_before_implementation",
+    "auth_spec": "bot",
+    "doc_file": "",
+    "description": "Create an exception to a recurring guild scheduled event"
+  },
+  {
+    "id": "delete_guild_scheduled_event_exception",
+    "method": "DELETE",
+    "path": "/guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/exceptions/{exception_id}",
+    "category_id": "C13",
+    "screening": "verify_before_implementation",
+    "auth_spec": "bot",
+    "doc_file": "",
+    "description": "Delete an exception to a recurring guild scheduled event"
+  },
+  {
+    "id": "update_guild_scheduled_event_exception",
+    "method": "PATCH",
+    "path": "/guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/exceptions/{exception_id}",
+    "category_id": "C13",
+    "screening": "verify_before_implementation",
+    "auth_spec": "bot",
+    "doc_file": "",
+    "description": "Modify an exception to a recurring guild scheduled event"
+  },
+  {
+    "id": "list_guild_scheduled_event_users",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/users",
+    "category_id": "C13",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild-scheduled-event.mdx",
+    "description": ""
+  },
+  {
+    "id": "count_guild_scheduled_event_users",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/users/counts",
+    "category_id": "C13",
+    "screening": "verify_before_implementation",
+    "auth_spec": "bot",
+    "doc_file": "",
+    "description": "Get the count of users subscribed to a guild scheduled event"
+  },
+  {
+    "id": "list_guild_scheduled_event_exception_users",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/{guild_scheduled_event_exception_id}/users",
+    "category_id": "C13",
+    "screening": "verify_before_implementation",
+    "auth_spec": "bot",
+    "doc_file": "",
+    "description": "Get a list of users subscribed to a guild scheduled event exception"
+  },
+  {
+    "id": "list_application_emojis",
+    "method": "GET",
+    "path": "/applications/{application_id}/emojis",
+    "category_id": "C14",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/emoji.mdx",
+    "description": ""
+  },
+  {
+    "id": "create_application_emoji",
+    "method": "POST",
+    "path": "/applications/{application_id}/emojis",
+    "category_id": "C14",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/emoji.mdx",
+    "description": ""
+  },
+  {
+    "id": "delete_application_emoji",
+    "method": "DELETE",
+    "path": "/applications/{application_id}/emojis/{emoji_id}",
+    "category_id": "C14",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/emoji.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_application_emoji",
+    "method": "GET",
+    "path": "/applications/{application_id}/emojis/{emoji_id}",
+    "category_id": "C14",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/emoji.mdx",
+    "description": ""
+  },
+  {
+    "id": "update_application_emoji",
+    "method": "PATCH",
+    "path": "/applications/{application_id}/emojis/{emoji_id}",
+    "category_id": "C14",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/emoji.mdx",
+    "description": ""
+  },
+  {
+    "id": "list_guild_emojis",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/emojis",
+    "category_id": "C14",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/emoji.mdx",
+    "description": ""
+  },
+  {
+    "id": "create_guild_emoji",
+    "method": "POST",
+    "path": "/guilds/{guild_id}/emojis",
+    "category_id": "C14",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/emoji.mdx",
+    "description": ""
+  },
+  {
+    "id": "delete_guild_emoji",
+    "method": "DELETE",
+    "path": "/guilds/{guild_id}/emojis/{emoji_id}",
+    "category_id": "C14",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/emoji.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_guild_emoji",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/emojis/{emoji_id}",
+    "category_id": "C14",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/emoji.mdx",
+    "description": ""
+  },
+  {
+    "id": "update_guild_emoji",
+    "method": "PATCH",
+    "path": "/guilds/{guild_id}/emojis/{emoji_id}",
+    "category_id": "C14",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/emoji.mdx",
+    "description": ""
+  },
+  {
+    "id": "list_guild_stickers",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/stickers",
+    "category_id": "C14",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/sticker.mdx",
+    "description": ""
+  },
+  {
+    "id": "create_guild_sticker",
+    "method": "POST",
+    "path": "/guilds/{guild_id}/stickers",
+    "category_id": "C14",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/sticker.mdx",
+    "description": ""
+  },
+  {
+    "id": "delete_guild_sticker",
+    "method": "DELETE",
+    "path": "/guilds/{guild_id}/stickers/{sticker_id}",
+    "category_id": "C14",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/sticker.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_guild_sticker",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/stickers/{sticker_id}",
+    "category_id": "C14",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/sticker.mdx",
+    "description": ""
+  },
+  {
+    "id": "update_guild_sticker",
+    "method": "PATCH",
+    "path": "/guilds/{guild_id}/stickers/{sticker_id}",
+    "category_id": "C14",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/sticker.mdx",
+    "description": ""
+  },
+  {
+    "id": "list_sticker_packs",
+    "method": "GET",
+    "path": "/sticker-packs",
+    "category_id": "C14",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/sticker.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_sticker_pack",
+    "method": "GET",
+    "path": "/sticker-packs/{pack_id}",
+    "category_id": "C14",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/sticker.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_sticker",
+    "method": "GET",
+    "path": "/stickers/{sticker_id}",
+    "category_id": "C14",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/sticker.mdx",
+    "description": ""
+  },
+  {
+    "id": "send_soundboard_sound",
+    "method": "POST",
+    "path": "/channels/{channel_id}/send-soundboard-sound",
+    "category_id": "C15",
+    "screening": "conditional",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/soundboard.mdx",
+    "description": ""
+  },
+  {
+    "id": "update_voice_channel_status",
+    "method": "PUT",
+    "path": "/channels/{channel_id}/voice-status",
+    "category_id": "C15",
+    "screening": "conditional",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/channel.mdx",
+    "description": "Set a voice channel's status."
+  },
+  {
+    "id": "list_guild_voice_regions",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/regions",
+    "category_id": "C15",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "list_guild_soundboard_sounds",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/soundboard-sounds",
+    "category_id": "C15",
+    "screening": "conditional",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/soundboard.mdx",
+    "description": ""
+  },
+  {
+    "id": "create_guild_soundboard_sound",
+    "method": "POST",
+    "path": "/guilds/{guild_id}/soundboard-sounds",
+    "category_id": "C15",
+    "screening": "conditional",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/soundboard.mdx",
+    "description": ""
+  },
+  {
+    "id": "delete_guild_soundboard_sound",
+    "method": "DELETE",
+    "path": "/guilds/{guild_id}/soundboard-sounds/{sound_id}",
+    "category_id": "C15",
+    "screening": "conditional",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/soundboard.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_guild_soundboard_sound",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/soundboard-sounds/{sound_id}",
+    "category_id": "C15",
+    "screening": "conditional",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/soundboard.mdx",
+    "description": ""
+  },
+  {
+    "id": "update_guild_soundboard_sound",
+    "method": "PATCH",
+    "path": "/guilds/{guild_id}/soundboard-sounds/{sound_id}",
+    "category_id": "C15",
+    "screening": "conditional",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/soundboard.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_self_voice_state",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/voice-states/@me",
+    "category_id": "C15",
+    "screening": "conditional",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/voice.mdx",
+    "description": ""
+  },
+  {
+    "id": "update_self_voice_state",
+    "method": "PATCH",
+    "path": "/guilds/{guild_id}/voice-states/@me",
+    "category_id": "C15",
+    "screening": "conditional",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/voice.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_voice_state",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/voice-states/{user_id}",
+    "category_id": "C15",
+    "screening": "conditional",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/voice.mdx",
+    "description": ""
+  },
+  {
+    "id": "update_voice_state",
+    "method": "PATCH",
+    "path": "/guilds/{guild_id}/voice-states/{user_id}",
+    "category_id": "C15",
+    "screening": "conditional",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/voice.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_soundboard_default_sounds",
+    "method": "GET",
+    "path": "/soundboard-default-sounds",
+    "category_id": "C15",
+    "screening": "conditional",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/soundboard.mdx",
+    "description": ""
+  },
+  {
+    "id": "create_stage_instance",
+    "method": "POST",
+    "path": "/stage-instances",
+    "category_id": "C15",
+    "screening": "conditional",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/stage-instance.mdx",
+    "description": ""
+  },
+  {
+    "id": "delete_stage_instance",
+    "method": "DELETE",
+    "path": "/stage-instances/{channel_id}",
+    "category_id": "C15",
+    "screening": "conditional",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/stage-instance.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_stage_instance",
+    "method": "GET",
+    "path": "/stage-instances/{channel_id}",
+    "category_id": "C15",
+    "screening": "conditional",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/stage-instance.mdx",
+    "description": ""
+  },
+  {
+    "id": "update_stage_instance",
+    "method": "PATCH",
+    "path": "/stage-instances/{channel_id}",
+    "category_id": "C15",
+    "screening": "conditional",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/stage-instance.mdx",
+    "description": ""
+  },
+  {
+    "id": "list_voice_regions",
+    "method": "GET",
+    "path": "/voice/regions",
+    "category_id": "C15",
+    "screening": "conditional",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/voice.mdx",
+    "description": ""
+  },
+  {
+    "id": "list_channel_webhooks",
+    "method": "GET",
+    "path": "/channels/{channel_id}/webhooks",
+    "category_id": "C16",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/webhook.mdx",
+    "description": ""
+  },
+  {
+    "id": "create_webhook",
+    "method": "POST",
+    "path": "/channels/{channel_id}/webhooks",
+    "category_id": "C16",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/webhook.mdx",
+    "description": ""
+  },
+  {
+    "id": "list_guild_integrations",
+    "method": "GET",
+    "path": "/guilds/{guild_id}/integrations",
+    "category_id": "C16",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "delete_guild_integration",
+    "method": "DELETE",
+    "path": "/guilds/{guild_id}/integrations/{integration_id}",
+    "category_id": "C16",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/guild.mdx",
+    "description": ""
+  },
+  {
+    "id": "delete_webhook",
+    "method": "DELETE",
+    "path": "/webhooks/{webhook_id}",
+    "category_id": "C16",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/webhook.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_webhook",
+    "method": "GET",
+    "path": "/webhooks/{webhook_id}",
+    "category_id": "C16",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/webhook.mdx",
+    "description": ""
+  },
+  {
+    "id": "update_webhook",
+    "method": "PATCH",
+    "path": "/webhooks/{webhook_id}",
+    "category_id": "C16",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/webhook.mdx",
+    "description": ""
+  },
+  {
+    "id": "delete_webhook_by_token",
+    "method": "DELETE",
+    "path": "/webhooks/{webhook_id}/{webhook_token}",
+    "category_id": "C16",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/webhook.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_webhook_by_token",
+    "method": "GET",
+    "path": "/webhooks/{webhook_id}/{webhook_token}",
+    "category_id": "C16",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/webhook.mdx",
+    "description": ""
+  },
+  {
+    "id": "update_webhook_by_token",
+    "method": "PATCH",
+    "path": "/webhooks/{webhook_id}/{webhook_token}",
+    "category_id": "C16",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/webhook.mdx",
+    "description": ""
+  },
+  {
+    "id": "execute_webhook",
+    "method": "POST",
+    "path": "/webhooks/{webhook_id}/{webhook_token}",
+    "category_id": "C16",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/interactions/receiving-and-responding.mdx",
+    "description": ""
+  },
+  {
+    "id": "execute_github_compatible_webhook",
+    "method": "POST",
+    "path": "/webhooks/{webhook_id}/{webhook_token}/github",
+    "category_id": "C16",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/webhook.mdx",
+    "description": ""
+  },
+  {
+    "id": "delete_original_webhook_message",
+    "method": "DELETE",
+    "path": "/webhooks/{webhook_id}/{webhook_token}/messages/@original",
+    "category_id": "C16",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/interactions/receiving-and-responding.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_original_webhook_message",
+    "method": "GET",
+    "path": "/webhooks/{webhook_id}/{webhook_token}/messages/@original",
+    "category_id": "C16",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/interactions/receiving-and-responding.mdx",
+    "description": ""
+  },
+  {
+    "id": "update_original_webhook_message",
+    "method": "PATCH",
+    "path": "/webhooks/{webhook_id}/{webhook_token}/messages/@original",
+    "category_id": "C16",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/interactions/receiving-and-responding.mdx",
+    "description": ""
+  },
+  {
+    "id": "delete_webhook_message",
+    "method": "DELETE",
+    "path": "/webhooks/{webhook_id}/{webhook_token}/messages/{message_id}",
+    "category_id": "C16",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/interactions/receiving-and-responding.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_webhook_message",
+    "method": "GET",
+    "path": "/webhooks/{webhook_id}/{webhook_token}/messages/{message_id}",
+    "category_id": "C16",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/interactions/receiving-and-responding.mdx",
+    "description": ""
+  },
+  {
+    "id": "update_webhook_message",
+    "method": "PATCH",
+    "path": "/webhooks/{webhook_id}/{webhook_token}/messages/{message_id}",
+    "category_id": "C16",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/interactions/receiving-and-responding.mdx",
+    "description": ""
+  },
+  {
+    "id": "execute_slack_compatible_webhook",
+    "method": "POST",
+    "path": "/webhooks/{webhook_id}/{webhook_token}/slack",
+    "category_id": "C16",
+    "screening": "eligible",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/webhook.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_gateway",
+    "method": "GET",
+    "path": "/gateway",
+    "category_id": "C17",
+    "screening": "conditional",
+    "auth_spec": "bot",
+    "doc_file": "developers/events/gateway.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_bot_gateway",
+    "method": "GET",
+    "path": "/gateway/bot",
+    "category_id": "C17",
+    "screening": "conditional",
+    "auth_spec": "bot",
+    "doc_file": "developers/events/gateway.mdx",
+    "description": ""
+  },
+  {
+    "id": "delete_group_dm_user",
+    "method": "DELETE",
+    "path": "/channels/{channel_id}/recipients/{user_id}",
+    "category_id": "C18",
+    "screening": "conditional",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/channel.mdx",
+    "description": ""
+  },
+  {
+    "id": "add_group_dm_user",
+    "method": "PUT",
+    "path": "/channels/{channel_id}/recipients/{user_id}",
+    "category_id": "C18",
+    "screening": "conditional",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/channel.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_my_user",
+    "method": "GET",
+    "path": "/users/@me",
+    "category_id": "C18",
+    "screening": "conditional",
+    "auth_spec": "bot_or_oauth2_unverified",
+    "doc_file": "developers/resources/user.mdx",
+    "description": ""
+  },
+  {
+    "id": "update_my_user",
+    "method": "PATCH",
+    "path": "/users/@me",
+    "category_id": "C18",
+    "screening": "conditional",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/user.mdx",
+    "description": ""
+  },
+  {
+    "id": "delete_application_user_role_connection",
+    "method": "DELETE",
+    "path": "/users/@me/applications/{application_id}/role-connection",
+    "category_id": "C18",
+    "screening": "conditional",
+    "auth_spec": "oauth2",
+    "doc_file": "developers/resources/user.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_application_user_role_connection",
+    "method": "GET",
+    "path": "/users/@me/applications/{application_id}/role-connection",
+    "category_id": "C18",
+    "screening": "conditional",
+    "auth_spec": "oauth2",
+    "doc_file": "developers/resources/user.mdx",
+    "description": ""
+  },
+  {
+    "id": "update_application_user_role_connection",
+    "method": "PUT",
+    "path": "/users/@me/applications/{application_id}/role-connection",
+    "category_id": "C18",
+    "screening": "conditional",
+    "auth_spec": "oauth2",
+    "doc_file": "developers/resources/user.mdx",
+    "description": ""
+  },
+  {
+    "id": "create_dm",
+    "method": "POST",
+    "path": "/users/@me/channels",
+    "category_id": "C18",
+    "screening": "conditional",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/user.mdx",
+    "description": ""
+  },
+  {
+    "id": "list_my_connections",
+    "method": "GET",
+    "path": "/users/@me/connections",
+    "category_id": "C18",
+    "screening": "conditional",
+    "auth_spec": "bot_or_oauth2_unverified",
+    "doc_file": "developers/resources/user.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_user",
+    "method": "GET",
+    "path": "/users/{user_id}",
+    "category_id": "C18",
+    "screening": "conditional",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/user.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_entitlements",
+    "method": "GET",
+    "path": "/applications/{application_id}/entitlements",
+    "category_id": "C19",
+    "screening": "conditional",
+    "auth_spec": "bot_or_oauth2_unverified",
+    "doc_file": "developers/resources/entitlement.mdx",
+    "description": ""
+  },
+  {
+    "id": "create_entitlement",
+    "method": "POST",
+    "path": "/applications/{application_id}/entitlements",
+    "category_id": "C19",
+    "screening": "conditional",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/entitlement.mdx",
+    "description": ""
+  },
+  {
+    "id": "delete_entitlement",
+    "method": "DELETE",
+    "path": "/applications/{application_id}/entitlements/{entitlement_id}",
+    "category_id": "C19",
+    "screening": "conditional",
+    "auth_spec": "bot_or_oauth2_unverified",
+    "doc_file": "developers/resources/entitlement.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_entitlement",
+    "method": "GET",
+    "path": "/applications/{application_id}/entitlements/{entitlement_id}",
+    "category_id": "C19",
+    "screening": "conditional",
+    "auth_spec": "bot_or_oauth2_unverified",
+    "doc_file": "developers/resources/entitlement.mdx",
+    "description": ""
+  },
+  {
+    "id": "consume_entitlement",
+    "method": "POST",
+    "path": "/applications/{application_id}/entitlements/{entitlement_id}/consume",
+    "category_id": "C19",
+    "screening": "conditional",
+    "auth_spec": "bot_or_oauth2_unverified",
+    "doc_file": "developers/resources/entitlement.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_sku_subscriptions",
+    "method": "GET",
+    "path": "/skus/{sku_id}/subscriptions",
+    "category_id": "C19",
+    "screening": "conditional",
+    "auth_spec": "bot_or_oauth2_unverified",
+    "doc_file": "developers/resources/subscription.mdx",
+    "description": "Returns all subscriptions containing the SKU, filtered by user."
+  },
+  {
+    "id": "get_sku_subscription",
+    "method": "GET",
+    "path": "/skus/{sku_id}/subscriptions/{subscription_id}",
+    "category_id": "C19",
+    "screening": "conditional",
+    "auth_spec": "bot_or_oauth2_unverified",
+    "doc_file": "developers/resources/subscription.mdx",
+    "description": "Get a subscription by its ID."
+  },
+  {
+    "id": "get_current_user_application_entitlements",
+    "method": "GET",
+    "path": "/users/@me/applications/{application_id}/entitlements",
+    "category_id": "C19",
+    "screening": "verify_before_implementation",
+    "auth_spec": "oauth2",
+    "doc_file": "",
+    "description": ""
+  },
+  {
+    "id": "applications_get_activity_instance",
+    "method": "GET",
+    "path": "/applications/{application_id}/activity-instances/{instance_id}",
+    "category_id": "C22",
+    "screening": "conditional",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/application.mdx",
+    "description": ""
+  },
+  {
+    "id": "create_lobby",
+    "method": "POST",
+    "path": "/lobbies",
+    "category_id": "X-GAME",
+    "screening": "game_only",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/lobby.mdx",
+    "description": ""
+  },
+  {
+    "id": "create_or_join_lobby",
+    "method": "PUT",
+    "path": "/lobbies",
+    "category_id": "X-GAME",
+    "screening": "game_only",
+    "auth_spec": "bot_or_oauth2_unverified",
+    "doc_file": "developers/resources/lobby.mdx",
+    "description": ""
+  },
+  {
+    "id": "delete_lobby",
+    "method": "DELETE",
+    "path": "/lobbies/{lobby_id}",
+    "category_id": "X-GAME",
+    "screening": "game_only",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/lobby.mdx",
+    "description": "Deletes the specified lobby if it exists. It is safe to call even if the lobby is already deleted."
+  },
+  {
+    "id": "get_lobby",
+    "method": "GET",
+    "path": "/lobbies/{lobby_id}",
+    "category_id": "X-GAME",
+    "screening": "game_only",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/lobby.mdx",
+    "description": ""
+  },
+  {
+    "id": "edit_lobby",
+    "method": "PATCH",
+    "path": "/lobbies/{lobby_id}",
+    "category_id": "X-GAME",
+    "screening": "game_only",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/lobby.mdx",
+    "description": ""
+  },
+  {
+    "id": "edit_lobby_channel_link",
+    "method": "PATCH",
+    "path": "/lobbies/{lobby_id}/channel-linking",
+    "category_id": "X-GAME",
+    "screening": "game_only",
+    "auth_spec": "bot_or_oauth2_unverified",
+    "doc_file": "developers/resources/lobby.mdx",
+    "description": ""
+  },
+  {
+    "id": "leave_lobby",
+    "method": "DELETE",
+    "path": "/lobbies/{lobby_id}/members/@me",
+    "category_id": "X-GAME",
+    "screening": "game_only",
+    "auth_spec": "bot_or_oauth2_unverified",
+    "doc_file": "developers/resources/lobby.mdx",
+    "description": ""
+  },
+  {
+    "id": "create_linked_lobby_guild_invite_for_self",
+    "method": "POST",
+    "path": "/lobbies/{lobby_id}/members/@me/invites",
+    "category_id": "X-GAME",
+    "screening": "game_only",
+    "auth_spec": "bot_or_oauth2_unverified",
+    "doc_file": "developers/resources/lobby.mdx",
+    "description": ""
+  },
+  {
+    "id": "bulk_update_lobby_members",
+    "method": "POST",
+    "path": "/lobbies/{lobby_id}/members/bulk",
+    "category_id": "X-GAME",
+    "screening": "game_only",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/lobby.mdx",
+    "description": ""
+  },
+  {
+    "id": "delete_lobby_member",
+    "method": "DELETE",
+    "path": "/lobbies/{lobby_id}/members/{user_id}",
+    "category_id": "X-GAME",
+    "screening": "game_only",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/lobby.mdx",
+    "description": ""
+  },
+  {
+    "id": "add_lobby_member",
+    "method": "PUT",
+    "path": "/lobbies/{lobby_id}/members/{user_id}",
+    "category_id": "X-GAME",
+    "screening": "game_only",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/lobby.mdx",
+    "description": ""
+  },
+  {
+    "id": "create_linked_lobby_guild_invite_for_user",
+    "method": "POST",
+    "path": "/lobbies/{lobby_id}/members/{user_id}/invites",
+    "category_id": "X-GAME",
+    "screening": "game_only",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/lobby.mdx",
+    "description": ""
+  },
+  {
+    "id": "get_lobby_messages",
+    "method": "GET",
+    "path": "/lobbies/{lobby_id}/messages",
+    "category_id": "X-GAME",
+    "screening": "game_only",
+    "auth_spec": "bot_or_oauth2_unverified",
+    "doc_file": "developers/resources/lobby.mdx",
+    "description": ""
+  },
+  {
+    "id": "create_lobby_message",
+    "method": "POST",
+    "path": "/lobbies/{lobby_id}/messages",
+    "category_id": "X-GAME",
+    "screening": "game_only",
+    "auth_spec": "bot_or_oauth2_unverified",
+    "doc_file": "developers/resources/lobby.mdx",
+    "description": ""
+  },
+  {
+    "id": "update_lobby_message_external_moderation_metadata",
+    "method": "PUT",
+    "path": "/lobbies/{lobby_id}/messages/{message_id}/moderation-metadata",
+    "category_id": "X-GAME",
+    "screening": "game_only",
+    "auth_spec": "bot",
+    "doc_file": "developers/resources/lobby.mdx",
+    "description": "Update the external moderation metadata for a lobby message."
+  },
+  {
+    "id": "update_user_message_external_moderation_metadata",
+    "method": "PUT",
+    "path": "/partner-sdk/dms/{user_id_1}/{user_id_2}/messages/{message_id}/moderation-metadata",
+    "category_id": "X-GAME",
+    "screening": "game_only",
+    "auth_spec": "bot",
+    "doc_file": "",
+    "description": "Update the external moderation metadata for a user message (DM)."
+  },
+  {
+    "id": "partner_sdk_unmerge_provisional_account",
+    "method": "POST",
+    "path": "/partner-sdk/provisional-accounts/unmerge",
+    "category_id": "X-GAME",
+    "screening": "game_only",
+    "auth_spec": "bot",
+    "doc_file": "",
+    "description": ""
+  },
+  {
+    "id": "bot_partner_sdk_unmerge_provisional_account",
+    "method": "POST",
+    "path": "/partner-sdk/provisional-accounts/unmerge/bot",
+    "category_id": "X-GAME",
+    "screening": "game_only",
+    "auth_spec": "bot",
+    "doc_file": "",
+    "description": ""
+  },
+  {
+    "id": "partner_sdk_token",
+    "method": "POST",
+    "path": "/partner-sdk/token",
+    "category_id": "X-GAME",
+    "screening": "game_only",
+    "auth_spec": "bot",
+    "doc_file": "",
+    "description": ""
+  },
+  {
+    "id": "bot_partner_sdk_token",
+    "method": "POST",
+    "path": "/partner-sdk/token/bot",
+    "category_id": "X-GAME",
+    "screening": "game_only",
+    "auth_spec": "bot",
+    "doc_file": "",
+    "description": ""
+  }
+]

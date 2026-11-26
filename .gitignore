@@ -3,3 +3,9 @@
 node_modules/
 dist/
 *.log
+!.env.example
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+/data/
+coverage/

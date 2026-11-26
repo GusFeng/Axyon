@@ -1,0 +1,7 @@
+# Engineering contract
+
+The user approved a clean TypeScript reconstruction on the existing Node.js/Railway base. Rust and the former Cloudflare Worker are historical references, not dependencies. The new runtime uses Discord.js Gateway and REST, external configurable AI, and local SQLite; no self-bots, user tokens, arbitrary REST or unapproved provisioning. The project is public: never copy secrets, live IDs, user logs or database files.
+
+A capability owns a typed schema, effect and permission contract. Declare it in its domain, project slash definitions from it, and execute via `Kernel`. Never perform a write directly in a slash/AI/workflow handler. Add tests for the operation, denial paths and actual adapter behavior. Module toggles must affect runtime. Essential control-plane remains reachable with optional modules disabled. Preserve AI/Commands independence. Use safe explicit target selection, verify guild and current effective permissions, confirm destructive effects, deduplicate and mark uncertain outcomes rather than retry blindly.
+
+`npm run check`, `npm run inventory`. Use the current traceability JSON and validation report rather than copying historical claims. Do not claim external Discord/API checks without actual evidence. No production changes until explicitly authorized. A missing dependency or external credential must be disclosed, never replaced with a fictitious pass.

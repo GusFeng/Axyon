@@ -1,35 +1,22 @@
-# RaiBot — TypeScript
+# AXYON — AI-Native Enterprise Modular Platform
 
-Bot Discord em TypeScript, Node.js 22 e discord.js 14.18.0, executado por Docker no Railway.
+Reconstruction candidate for the Node.js/Railway environment. The Rust Axyon-Z is a **reference**, not a build dependency. All business capabilities are invoked through the same kernel by slash commands, AI, administration components and automated routines.
 
-Comandos slash permanentes:
-- /ping: responde pong e verifica a mensagem.
-- /deletemsg quantidade: apaga até 100 mensagens recentes do canal atual, com verificação. Mensagens antigas são apagadas individualmente; mensagens fixadas podem ser incluídas. Exige Gerenciar mensagens e Ler histórico. Exclusão irreversível.
-- /createchannel nome tipo: cria e verifica um canal de texto ou voz. Exige Gerenciar canais.
+## Local engineering
 
-O núcleo reutilizável está em src/operations.ts. O código da interface remota permanece em src/control.ts, mas a execução remota está desativada por padrão (RAIBOT_CONTROL_ENABLED=true seria necessário para reativá-la). A chave e o escopo devem ser configurados e revisados antes de reativar. O GET /health permanece disponível. POST /operate aceita os mesmos parâmetros JSON, com chave Bearer, e não executa código arbitrário.
+Node.js 22.16+ (22.x), npm, TypeScript. Install dependencies with `npm install` on the first connected environment; commit the generated lockfile and subsequently use `npm ci`. Run `npm run check`, then `npm run inventory` to regenerate the traceability catalogs. The package uses the built-in Node SQLite module (experimental warning on Node 22), no native addon build or Rust toolchain. The full Discord.js dependency could not be installed in the isolated authoring environment; see `docs/validation/REPORT.md`.
 
-Variáveis: DISCORD_BOT_TOKEN (secreto), DISCORD_GUILD_ID (opcional), PORT, RAIBOT_CONTROL_ENABLED (opcional), RAIBOT_CONTROL_KEY e RAIBOT_CONTROL_GUILD (somente controle remoto).
+The built container executes compilation, typecheck, tests and dependency-boundary checks before it starts. No Discord credentials are needed for those tests. The actual SDK, Docker build, Discord connection, and external AI provider remain integration gates, not accomplished claims.
 
-Build: npm install; npm run build; npm test; npm start. Docker executa os testes antes de publicar a imagem.
+## Runtime
 
-## IA por menção
+Copy `.env.example` to a private environment configuration, never commit the values. Configure the variables already in the Railway service; `DISCORD_GUILD_ID` is the authorized scope, with compatibility fallback to `AI_GUILD_ID` or `RAIBOT_CONTROL_GUILD`. `AI_API_KEY` or historical `API`, `AI_API_URL`, `AI_MODEL`, `AI_FORMAT` configure the external provider. Model not hardcoded. To run: `npm run build && npm start`.
 
-No servidor autorizado, mencione @Buteco e escreva a pergunta. O bot envia a pergunta e o histórico recente daquela conversa à API externa e publica a resposta. O contexto fica em RAM, separado por servidor, canal e usuário, limitado a seis trocas e expira após 30 minutos de inatividade ou reinício. Mensagens não direcionadas ao bot não entram no contexto. Não executa ações administrativas por meio da IA. Ignora outros bots, webhooks e outros servidores. As respostas não disparam menções; há limite de frequência e de simultaneidade.
+- `AXYON_REGISTER_COMMANDS=true` explicitly enables **guild-only** synchronization of implemented candidates; unrelated existing roots cause refusal. Default false. Review `reference/candidate-commands.json` first. No global registration or runtime command mutation.
+- `DISCORD_MESSAGE_CONTENT=true` is required for unmentioned direct-channel conversations and message-prefix automation; enable the appropriate privileged intent in Discord before using. Explicit mentions work using ordinary Gateway message events. Enable `DISCORD_GUILD_MEMBERS` only if authorized/required. DMs require both `AXYON_ENABLE_DMS=true` and `/ia configurar chave:dms valor:true`, verified membership of the configured guild, and are conversational only.
+- `/ia status` and `/modulos listar` open administrative panels. `/ia configurar` controls channels, modes, allow/deny lists, model instructions, retention, domains and protections. AI starts in chat mode, operational requests use `ação:`; write requests require explicit confirmation unless simulation is enabled. Provide exact IDs for targets. `/ia consentimento` and `/ia esquecer` govern individual memory; memory is off by default.
+- `/agenda criar`, `/automacao criar`, `/fluxo criar` provide safe message routines; multi-step flows accept a JSON array of `{ "capability": "discord.create-message", "input": { "texto": "...", "canal": "..." } }` objects (max 5). Each step uses current authorization. `/blueprint exportar` exports a bounded visible inventory, not a restore operation.
+- `/health` and `/ready` are the only public HTTP routes. The previous remote administrative HTTP endpoint was removed, not merely disabled. No bot-control token endpoint is exposed.
+- `AXYON_DB_PATH` empty means ephemeral SQLite memory. For durable settings, receipts and jobs mount a Railway volume and set e.g. `/data/axyon.sqlite`; verify ownership/writability and backups. Do not claim HA, use a single replica. No provisioned volume or database is implied by this package. Do not use a shared SQLite file between distributed replicas.
 
-Variáveis Railway:
-- API (ou AI_API_KEY): credencial secreta.
-- AI_API_URL: URL HTTPS completa do endpoint de geração (sem query string).
-- AI_MODEL: identificador exato do modelo escolhido.
-- AI_FORMAT: openai (padrão, chat completions compatível), anthropic (Messages) ou gemini (generateContent; URL deve conter o modelo).
-- AI_GUILD_ID: opcional; usa RAIBOT_CONTROL_GUILD se omitida.
-
-Sem URL e modelo, o bot não envia a chave a nenhum provedor. A IA está pronta para configuração, não há memória persistente. Não envie credenciais no Discord, logs ou repositório.
-
-### Cloudflare Workers AI
-
-Use AI_FORMAT=openai, AI_API_URL=https://api.cloudflare.com/client/v4/accounts/<account_id>/ai/v1/chat/completions e AI_MODEL=@cf/meta/llama-3.1-8b-instruct-fast. O token existente API precisa de permissão Workers AI Write. AI_STARTUP_CHECK=true habilita três consultas curtas de diagnóstico por inicialização (respostas distintas e continuidade de contexto), sem publicar mensagens no Discord. Respostas têm limite de 500 tokens no formato chat completions. O consumo está sujeito à franquia e ao plano Cloudflare.
-
-### Catálogo de comandos para IA
-
-As definições slash estão em src/commands.ts. Depois de registrar os comandos, o bot consulta o Discord e gera um catálogo em src/commandCatalog.ts com nomes, descrições, parâmetros, escolhas e permissões padrão. Detalhes operacionais adicionais são documentados no mesmo módulo. A IA recebe esse catálogo junto ao histórico em cada consulta e pode explicar comandos em linguagem natural, sem acesso a funções de execução. Exemplo: @Buteco Quais são os comandos de administração? O diagnóstico de inicialização também consulta a IA sobre o catálogo, sem publicar mensagens no Discord. Nenhuma credencial ou arquivo arbitrário é incluído no catálogo.
+See `docs/ARCHITECTURE.md`, `docs/validation/REPORT.md`, `reference/coverage.json`, `reference/capabilities.json` and `reference/candidate-commands.json`. These distinguish local implementation from actual API verification and enumerate excluded operations.

@@ -1,0 +1,4412 @@
+[
+  {
+    "type": 1,
+    "name": "listar",
+    "description": "Operações: listar",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "mensagens",
+        "description": "Consulta mensagens recentes.",
+        "options": [
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": false
+          },
+          {
+            "name": "quantidade",
+            "description": "quantidade (integer)",
+            "type": 4,
+            "required": false,
+            "min_value": 1,
+            "max_value": 25
+          },
+          {
+            "name": "antes",
+            "description": "antes (ID Discord)",
+            "type": 3,
+            "required": false,
+            "max_length": 20
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "mensagens-fixadas",
+        "description": "Lista mensagens fixadas.",
+        "options": [
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": false
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "usuários-da-reação",
+        "description": "Lista usuários de uma reação.",
+        "options": [
+          {
+            "name": "mensagem",
+            "description": "mensagem (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          },
+          {
+            "name": "emoji",
+            "description": "emoji (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 100
+          },
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": false
+          },
+          {
+            "name": "quantidade",
+            "description": "quantidade (integer)",
+            "type": 4,
+            "required": false,
+            "min_value": 1,
+            "max_value": 25
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "votantes",
+        "description": "Lista votantes de uma opção.",
+        "options": [
+          {
+            "name": "mensagem",
+            "description": "mensagem (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          },
+          {
+            "name": "opcao",
+            "description": "opcao (integer)",
+            "type": 4,
+            "required": true,
+            "min_value": 1,
+            "max_value": 10
+          },
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": false
+          },
+          {
+            "name": "quantidade",
+            "description": "quantidade (integer)",
+            "type": 4,
+            "required": false,
+            "min_value": 1,
+            "max_value": 25
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "canais",
+        "description": "Lista canais visíveis ao ator e ao bot.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "tópicos",
+        "description": "Lista tópicos ativos visíveis.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "membros-do-tópico",
+        "description": "Lista membros do tópico.",
+        "options": [
+          {
+            "name": "topico",
+            "description": "topico (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          },
+          {
+            "name": "quantidade",
+            "description": "quantidade (integer)",
+            "type": 4,
+            "required": false,
+            "min_value": 1,
+            "max_value": 25
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "membros",
+        "description": "Lista membros (intent pode ser exigida).",
+        "options": [
+          {
+            "name": "quantidade",
+            "description": "quantidade (integer)",
+            "type": 4,
+            "required": false,
+            "min_value": 1,
+            "max_value": 25
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "banimentos",
+        "description": "Lista banimentos.",
+        "options": [
+          {
+            "name": "quantidade",
+            "description": "quantidade (integer)",
+            "type": 4,
+            "required": false,
+            "min_value": 1,
+            "max_value": 25
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "cargos",
+        "description": "Lista cargos.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "regiões-de-voz",
+        "description": "Lista regiões de voz.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "integrações",
+        "description": "Lista integrações.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "modelos-do-servidor",
+        "description": "Lista modelos de servidor.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "convites",
+        "description": "Lista convites do servidor.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "regras-de-moderação",
+        "description": "Lista regras de AutoMod.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "eventos",
+        "description": "Lista eventos agendados.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "interessados-no-evento",
+        "description": "Lista interessados.",
+        "options": [
+          {
+            "name": "id",
+            "description": "id (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          },
+          {
+            "name": "quantidade",
+            "description": "quantidade (integer)",
+            "type": 4,
+            "required": false,
+            "min_value": 1,
+            "max_value": 25
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "emojis",
+        "description": "Lista emojis.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "figurinhas",
+        "description": "Lista figurinhas.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "sons",
+        "description": "Lista sons.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "webhooks",
+        "description": "Lista metadados seguros de webhooks.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "tópicos-arquivados",
+        "description": "Lista tópicos públicos arquivados.",
+        "options": [
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": false
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "convites-do-canal",
+        "description": "Lista convites de canal.",
+        "options": [
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": true
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "tópicos-privados-arquivados",
+        "description": "Lista tópicos privados arquivados autorizados.",
+        "options": [
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": true
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "tópicos-privados-do-bot",
+        "description": "Lista tópicos privados do bot visíveis ao ator.",
+        "options": [
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "consultar",
+    "description": "Operações: consultar",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "mensagem",
+        "description": "Consulta mensagem pelo ID.",
+        "options": [
+          {
+            "name": "mensagem",
+            "description": "mensagem (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          },
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": false
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "canal",
+        "description": "Consulta canal do servidor.",
+        "options": [
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": true
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "membro-do-tópico",
+        "description": "Consulta membro do tópico.",
+        "options": [
+          {
+            "name": "topico",
+            "description": "topico (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          },
+          {
+            "name": "pessoa",
+            "description": "pessoa (ID Discord)",
+            "type": 6,
+            "required": true
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "membro",
+        "description": "Consulta membro do servidor.",
+        "options": [
+          {
+            "name": "pessoa",
+            "description": "pessoa (ID Discord)",
+            "type": 6,
+            "required": true
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "usuário",
+        "description": "Consulta usuário membro do servidor.",
+        "options": [
+          {
+            "name": "pessoa",
+            "description": "pessoa (ID Discord)",
+            "type": 6,
+            "required": true
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "banimento",
+        "description": "Consulta banimento.",
+        "options": [
+          {
+            "name": "usuario-id",
+            "description": "usuario-id (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "cargo",
+        "description": "Consulta cargo.",
+        "options": [
+          {
+            "name": "cargo",
+            "description": "cargo (ID Discord)",
+            "type": 8,
+            "required": true
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "servidor",
+        "description": "Consulta informações do servidor.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "widget-do-servidor",
+        "description": "Consulta configuração do widget.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "tela-de-boas-vindas",
+        "description": "Consulta tela de boas-vindas.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "entrada-de-novos-membros",
+        "description": "Consulta onboarding.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "link-personalizado",
+        "description": "Consulta link personalizado.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "regra-de-moderação",
+        "description": "Consulta regra de AutoMod.",
+        "options": [
+          {
+            "name": "regra",
+            "description": "regra (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "evento",
+        "description": "Consulta evento.",
+        "options": [
+          {
+            "name": "id",
+            "description": "id (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "emoji",
+        "description": "Consulta emoji.",
+        "options": [
+          {
+            "name": "emoji",
+            "description": "emoji (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "figurinha",
+        "description": "Consulta figurinha.",
+        "options": [
+          {
+            "name": "figurinha",
+            "description": "figurinha (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "som",
+        "description": "Consulta som.",
+        "options": [
+          {
+            "name": "som",
+            "description": "som (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "registro-de-auditoria",
+        "description": "Consulta registro de auditoria.",
+        "options": [
+          {
+            "name": "autor",
+            "description": "autor (ID Discord)",
+            "type": 6,
+            "required": false
+          },
+          {
+            "name": "tipo",
+            "description": "tipo (integer)",
+            "type": 4,
+            "required": false,
+            "min_value": 1,
+            "max_value": 200
+          },
+          {
+            "name": "quantidade",
+            "description": "quantidade (integer)",
+            "type": 4,
+            "required": false,
+            "min_value": 1,
+            "max_value": 25
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "perfil-do-bot",
+        "description": "Consulta o próprio perfil do bot.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "perfil-do-bot-no-servidor",
+        "description": "Consulta membro correspondente ao bot.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "modelo-do-servidor",
+        "description": "Consulta modelo vinculado a este servidor.",
+        "options": [
+          {
+            "name": "codigo",
+            "description": "codigo (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 64
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "convite",
+        "description": "Consulta convite do próprio servidor.",
+        "options": [
+          {
+            "name": "codigo",
+            "description": "codigo (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 64
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "palco",
+        "description": "Consulta palco.",
+        "options": [
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": true
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "webhook",
+        "description": "Consulta metadados de webhook sem token.",
+        "options": [
+          {
+            "name": "id",
+            "description": "id (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "prévia-do-servidor",
+        "description": "Consulta prévia do servidor.",
+        "options": []
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "enviar",
+    "description": "Operações: enviar",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "mensagem",
+        "description": "Envia mensagem sem menções automáticas.",
+        "options": [
+          {
+            "name": "texto",
+            "description": "texto (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 1900
+          },
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "editar",
+    "description": "Operações: editar",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "mensagem",
+        "description": "Edita mensagem do próprio bot.",
+        "options": [
+          {
+            "name": "mensagem",
+            "description": "mensagem (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          },
+          {
+            "name": "texto",
+            "description": "texto (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 1900
+          },
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": false
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "canal",
+        "description": "Edita propriedades do canal.",
+        "options": [
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": true
+          },
+          {
+            "name": "nome",
+            "description": "nome (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 100
+          },
+          {
+            "name": "topico",
+            "description": "topico (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 1024
+          },
+          {
+            "name": "nsfw",
+            "description": "nsfw (boolean)",
+            "type": 5,
+            "required": false
+          },
+          {
+            "name": "lento",
+            "description": "lento (integer)",
+            "type": 4,
+            "required": false,
+            "min_value": 0,
+            "max_value": 21600
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "categoria",
+        "description": "Renomeia categoria.",
+        "options": [
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": true
+          },
+          {
+            "name": "nome",
+            "description": "nome (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 100
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "tópico",
+        "description": "Edita tópico.",
+        "options": [
+          {
+            "name": "topico",
+            "description": "topico (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          },
+          {
+            "name": "nome",
+            "description": "nome (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 100
+          },
+          {
+            "name": "lento",
+            "description": "lento (integer)",
+            "type": 4,
+            "required": false,
+            "min_value": 0,
+            "max_value": 21600
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "cargo",
+        "description": "Edita nome e cor do cargo.",
+        "options": [
+          {
+            "name": "cargo",
+            "description": "cargo (ID Discord)",
+            "type": 8,
+            "required": true
+          },
+          {
+            "name": "nome",
+            "description": "nome (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 100
+          },
+          {
+            "name": "cor",
+            "description": "cor (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 7
+          },
+          {
+            "name": "mencionavel",
+            "description": "mencionavel (boolean)",
+            "type": 5,
+            "required": false
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "servidor",
+        "description": "Edita nome e nível de verificação.",
+        "options": [
+          {
+            "name": "nome",
+            "description": "nome (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 100
+          },
+          {
+            "name": "verificacao",
+            "description": "verificacao (integer)",
+            "type": 4,
+            "required": false,
+            "min_value": 0,
+            "max_value": 4
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "tela-de-boas-vindas",
+        "description": "Edita ativação e descrição da tela.",
+        "options": [
+          {
+            "name": "ativo",
+            "description": "ativo (boolean)",
+            "type": 5,
+            "required": false
+          },
+          {
+            "name": "descricao",
+            "description": "descricao (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 140
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "modelo-do-servidor",
+        "description": "Edita modelo.",
+        "options": [
+          {
+            "name": "codigo",
+            "description": "codigo (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 64
+          },
+          {
+            "name": "nome",
+            "description": "nome (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 100
+          },
+          {
+            "name": "descricao",
+            "description": "descricao (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 120
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "regra-de-moderação",
+        "description": "Renomeia regra de AutoMod.",
+        "options": [
+          {
+            "name": "regra",
+            "description": "regra (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          },
+          {
+            "name": "nome",
+            "description": "nome (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 100
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "evento",
+        "description": "Edita nome e descrição do evento.",
+        "options": [
+          {
+            "name": "id",
+            "description": "id (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          },
+          {
+            "name": "nome",
+            "description": "nome (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 100
+          },
+          {
+            "name": "descricao",
+            "description": "descricao (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 1000
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "emoji",
+        "description": "Renomeia emoji.",
+        "options": [
+          {
+            "name": "emoji",
+            "description": "emoji (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          },
+          {
+            "name": "novo-nome",
+            "description": "novo-nome (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 32
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "figurinha",
+        "description": "Edita figurinha.",
+        "options": [
+          {
+            "name": "figurinha",
+            "description": "figurinha (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          },
+          {
+            "name": "nome",
+            "description": "nome (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 30
+          },
+          {
+            "name": "tags",
+            "description": "tags (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 200
+          },
+          {
+            "name": "descricao",
+            "description": "descricao (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 100
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "som",
+        "description": "Renomeia som.",
+        "options": [
+          {
+            "name": "som",
+            "description": "som (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          },
+          {
+            "name": "nome",
+            "description": "nome (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 32
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "permissões-do-cargo",
+        "description": "Altera permissões de cargo sem permitir escalada.",
+        "options": [
+          {
+            "name": "cargo",
+            "description": "cargo (ID Discord)",
+            "type": 8,
+            "required": true
+          },
+          {
+            "name": "permissoes",
+            "description": "permissoes (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "palco",
+        "description": "Edita tópico do palco.",
+        "options": [
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": true
+          },
+          {
+            "name": "topico",
+            "description": "topico (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 120
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "webhook",
+        "description": "Edita nome de webhook pertencente ao servidor.",
+        "options": [
+          {
+            "name": "id",
+            "description": "id (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          },
+          {
+            "name": "nome",
+            "description": "nome (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 80
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "excluir",
+    "description": "Operações: excluir",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "mensagem",
+        "description": "Exclui mensagem pelo ID.",
+        "options": [
+          {
+            "name": "mensagem",
+            "description": "mensagem (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          },
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": false
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "mensagens",
+        "description": "Exclui mensagens recentes, preservando fixadas e antigas.",
+        "options": [
+          {
+            "name": "quantidade",
+            "description": "quantidade (integer)",
+            "type": 4,
+            "required": true,
+            "min_value": 1,
+            "max_value": 100
+          },
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": false
+          },
+          {
+            "name": "membro",
+            "description": "membro (ID Discord)",
+            "type": 6,
+            "required": false
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "canal",
+        "description": "Exclui alvo explícito após confirmação.",
+        "options": [
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": true
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "categoria",
+        "description": "Exclui alvo explícito após confirmação.",
+        "options": [
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": true
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "tópico",
+        "description": "Exclui alvo explícito após confirmação.",
+        "options": [
+          {
+            "name": "topico",
+            "description": "topico (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "cargo",
+        "description": "Exclui cargo após confirmação.",
+        "options": [
+          {
+            "name": "cargo",
+            "description": "cargo (ID Discord)",
+            "type": 8,
+            "required": true
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "integração",
+        "description": "Remove integração após confirmação.",
+        "options": [
+          {
+            "name": "id",
+            "description": "id (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "modelo-do-servidor",
+        "description": "Exclui modelo.",
+        "options": [
+          {
+            "name": "codigo",
+            "description": "codigo (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 64
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "regra-de-moderação",
+        "description": "Exclui regra de AutoMod.",
+        "options": [
+          {
+            "name": "regra",
+            "description": "regra (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "evento",
+        "description": "Exclui evento.",
+        "options": [
+          {
+            "name": "id",
+            "description": "id (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "emoji",
+        "description": "Exclui emoji após confirmação.",
+        "options": [
+          {
+            "name": "emoji",
+            "description": "emoji (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "figurinha",
+        "description": "Exclui figurinha após confirmação.",
+        "options": [
+          {
+            "name": "figurinha",
+            "description": "figurinha (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "som",
+        "description": "Exclui som após confirmação.",
+        "options": [
+          {
+            "name": "som",
+            "description": "som (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "webhook",
+        "description": "Exclui webhook pertencente ao servidor.",
+        "options": [
+          {
+            "name": "id",
+            "description": "id (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "publicar",
+    "description": "Operações: publicar",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "mensagem",
+        "description": "Publica mensagem de anúncio.",
+        "options": [
+          {
+            "name": "mensagem",
+            "description": "mensagem (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          },
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": false
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "no-fórum",
+        "description": "Publica tópico de fórum com conteúdo inicial.",
+        "options": [
+          {
+            "name": "nome",
+            "description": "nome (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 100
+          },
+          {
+            "name": "mensagem",
+            "description": "mensagem (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 1900
+          },
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "fixar",
+    "description": "Operações: fixar",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "mensagem",
+        "description": "Fixa mensagem.",
+        "options": [
+          {
+            "name": "mensagem",
+            "description": "mensagem (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          },
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "desafixar",
+    "description": "Operações: desafixar",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "mensagem",
+        "description": "Desafixa mensagem.",
+        "options": [
+          {
+            "name": "mensagem",
+            "description": "mensagem (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          },
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "adicionar",
+    "description": "Operações: adicionar",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "reação",
+        "description": "Adiciona reação do bot.",
+        "options": [
+          {
+            "name": "mensagem",
+            "description": "mensagem (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          },
+          {
+            "name": "emoji",
+            "description": "emoji (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 100
+          },
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": false
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "membro-ao-tópico",
+        "description": "Adiciona membro ao tópico.",
+        "options": [
+          {
+            "name": "topico",
+            "description": "topico (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          },
+          {
+            "name": "pessoa",
+            "description": "pessoa (ID Discord)",
+            "type": 6,
+            "required": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "remover",
+    "description": "Operações: remover",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "reação",
+        "description": "Remove reação do próprio bot.",
+        "options": [
+          {
+            "name": "mensagem",
+            "description": "mensagem (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          },
+          {
+            "name": "emoji",
+            "description": "emoji (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 100
+          },
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": false
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "membro-do-tópico",
+        "description": "Remove membro do tópico.",
+        "options": [
+          {
+            "name": "topico",
+            "description": "topico (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          },
+          {
+            "name": "pessoa",
+            "description": "pessoa (ID Discord)",
+            "type": 6,
+            "required": true
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "cargo",
+        "description": "Remove cargo de membro.",
+        "options": [
+          {
+            "name": "pessoa",
+            "description": "pessoa (ID Discord)",
+            "type": 6,
+            "required": true
+          },
+          {
+            "name": "cargo",
+            "description": "cargo (ID Discord)",
+            "type": 8,
+            "required": true
+          },
+          {
+            "name": "motivo",
+            "description": "motivo (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 400
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "status-do-canal-de-voz",
+        "description": "Remove status do canal de voz.",
+        "options": [
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": true
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "reação-de-usuário",
+        "description": "Remove reação específica de membro.",
+        "options": [
+          {
+            "name": "mensagem",
+            "description": "mensagem (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          },
+          {
+            "name": "emoji",
+            "description": "emoji (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 100
+          },
+          {
+            "name": "pessoa",
+            "description": "pessoa (ID Discord)",
+            "type": 6,
+            "required": true
+          },
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": false
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "reações-do-emoji",
+        "description": "Remove todas as reações do emoji informado.",
+        "options": [
+          {
+            "name": "mensagem",
+            "description": "mensagem (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          },
+          {
+            "name": "emoji",
+            "description": "emoji (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 100
+          },
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": false
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "todas-as-reações",
+        "description": "Remove todas as reações da mensagem.",
+        "options": [
+          {
+            "name": "mensagem",
+            "description": "mensagem (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          },
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "indicar",
+    "description": "Operações: indicar",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "digitação",
+        "description": "Indica digitação.",
+        "options": [
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "encerrar",
+    "description": "Operações: encerrar",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "enquete",
+        "description": "Encerra enquete do bot.",
+        "options": [
+          {
+            "name": "mensagem",
+            "description": "mensagem (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          },
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": false
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "palco",
+        "description": "Encerra palco após confirmação.",
+        "options": [
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "criar",
+    "description": "Operações: criar",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "canal",
+        "description": "Cria canal de texto, voz, anúncio ou fórum.",
+        "options": [
+          {
+            "name": "nome",
+            "description": "nome (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 100
+          },
+          {
+            "name": "tipo",
+            "description": "tipo (string)",
+            "type": 3,
+            "required": false,
+            "choices": [
+              {
+                "name": "texto",
+                "value": "texto"
+              },
+              {
+                "name": "voz",
+                "value": "voz"
+              },
+              {
+                "name": "anuncios",
+                "value": "anuncios"
+              },
+              {
+                "name": "forum",
+                "value": "forum"
+              }
+            ],
+            "max_length": 2000
+          },
+          {
+            "name": "categoria",
+            "description": "categoria (ID Discord)",
+            "type": 7,
+            "required": false
+          },
+          {
+            "name": "topico",
+            "description": "topico (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 1024
+          },
+          {
+            "name": "nsfw",
+            "description": "nsfw (boolean)",
+            "type": 5,
+            "required": false
+          },
+          {
+            "name": "lento",
+            "description": "lento (integer)",
+            "type": 4,
+            "required": false,
+            "min_value": 0,
+            "max_value": 21600
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "categoria",
+        "description": "Cria categoria.",
+        "options": [
+          {
+            "name": "nome",
+            "description": "nome (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 100
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "tópico",
+        "description": "Cria tópico público sem mensagem inicial.",
+        "options": [
+          {
+            "name": "nome",
+            "description": "nome (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 100
+          },
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": false
+          },
+          {
+            "name": "duracao",
+            "description": "duracao (integer)",
+            "type": 4,
+            "required": false,
+            "choices": [
+              {
+                "name": "60",
+                "value": 60
+              },
+              {
+                "name": "1440",
+                "value": 1440
+              },
+              {
+                "name": "4320",
+                "value": 4320
+              },
+              {
+                "name": "10080",
+                "value": 10080
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "cargo",
+        "description": "Cria cargo sem permissões privilegiadas.",
+        "options": [
+          {
+            "name": "nome",
+            "description": "nome (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 100
+          },
+          {
+            "name": "cor",
+            "description": "cor (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 7
+          },
+          {
+            "name": "mencionavel",
+            "description": "mencionavel (boolean)",
+            "type": 5,
+            "required": false
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "modelo-do-servidor",
+        "description": "Cria modelo.",
+        "options": [
+          {
+            "name": "nome",
+            "description": "nome (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 100
+          },
+          {
+            "name": "descricao",
+            "description": "descricao (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 120
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "convite",
+        "description": "Cria convite com validade e usos limitados.",
+        "options": [
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": false
+          },
+          {
+            "name": "validade",
+            "description": "validade (integer)",
+            "type": 4,
+            "required": false,
+            "min_value": 60,
+            "max_value": 604800
+          },
+          {
+            "name": "usos",
+            "description": "usos (integer)",
+            "type": 4,
+            "required": false,
+            "min_value": 1,
+            "max_value": 100
+          },
+          {
+            "name": "temporario",
+            "description": "temporario (boolean)",
+            "type": 5,
+            "required": false
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "webhook",
+        "description": "Cria webhook; token nunca é exibido.",
+        "options": [
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": true
+          },
+          {
+            "name": "nome",
+            "description": "nome (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 80
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "enquete",
+        "description": "Cria enquete nativa com 2 a 10 alternativas.",
+        "options": [
+          {
+            "name": "pergunta",
+            "description": "pergunta (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 300
+          },
+          {
+            "name": "opcoes",
+            "description": "opcoes (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 550
+          },
+          {
+            "name": "duracao",
+            "description": "duracao (integer)",
+            "type": 4,
+            "required": false,
+            "min_value": 1,
+            "max_value": 168
+          },
+          {
+            "name": "multipla",
+            "description": "multipla (boolean)",
+            "type": 5,
+            "required": false
+          },
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": false
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "tópico-de-mensagem",
+        "description": "Cria tópico a partir de mensagem.",
+        "options": [
+          {
+            "name": "nome",
+            "description": "nome (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 100
+          },
+          {
+            "name": "mensagem",
+            "description": "mensagem (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          },
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": false
+          },
+          {
+            "name": "duracao",
+            "description": "duracao (integer)",
+            "type": 4,
+            "required": false,
+            "choices": [
+              {
+                "name": "60",
+                "value": 60
+              },
+              {
+                "name": "1440",
+                "value": 1440
+              },
+              {
+                "name": "4320",
+                "value": 4320
+              },
+              {
+                "name": "10080",
+                "value": 10080
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "regra-de-moderação",
+        "description": "Cria regra de palavras bloqueadas.",
+        "options": [
+          {
+            "name": "nome",
+            "description": "nome (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 100
+          },
+          {
+            "name": "termo",
+            "description": "termo (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 1000
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "evento",
+        "description": "Cria evento externo ou de voz com horário ISO UTC.",
+        "options": [
+          {
+            "name": "nome",
+            "description": "nome (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 100
+          },
+          {
+            "name": "tipo",
+            "description": "tipo (string)",
+            "type": 3,
+            "required": true,
+            "choices": [
+              {
+                "name": "voz",
+                "value": "voz"
+              },
+              {
+                "name": "externo",
+                "value": "externo"
+              }
+            ],
+            "max_length": 2000
+          },
+          {
+            "name": "inicio",
+            "description": "inicio (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 40
+          },
+          {
+            "name": "duracao-minutos",
+            "description": "duracao-minutos (integer)",
+            "type": 4,
+            "required": true,
+            "min_value": 1,
+            "max_value": 10080
+          },
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": false
+          },
+          {
+            "name": "descricao",
+            "description": "descricao (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 1000
+          },
+          {
+            "name": "local",
+            "description": "local (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 100
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "emoji",
+        "description": "Cria emoji usando imagem PNG/JPEG/GIF em data URI.",
+        "options": [
+          {
+            "name": "nome",
+            "description": "nome (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 32
+          },
+          {
+            "name": "imagem",
+            "description": "imagem (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 6000
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "mover",
+    "description": "Operações: mover",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "canal",
+        "description": "Move canal para uma categoria.",
+        "options": [
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": true
+          },
+          {
+            "name": "categoria",
+            "description": "categoria (ID Discord)",
+            "type": 7,
+            "required": true
+          },
+          {
+            "name": "posicao",
+            "description": "posicao (integer)",
+            "type": 4,
+            "required": false,
+            "min_value": 0,
+            "max_value": 500
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "membro",
+        "description": "Move membro para canal de voz.",
+        "options": [
+          {
+            "name": "pessoa",
+            "description": "pessoa (ID Discord)",
+            "type": 6,
+            "required": true
+          },
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": true
+          },
+          {
+            "name": "motivo",
+            "description": "motivo (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 400
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "ordenar",
+    "description": "Operações: ordenar",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "canais",
+        "description": "Altera posição de canal.",
+        "options": [
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": true
+          },
+          {
+            "name": "posicao",
+            "description": "posicao (integer)",
+            "type": 4,
+            "required": true,
+            "min_value": 0,
+            "max_value": 500
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "cargos",
+        "description": "Altera posição de cargo abaixo da hierarquia do ator e bot.",
+        "options": [
+          {
+            "name": "cargo",
+            "description": "cargo (ID Discord)",
+            "type": 8,
+            "required": true
+          },
+          {
+            "name": "posicao",
+            "description": "posicao (integer)",
+            "type": 4,
+            "required": true,
+            "min_value": 1,
+            "max_value": 250
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "arquivar",
+    "description": "Operações: arquivar",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "tópico",
+        "description": "arquivar tópico.",
+        "options": [
+          {
+            "name": "topico",
+            "description": "topico (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "desarquivar",
+    "description": "Operações: desarquivar",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "tópico",
+        "description": "desarquivar tópico.",
+        "options": [
+          {
+            "name": "topico",
+            "description": "topico (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "bloquear",
+    "description": "Operações: bloquear",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "tópico",
+        "description": "bloquear tópico.",
+        "options": [
+          {
+            "name": "topico",
+            "description": "topico (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "desbloquear",
+    "description": "Operações: desbloquear",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "tópico",
+        "description": "desbloquear tópico.",
+        "options": [
+          {
+            "name": "topico",
+            "description": "topico (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "entrar",
+    "description": "Operações: entrar",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "no-tópico",
+        "description": "Adiciona bot ao tópico.",
+        "options": [
+          {
+            "name": "topico",
+            "description": "topico (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "sair",
+    "description": "Operações: sair",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "do-tópico",
+        "description": "Remove bot do tópico.",
+        "options": [
+          {
+            "name": "topico",
+            "description": "topico (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "buscar",
+    "description": "Operações: buscar",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "membros",
+        "description": "Busca membros por nome.",
+        "options": [
+          {
+            "name": "termo",
+            "description": "termo (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 100
+          },
+          {
+            "name": "quantidade",
+            "description": "quantidade (integer)",
+            "type": 4,
+            "required": false,
+            "min_value": 1,
+            "max_value": 25
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "alterar",
+    "description": "Operações: alterar",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "apelido",
+        "description": "Altera apelido do membro.",
+        "options": [
+          {
+            "name": "pessoa",
+            "description": "pessoa (ID Discord)",
+            "type": 6,
+            "required": true
+          },
+          {
+            "name": "apelido",
+            "description": "apelido (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 32
+          },
+          {
+            "name": "motivo",
+            "description": "motivo (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 400
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "apelido-do-bot",
+        "description": "Altera apelido do bot no servidor.",
+        "options": [
+          {
+            "name": "apelido",
+            "description": "apelido (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 32
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "restaurar",
+    "description": "Operações: restaurar",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "apelido",
+        "description": "Restaura apelido.",
+        "options": [
+          {
+            "name": "pessoa",
+            "description": "pessoa (ID Discord)",
+            "type": 6,
+            "required": true
+          },
+          {
+            "name": "motivo",
+            "description": "motivo (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 400
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "atribuir",
+    "description": "Operações: atribuir",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "cargo",
+        "description": "Atribui cargo não privilegiado a membro.",
+        "options": [
+          {
+            "name": "pessoa",
+            "description": "pessoa (ID Discord)",
+            "type": 6,
+            "required": true
+          },
+          {
+            "name": "cargo",
+            "description": "cargo (ID Discord)",
+            "type": 8,
+            "required": true
+          },
+          {
+            "name": "motivo",
+            "description": "motivo (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 400
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "expulsar",
+    "description": "Operações: expulsar",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "membro",
+        "description": "Expulsa membro após confirmação.",
+        "options": [
+          {
+            "name": "pessoa",
+            "description": "pessoa (ID Discord)",
+            "type": 6,
+            "required": true
+          },
+          {
+            "name": "motivo",
+            "description": "motivo (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 400
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "banir",
+    "description": "Operações: banir",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "usuário",
+        "description": "Bane membro após confirmação.",
+        "options": [
+          {
+            "name": "pessoa",
+            "description": "pessoa (ID Discord)",
+            "type": 6,
+            "required": true
+          },
+          {
+            "name": "apagar-dias",
+            "description": "apagar-dias (integer)",
+            "type": 4,
+            "required": false,
+            "min_value": 0,
+            "max_value": 7
+          },
+          {
+            "name": "motivo",
+            "description": "motivo (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 400
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "desbanir",
+    "description": "Operações: desbanir",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "usuário",
+        "description": "Remove banimento.",
+        "options": [
+          {
+            "name": "usuario-id",
+            "description": "usuario-id (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          },
+          {
+            "name": "motivo",
+            "description": "motivo (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 400
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "restringir",
+    "description": "Operações: restringir",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "comunicação",
+        "description": "Aplica timeout em minutos.",
+        "options": [
+          {
+            "name": "pessoa",
+            "description": "pessoa (ID Discord)",
+            "type": 6,
+            "required": true
+          },
+          {
+            "name": "duracao",
+            "description": "duracao (integer)",
+            "type": 4,
+            "required": true,
+            "min_value": 1,
+            "max_value": 40320
+          },
+          {
+            "name": "motivo",
+            "description": "motivo (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 400
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "convites",
+        "description": "restringir convites no servidor.",
+        "options": [
+          {
+            "name": "duracao",
+            "description": "duracao (integer)",
+            "type": 4,
+            "required": true,
+            "min_value": 1,
+            "max_value": 1440
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "mensagens-diretas",
+        "description": "restringir mensagens-diretas no servidor.",
+        "options": [
+          {
+            "name": "duracao",
+            "description": "duracao (integer)",
+            "type": 4,
+            "required": true,
+            "min_value": 1,
+            "max_value": 1440
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "liberar",
+    "description": "Operações: liberar",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "comunicação",
+        "description": "Remove timeout.",
+        "options": [
+          {
+            "name": "pessoa",
+            "description": "pessoa (ID Discord)",
+            "type": 6,
+            "required": true
+          },
+          {
+            "name": "motivo",
+            "description": "motivo (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 400
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "convites",
+        "description": "liberar convites no servidor.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "mensagens-diretas",
+        "description": "liberar mensagens-diretas no servidor.",
+        "options": []
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "contar",
+    "description": "Operações: contar",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "membros-por-cargo",
+        "description": "Conta membros por cargo.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "interessados-no-evento",
+        "description": "Consulta número de interessados.",
+        "options": [
+          {
+            "name": "id",
+            "description": "id (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "verificar",
+    "description": "Operações: verificar",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "permissões",
+        "description": "Consulta permissões efetivas de membro.",
+        "options": [
+          {
+            "name": "pessoa",
+            "description": "pessoa (ID Discord)",
+            "type": 6,
+            "required": true
+          },
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": false
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "estado-de-voz",
+        "description": "Consulta estado de voz de membro.",
+        "options": [
+          {
+            "name": "pessoa",
+            "description": "pessoa (ID Discord)",
+            "type": 6,
+            "required": true
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "permissões-do-membro",
+        "description": "Consulta permissões de membro no servidor.",
+        "options": [
+          {
+            "name": "pessoa",
+            "description": "pessoa (ID Discord)",
+            "type": 6,
+            "required": true
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "permissões-do-cargo",
+        "description": "Consulta permissões de cargo no servidor.",
+        "options": [
+          {
+            "name": "cargo",
+            "description": "cargo (ID Discord)",
+            "type": 8,
+            "required": true
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "permissões-do-cargo-no-canal",
+        "description": "Consulta permissões de cargo em canal.",
+        "options": [
+          {
+            "name": "cargo",
+            "description": "cargo (ID Discord)",
+            "type": 8,
+            "required": true
+          },
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "silenciar",
+    "description": "Operações: silenciar",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "microfone",
+        "description": "Altera estado de voz.",
+        "options": [
+          {
+            "name": "pessoa",
+            "description": "pessoa (ID Discord)",
+            "type": 6,
+            "required": true
+          },
+          {
+            "name": "motivo",
+            "description": "motivo (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 400
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "reativar",
+    "description": "Operações: reativar",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "microfone",
+        "description": "Altera estado de voz.",
+        "options": [
+          {
+            "name": "pessoa",
+            "description": "pessoa (ID Discord)",
+            "type": 6,
+            "required": true
+          },
+          {
+            "name": "motivo",
+            "description": "motivo (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 400
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "desativar",
+    "description": "Operações: desativar",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "áudio-recebido",
+        "description": "Altera estado de voz.",
+        "options": [
+          {
+            "name": "pessoa",
+            "description": "pessoa (ID Discord)",
+            "type": 6,
+            "required": true
+          },
+          {
+            "name": "motivo",
+            "description": "motivo (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 400
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "regra-de-moderação",
+        "description": "Altera ativação da regra.",
+        "options": [
+          {
+            "name": "regra",
+            "description": "regra (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "ativar",
+    "description": "Operações: ativar",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "áudio-recebido",
+        "description": "Altera estado de voz.",
+        "options": [
+          {
+            "name": "pessoa",
+            "description": "pessoa (ID Discord)",
+            "type": 6,
+            "required": true
+          },
+          {
+            "name": "motivo",
+            "description": "motivo (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 400
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "regra-de-moderação",
+        "description": "Altera ativação da regra.",
+        "options": [
+          {
+            "name": "regra",
+            "description": "regra (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "desconectar",
+    "description": "Operações: desconectar",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "membro",
+        "description": "Desconecta membro de voz.",
+        "options": [
+          {
+            "name": "pessoa",
+            "description": "pessoa (ID Discord)",
+            "type": 6,
+            "required": true
+          },
+          {
+            "name": "motivo",
+            "description": "motivo (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 400
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "definir",
+    "description": "Operações: definir",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "status-do-canal-de-voz",
+        "description": "Define status do canal de voz.",
+        "options": [
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": true
+          },
+          {
+            "name": "status",
+            "description": "status (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 500
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "permissões-do-canal",
+        "description": "Define permissões por máscara decimal, após confirmação.",
+        "options": [
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": true
+          },
+          {
+            "name": "alvo",
+            "description": "alvo (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          },
+          {
+            "name": "tipo-alvo",
+            "description": "tipo-alvo (integer)",
+            "type": 4,
+            "required": true,
+            "choices": [
+              {
+                "name": "0",
+                "value": 0
+              },
+              {
+                "name": "1",
+                "value": 1
+              }
+            ]
+          },
+          {
+            "name": "permitir",
+            "description": "permitir (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 20
+          },
+          {
+            "name": "negar",
+            "description": "negar (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 20
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "configurar",
+    "description": "Operações: configurar",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "widget-do-servidor",
+        "description": "Configura widget.",
+        "options": [
+          {
+            "name": "ativo",
+            "description": "ativo (boolean)",
+            "type": 5,
+            "required": false
+          },
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": false
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "ver",
+        "description": "Configurações do servidor.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "definir",
+        "description": "Define configuração da IA ou segurança.",
+        "options": [
+          {
+            "name": "chave",
+            "description": "chave (string)",
+            "type": 3,
+            "required": true,
+            "choices": [
+              {
+                "name": "enabled",
+                "value": "enabled"
+              },
+              {
+                "name": "mode",
+                "value": "mode"
+              },
+              {
+                "name": "mentions",
+                "value": "mentions"
+              },
+              {
+                "name": "direct",
+                "value": "direct"
+              },
+              {
+                "name": "blocked",
+                "value": "blocked"
+              },
+              {
+                "name": "allowUsers",
+                "value": "allowUsers"
+              },
+              {
+                "name": "denyUsers",
+                "value": "denyUsers"
+              },
+              {
+                "name": "allowRoles",
+                "value": "allowRoles"
+              },
+              {
+                "name": "denyRoles",
+                "value": "denyRoles"
+              },
+              {
+                "name": "memory",
+                "value": "memory"
+              },
+              {
+                "name": "retentionMinutes",
+                "value": "retentionMinutes"
+              },
+              {
+                "name": "language",
+                "value": "language"
+              },
+              {
+                "name": "style",
+                "value": "style"
+              },
+              {
+                "name": "personality",
+                "value": "personality"
+              },
+              {
+                "name": "domains",
+                "value": "domains"
+              },
+              {
+                "name": "emergency",
+                "value": "emergency"
+              },
+              {
+                "name": "dryRun",
+                "value": "dryRun"
+              },
+              {
+                "name": "threads",
+                "value": "threads"
+              },
+              {
+                "name": "dms",
+                "value": "dms"
+              },
+              {
+                "name": "protectedChannels",
+                "value": "protectedChannels"
+              },
+              {
+                "name": "protectedRoles",
+                "value": "protectedRoles"
+              },
+              {
+                "name": "protectedUsers",
+                "value": "protectedUsers"
+              }
+            ],
+            "max_length": 2000
+          },
+          {
+            "name": "valor",
+            "description": "valor (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 1000
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "redefinir",
+        "description": "Redefine uma configuração específica para o padrão.",
+        "options": [
+          {
+            "name": "chave",
+            "description": "chave (string)",
+            "type": 3,
+            "required": true,
+            "choices": [
+              {
+                "name": "enabled",
+                "value": "enabled"
+              },
+              {
+                "name": "mode",
+                "value": "mode"
+              },
+              {
+                "name": "mentions",
+                "value": "mentions"
+              },
+              {
+                "name": "direct",
+                "value": "direct"
+              },
+              {
+                "name": "blocked",
+                "value": "blocked"
+              },
+              {
+                "name": "allowUsers",
+                "value": "allowUsers"
+              },
+              {
+                "name": "denyUsers",
+                "value": "denyUsers"
+              },
+              {
+                "name": "allowRoles",
+                "value": "allowRoles"
+              },
+              {
+                "name": "denyRoles",
+                "value": "denyRoles"
+              },
+              {
+                "name": "memory",
+                "value": "memory"
+              },
+              {
+                "name": "retentionMinutes",
+                "value": "retentionMinutes"
+              },
+              {
+                "name": "language",
+                "value": "language"
+              },
+              {
+                "name": "style",
+                "value": "style"
+              },
+              {
+                "name": "personality",
+                "value": "personality"
+              },
+              {
+                "name": "domains",
+                "value": "domains"
+              },
+              {
+                "name": "emergency",
+                "value": "emergency"
+              },
+              {
+                "name": "dryRun",
+                "value": "dryRun"
+              },
+              {
+                "name": "threads",
+                "value": "threads"
+              },
+              {
+                "name": "dms",
+                "value": "dms"
+              },
+              {
+                "name": "protectedChannels",
+                "value": "protectedChannels"
+              },
+              {
+                "name": "protectedRoles",
+                "value": "protectedRoles"
+              },
+              {
+                "name": "protectedUsers",
+                "value": "protectedUsers"
+              }
+            ],
+            "max_length": 2000
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "exportar",
+        "description": "Exporta configuração deste servidor, sem credenciais.",
+        "options": []
+      }
+    ],
+    "default_member_permissions": "32"
+  },
+  {
+    "type": 1,
+    "name": "sincronizar",
+    "description": "Operações: sincronizar",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "modelo-do-servidor",
+        "description": "Sincroniza modelo do servidor.",
+        "options": [
+          {
+            "name": "codigo",
+            "description": "codigo (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 64
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "iniciar",
+    "description": "Operações: iniciar",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "evento",
+        "description": "Altera estado do evento.",
+        "options": [
+          {
+            "name": "id",
+            "description": "id (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          },
+          {
+            "name": "motivo",
+            "description": "motivo (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 400
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "palco",
+        "description": "Inicia palco no canal informado.",
+        "options": [
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": true
+          },
+          {
+            "name": "topico",
+            "description": "topico (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 120
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "concluir",
+    "description": "Operações: concluir",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "evento",
+        "description": "Altera estado do evento.",
+        "options": [
+          {
+            "name": "id",
+            "description": "id (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          },
+          {
+            "name": "motivo",
+            "description": "motivo (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 400
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "cancelar",
+    "description": "Operações: cancelar",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "evento",
+        "description": "Altera estado do evento.",
+        "options": [
+          {
+            "name": "id",
+            "description": "id (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          },
+          {
+            "name": "motivo",
+            "description": "motivo (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 400
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "seguir",
+    "description": "Operações: seguir",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "canal-de-anúncios",
+        "description": "Segue anúncio em canal de destino.",
+        "options": [
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": true
+          },
+          {
+            "name": "destino",
+            "description": "destino (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "aplicacao",
+    "description": "Operações: aplicacao",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "informacoes",
+        "description": "Consulta metadados públicos da própria aplicação.",
+        "options": []
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "revogar",
+    "description": "Operações: revogar",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "convite",
+        "description": "Revoga convite do próprio servidor.",
+        "options": [
+          {
+            "name": "codigo",
+            "description": "codigo (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 64
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "estimar",
+    "description": "Operações: estimar",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "membros-inativos",
+        "description": "Estima membros inativos, sem efeitos.",
+        "options": [
+          {
+            "name": "dias",
+            "description": "dias (integer)",
+            "type": 4,
+            "required": false,
+            "min_value": 1,
+            "max_value": 30
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "inventario",
+    "description": "Operações: inventario",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "webhooks-do-canal",
+        "description": "Lista metadados de webhooks do canal.",
+        "options": [
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": true
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "regiões-do-servidor",
+        "description": "Lista regiões disponíveis no servidor.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "pacotes-de-figurinhas",
+        "description": "Lista pacotes públicos de figurinhas.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "sons-padrão",
+        "description": "Lista sons padrão do Discord.",
+        "options": []
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "inspecionar",
+    "description": "Operações: inspecionar",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "estado-de-voz-do-bot",
+        "description": "Consulta estado de voz do bot.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "pacote-de-figurinhas",
+        "description": "Consulta pacote público de figurinhas.",
+        "options": [
+          {
+            "name": "id",
+            "description": "id (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "figurinha-pública",
+        "description": "Consulta figurinha pública.",
+        "options": [
+          {
+            "name": "id",
+            "description": "id (ID Discord)",
+            "type": 3,
+            "required": true,
+            "max_length": 20
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "ping",
+    "description": "Verifica resposta do bot.",
+    "dm_permission": false,
+    "options": []
+  },
+  {
+    "type": 1,
+    "name": "status",
+    "description": "Estado local do framework.",
+    "dm_permission": false,
+    "options": []
+  },
+  {
+    "type": 1,
+    "name": "diagnostico",
+    "description": "Diagnóstico local e métricas de execução.",
+    "dm_permission": false,
+    "options": [],
+    "default_member_permissions": "32"
+  },
+  {
+    "type": 1,
+    "name": "ajuda",
+    "description": "Operações: ajuda",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "inicio",
+        "description": "Lista grupos de capacidades.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "buscar",
+        "description": "Busca capacidades implementadas.",
+        "options": [
+          {
+            "name": "termo",
+            "description": "termo (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 100
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "modulo",
+        "description": "Descreve módulo e capacidades.",
+        "options": [
+          {
+            "name": "nome",
+            "description": "nome (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 100
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "comando",
+        "description": "Consulta capacidade pelo identificador.",
+        "options": [
+          {
+            "name": "nome",
+            "description": "nome (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 100
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "ia",
+    "description": "Operações: ia",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "status",
+        "description": "Configuração da IA no servidor.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "configurar",
+        "description": "Configura comportamento, canais, acesso, memória e segurança.",
+        "options": [
+          {
+            "name": "chave",
+            "description": "chave (string)",
+            "type": 3,
+            "required": true,
+            "choices": [
+              {
+                "name": "enabled",
+                "value": "enabled"
+              },
+              {
+                "name": "mode",
+                "value": "mode"
+              },
+              {
+                "name": "mentions",
+                "value": "mentions"
+              },
+              {
+                "name": "direct",
+                "value": "direct"
+              },
+              {
+                "name": "blocked",
+                "value": "blocked"
+              },
+              {
+                "name": "allowUsers",
+                "value": "allowUsers"
+              },
+              {
+                "name": "denyUsers",
+                "value": "denyUsers"
+              },
+              {
+                "name": "allowRoles",
+                "value": "allowRoles"
+              },
+              {
+                "name": "denyRoles",
+                "value": "denyRoles"
+              },
+              {
+                "name": "memory",
+                "value": "memory"
+              },
+              {
+                "name": "retentionMinutes",
+                "value": "retentionMinutes"
+              },
+              {
+                "name": "language",
+                "value": "language"
+              },
+              {
+                "name": "style",
+                "value": "style"
+              },
+              {
+                "name": "personality",
+                "value": "personality"
+              },
+              {
+                "name": "domains",
+                "value": "domains"
+              },
+              {
+                "name": "emergency",
+                "value": "emergency"
+              },
+              {
+                "name": "dryRun",
+                "value": "dryRun"
+              },
+              {
+                "name": "threads",
+                "value": "threads"
+              },
+              {
+                "name": "dms",
+                "value": "dms"
+              },
+              {
+                "name": "protectedChannels",
+                "value": "protectedChannels"
+              },
+              {
+                "name": "protectedRoles",
+                "value": "protectedRoles"
+              },
+              {
+                "name": "protectedUsers",
+                "value": "protectedUsers"
+              }
+            ],
+            "max_length": 2000
+          },
+          {
+            "name": "valor",
+            "description": "valor (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 1000
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "diagnostico",
+        "description": "Mostra estado e resultados registrados, sem inferência sintética.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "consentimento",
+        "description": "Autoriza memória pessoal neste servidor.",
+        "options": [
+          {
+            "name": "ativo",
+            "description": "ativo (boolean)",
+            "type": 5,
+            "required": true
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "esquecer",
+        "description": "Exclui memória deste usuário no servidor.",
+        "options": []
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "modulos",
+    "description": "Operações: modulos",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "listar",
+        "description": "Lista módulos, dependências e estados efetivos.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "definir",
+        "description": "Ativa ou desativa um módulo opcional.",
+        "options": [
+          {
+            "name": "modulo",
+            "description": "modulo (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 100
+          },
+          {
+            "name": "ativo",
+            "description": "ativo (boolean)",
+            "type": 5,
+            "required": true
+          }
+        ]
+      }
+    ],
+    "default_member_permissions": "32"
+  },
+  {
+    "type": 1,
+    "name": "registros",
+    "description": "Operações: registros",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "acoes",
+        "description": "Mostra registros recentes sem conteúdo ou credenciais.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "config",
+        "description": "Consulta revisão de configuração.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "agenda",
+        "description": "Consulta rotinas registradas.",
+        "options": []
+      }
+    ],
+    "default_member_permissions": "32"
+  },
+  {
+    "type": 1,
+    "name": "sistema",
+    "description": "Operações: sistema",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "metricas",
+        "description": "Métricas reais por servidor.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "limites",
+        "description": "Limites configurados localmente.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "sessao",
+        "description": "Informa runtime e processo.",
+        "options": []
+      }
+    ],
+    "default_member_permissions": "32"
+  },
+  {
+    "type": 1,
+    "name": "axyon",
+    "description": "Operações: axyon",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "estado",
+        "description": "Resumo da plataforma.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "operacoes",
+        "description": "Pesquisa operações implementadas.",
+        "options": [
+          {
+            "name": "filtro",
+            "description": "filtro (string)",
+            "type": 3,
+            "required": false,
+            "max_length": 100
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "modulos",
+        "description": "Exibe manifesto de módulos.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "configurar",
+        "description": "Mostra acesso ao plano de controle.",
+        "options": []
+      }
+    ],
+    "default_member_permissions": "32"
+  },
+  {
+    "type": 1,
+    "name": "gateway",
+    "description": "Operações: gateway",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "estado",
+        "description": "Informa transporte ativo no processo.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "intents",
+        "description": "Informa intents solicitadas pelo processo.",
+        "options": []
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "comandos",
+    "description": "Operações: comandos",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "listar",
+        "description": "Lista capacidades da interface local.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "info",
+        "description": "Consulta contrato de capacidade.",
+        "options": [
+          {
+            "name": "comando",
+            "description": "comando (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 100
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "conexoes",
+    "description": "Operações: conexoes",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "estado",
+        "description": "Exibe integrações configuradas sem segredos.",
+        "options": []
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "agenda",
+    "description": "Operações: agenda",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "criar",
+        "description": "Cria rotina de mensagem sem menções, executada com autorização atual.",
+        "options": [
+          {
+            "name": "nome",
+            "description": "nome (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 40
+          },
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": true
+          },
+          {
+            "name": "texto",
+            "description": "texto (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 1900
+          },
+          {
+            "name": "minutos",
+            "description": "minutos (integer)",
+            "type": 4,
+            "required": true,
+            "min_value": 1,
+            "max_value": 10080
+          },
+          {
+            "name": "repetir",
+            "description": "repetir (boolean)",
+            "type": 5,
+            "required": false
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "listar",
+        "description": "Lista rotinas deste servidor.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "detalhar",
+        "description": "Exibe detalhes de rotina.",
+        "options": [
+          {
+            "name": "nome",
+            "description": "nome (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 100
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "pausar",
+        "description": "Altera ativação da rotina.",
+        "options": [
+          {
+            "name": "nome",
+            "description": "nome (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 100
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "retomar",
+        "description": "Altera ativação da rotina.",
+        "options": [
+          {
+            "name": "nome",
+            "description": "nome (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 100
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "agora",
+        "description": "Executa rotina agora com a autorização do solicitante.",
+        "options": [
+          {
+            "name": "nome",
+            "description": "nome (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 100
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "remover",
+        "description": "Remove rotina.",
+        "options": [
+          {
+            "name": "nome",
+            "description": "nome (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 100
+          }
+        ]
+      }
+    ],
+    "default_member_permissions": "32"
+  },
+  {
+    "type": 1,
+    "name": "automacao",
+    "description": "Operações: automacao",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "criar",
+        "description": "Cria rotina de mensagem sem menções, executada com autorização atual.",
+        "options": [
+          {
+            "name": "nome",
+            "description": "nome (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 40
+          },
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": true
+          },
+          {
+            "name": "texto",
+            "description": "texto (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 1900
+          },
+          {
+            "name": "prefixo",
+            "description": "prefixo (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 100
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "listar",
+        "description": "Lista rotinas deste servidor.",
+        "options": []
+      },
+      {
+        "type": 1,
+        "name": "detalhar",
+        "description": "Exibe detalhes de rotina.",
+        "options": [
+          {
+            "name": "nome",
+            "description": "nome (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 100
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "pausar",
+        "description": "Altera ativação da rotina.",
+        "options": [
+          {
+            "name": "nome",
+            "description": "nome (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 100
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "retomar",
+        "description": "Altera ativação da rotina.",
+        "options": [
+          {
+            "name": "nome",
+            "description": "nome (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 100
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "testar",
+        "description": "Valida plano sem produzir efeitos.",
+        "options": [
+          {
+            "name": "nome",
+            "description": "nome (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 100
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "remover",
+        "description": "Remove rotina.",
+        "options": [
+          {
+            "name": "nome",
+            "description": "nome (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 100
+          }
+        ]
+      }
+    ],
+    "default_member_permissions": "32"
+  },
+  {
+    "type": 1,
+    "name": "fluxo",
+    "description": "Operações: fluxo",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "criar",
+        "description": "Cria fluxo de até 5 envios, executado uma vez após intervalo.",
+        "options": [
+          {
+            "name": "nome",
+            "description": "nome (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 40
+          },
+          {
+            "name": "canal",
+            "description": "canal (ID Discord)",
+            "type": 7,
+            "required": true
+          },
+          {
+            "name": "minutos",
+            "description": "minutos (integer)",
+            "type": 4,
+            "required": true,
+            "min_value": 1,
+            "max_value": 10080
+          },
+          {
+            "name": "passos",
+            "description": "passos (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 6000
+          }
+        ]
+      },
+      {
+        "type": 1,
+        "name": "listar",
+        "description": "Lista fluxos programados.",
+        "options": []
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "blueprint",
+    "description": "Operações: blueprint",
+    "dm_permission": false,
+    "options": [
+      {
+        "type": 1,
+        "name": "exportar",
+        "description": "Exporta inventário visível de canais e cargos, sem restaurar ou aplicar alterações.",
+        "options": []
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "createchannel",
+    "description": "Cria canal.",
+    "dm_permission": false,
+    "options": [
+      {
+        "name": "nome",
+        "description": "nome (string)",
+        "type": 3,
+        "required": true,
+        "max_length": 100
+      },
+      {
+        "name": "tipo",
+        "description": "tipo (string)",
+        "type": 3,
+        "required": true,
+        "choices": [
+          {
+            "name": "text",
+            "value": "text"
+          },
+          {
+            "name": "voice",
+            "value": "voice"
+          }
+        ],
+        "max_length": 2000
+      }
+    ]
+  },
+  {
+    "type": 1,
+    "name": "deletemsg",
+    "description": "Exclui mensagens recentes após confirmação.",
+    "dm_permission": false,
+    "options": [
+      {
+        "name": "quantidade",
+        "description": "quantidade (integer)",
+        "type": 4,
+        "required": true,
+        "min_value": 1,
+        "max_value": 100
+      }
+    ]
+  }
+]

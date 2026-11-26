@@ -1,15 +1,19 @@
 {
-  "name": "raibot",
-  "version": "2.0.0",
+  "name": "axyon",
+  "version": "3.0.0",
   "private": true,
   "type": "commonjs",
   "scripts": {
     "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "node --test dist/test/*.test.js",
-    "start": "node dist/bot.js"
+    "check": "npm run build && npm run typecheck && npm test && npm run check:boundaries",
+    "start": "node dist/bot.js",
+    "inventory": "node dist/tools/inventory.js",
+    "check:boundaries": "node tools/check-boundaries.cjs"
   },
   "engines": {
-    "node": ">=22"
+    "node": ">=22.16.0 <23"
   },
   "dependencies": {
     "discord.js": "14.18.0"

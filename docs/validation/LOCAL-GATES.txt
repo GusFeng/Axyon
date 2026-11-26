@@ -1,0 +1,1344 @@
+
+> axyon@3.0.0 check
+> npm run build && npm run typecheck && npm test && npm run check:boundaries
+
+
+> axyon@3.0.0 build
+> tsc -p tsconfig.json
+
+
+> axyon@3.0.0 typecheck
+> tsc -p tsconfig.json --noEmit
+
+
+> axyon@3.0.0 test
+> node --test dist/test/*.test.js
+
+TAP version 13
+# (node:1643) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# {"time":"2026-11-26T05:33:33.574Z","event":"RECOVERY","uncertain":0}
+# {"time":"2026-11-26T05:33:33.581Z","event":"COMMAND_REGISTRATION_DISABLED","candidate":67}
+# {"time":"2026-11-26T05:33:33.581Z","event":"GATEWAY_READY","runtime":"v22.16.0","modules":15,"persistent":false}
+# Subtest: catalogue boots with unique capability ids and legal Discord option shape
+ok 1 - catalogue boots with unique capability ids and legal Discord option shape
+  ---
+  duration_ms: 5.147081
+  type: 'test'
+  ...
+# Subtest: legacy inventory loaded accurately
+ok 2 - legacy inventory loaded accurately
+  ---
+  duration_ms: 0.242334
+  type: 'test'
+  ...
+# Subtest: module cycle rejected
+ok 3 - module cycle rejected
+  ---
+  duration_ms: 1.207602
+  type: 'test'
+  ...
+# Subtest: missing dependency rejected
+ok 4 - missing dependency rejected
+  ---
+  duration_ms: 0.142124
+  type: 'test'
+  ...
+# Subtest: essential to optional dependency rejected
+ok 5 - essential to optional dependency rejected
+  ---
+  duration_ms: 0.243158
+  type: 'test'
+  ...
+# Subtest: module dependency propagation and essential recovery
+ok 6 - module dependency propagation and essential recovery
+  ---
+  duration_ms: 1.204363
+  type: 'test'
+  ...
+# Subtest: failed startup rolls back started modules
+ok 7 - failed startup rolls back started modules
+  ---
+  duration_ms: 0.827921
+  type: 'test'
+  ...
+# Subtest: settings CAS own returning revision and tenant isolation
+ok 8 - settings CAS own returning revision and tenant isolation
+  ---
+  duration_ms: 0.786177
+  type: 'test'
+  ...
+# Subtest: SQLite independent connections persist and CAS conflicts
+ok 9 - SQLite independent connections persist and CAS conflicts
+  ---
+  duration_ms: 23.376018
+  type: 'test'
+  ...
+# Subtest: budget reservation atomic per actor and guild
+ok 10 - budget reservation atomic per actor and guild
+  ---
+  duration_ms: 1.004775
+  type: 'test'
+  ...
+# Subtest: memory consent and guild/channel/actor isolation
+ok 11 - memory consent and guild/channel/actor isolation
+  ---
+  duration_ms: 0.825769
+  type: 'test'
+  ...
+# Subtest: permission and settings validation denies invalid inputs
+ok 12 - permission and settings validation denies invalid inputs
+  ---
+  duration_ms: 0.68821
+  type: 'test'
+  ...
+# Subtest: AI blocked channels and deny rules override allow rules
+ok 13 - AI blocked channels and deny rules override allow rules
+  ---
+  duration_ms: 0.1358
+  type: 'test'
+  ...
+# Subtest: old createchannel text choice maps to native capability
+ok 14 - old createchannel text choice maps to native capability
+  ---
+  duration_ms: 1.071124
+  type: 'test'
+  ...
+# Subtest: slash and AI use exactly the same capability plan
+ok 15 - slash and AI use exactly the same capability plan
+  ---
+  duration_ms: 4.548374
+  type: 'test'
+  ...
+# Subtest: actor permission checked independently of bot
+ok 16 - actor permission checked independently of bot
+  ---
+  duration_ms: 1.249888
+  type: 'test'
+  ...
+# Subtest: bot permission checked independently of actor
+ok 17 - bot permission checked independently of actor
+  ---
+  duration_ms: 1.113753
+  type: 'test'
+  ...
+# Subtest: unknown inputs and arbitrary routes are rejected
+ok 18 - unknown inputs and arbitrary routes are rejected
+  ---
+  duration_ms: 1.093164
+  type: 'test'
+  ...
+# Subtest: message plan reconstructs allowed_mentions and path from context
+ok 19 - message plan reconstructs allowed_mentions and path from context
+  ---
+  duration_ms: 1.764754
+  type: 'test'
+  ...
+# Subtest: no duplicate operation on repeated nonce
+ok 20 - no duplicate operation on repeated nonce
+  ---
+  duration_ms: 1.78625
+  type: 'test'
+  ...
+# Subtest: same nonce in different guild is independent
+ok 21 - same nonce in different guild is independent
+  ---
+  duration_ms: 1.49977
+  type: 'test'
+  ...
+# Subtest: origin and direct channel deletion prevented
+ok 22 - origin and direct channel deletion prevented
+  ---
+  duration_ms: 1.696066
+  type: 'test'
+  ...
+# Subtest: protected secondary target prevents channel move
+ok 23 - protected secondary target prevents channel move
+  ---
+  duration_ms: 1.779397
+  type: 'test'
+  ...
+# Subtest: confirmation is scoped to actor guild and origin
+ok 24 - confirmation is scoped to actor guild and origin
+  ---
+  duration_ms: 1.55482
+  type: 'test'
+  ...
+# Subtest: cancellation permanently consumes pending confirmation
+ok 25 - cancellation permanently consumes pending confirmation
+  ---
+  duration_ms: 1.16752
+  type: 'test'
+  ...
+# Subtest: permission loss after confirmation prevents effect
+ok 26 - permission loss after confirmation prevents effect
+  ---
+  duration_ms: 1.113783
+  type: 'test'
+  ...
+# Subtest: module switch is reloaded after asynchronous access
+ok 27 - module switch is reloaded after asynchronous access
+  ---
+  duration_ms: 1.377791
+  type: 'test'
+  ...
+# Subtest: confirmed purge freezes exact target IDs
+ok 28 - confirmed purge freezes exact target IDs
+  ---
+  duration_ms: 1.425504
+  type: 'test'
+  ...
+# Subtest: commands off does not disable control plane or AI
+ok 29 - commands off does not disable control plane or AI
+  ---
+  duration_ms: 1.729209
+  type: 'test'
+  ...
+# Subtest: AI read mode blocks writes and chat mode blocks tools
+ok 30 - AI read mode blocks writes and chat mode blocks tools
+  ---
+  duration_ms: 1.572987
+  type: 'test'
+  ...
+# Subtest: AI dry run has zero external effects
+ok 31 - AI dry run has zero external effects
+  ---
+  duration_ms: 1.817404
+  type: 'test'
+  ...
+# Subtest: remote uncertainty recorded and never automatically repeated
+ok 32 - remote uncertainty recorded and never automatically repeated
+  ---
+  duration_ms: 1.546708
+  type: 'test'
+  ...
+# Subtest: recovery marks interrupted receipt uncertain
+ok 33 - recovery marks interrupted receipt uncertain
+  ---
+  duration_ms: 0.508319
+  type: 'test'
+  ...
+# Subtest: job creation, scheduler execution and repeated tick deduplication
+ok 34 - job creation, scheduler execution and repeated tick deduplication
+  ---
+  duration_ms: 1.748429
+  type: 'test'
+  ...
+# Subtest: disabled scheduler does not send jobs
+ok 35 - disabled scheduler does not send jobs
+  ---
+  duration_ms: 1.270492
+  type: 'test'
+  ...
+# Subtest: event automation restricted to creator and deduplicated
+ok 36 - event automation restricted to creator and deduplicated
+  ---
+  duration_ms: 1.36221
+  type: 'test'
+  ...
+# Subtest: untrusted provider response is not executed
+ok 37 - untrusted provider response is not executed
+  ---
+  duration_ms: 14.907012
+  type: 'test'
+  ...
+# Subtest: AI chat mode calls provider, preserves consent and real turn context
+ok 38 - AI chat mode calls provider, preserves consent and real turn context
+  ---
+  duration_ms: 3.184481
+  type: 'test'
+  ...
+# Subtest: AI rejects invented entity target
+ok 39 - AI rejects invented entity target
+  ---
+  duration_ms: 1.830118
+  type: 'test'
+  ...
+# Subtest: provider formats, timeout safety and errors
+ok 40 - provider formats, timeout safety and errors
+  ---
+  duration_ms: 0.668813
+  type: 'test'
+  ...
+# Subtest: redaction never returns webhook token or unknown sensitive fields
+ok 41 - redaction never returns webhook token or unknown sensitive fields
+  ---
+  duration_ms: 0.156412
+  type: 'test'
+  ...
+# Subtest: contract: discord.list-messages
+ok 42 - contract: discord.list-messages
+  ---
+  duration_ms: 0.304655
+  type: 'test'
+  ...
+# Subtest: contract: discord.get-message
+ok 43 - contract: discord.get-message
+  ---
+  duration_ms: 0.089594
+  type: 'test'
+  ...
+# Subtest: contract: discord.create-message
+ok 44 - contract: discord.create-message
+  ---
+  duration_ms: 0.067652
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-message
+ok 45 - contract: discord.update-message
+  ---
+  duration_ms: 0.097717
+  type: 'test'
+  ...
+# Subtest: contract: discord.delete-message
+ok 46 - contract: discord.delete-message
+  ---
+  duration_ms: 0.055553
+  type: 'test'
+  ...
+# Subtest: contract: discord.bulk-delete-messages
+ok 47 - contract: discord.bulk-delete-messages
+  ---
+  duration_ms: 0.11732
+  type: 'test'
+  ...
+# Subtest: contract: discord.crosspost-message
+ok 48 - contract: discord.crosspost-message
+  ---
+  duration_ms: 0.10361
+  type: 'test'
+  ...
+# Subtest: contract: discord.create-pin
+ok 49 - contract: discord.create-pin
+  ---
+  duration_ms: 0.140619
+  type: 'test'
+  ...
+# Subtest: contract: discord.delete-pin
+ok 50 - contract: discord.delete-pin
+  ---
+  duration_ms: 0.071905
+  type: 'test'
+  ...
+# Subtest: contract: discord.list-pins
+ok 51 - contract: discord.list-pins
+  ---
+  duration_ms: 0.114718
+  type: 'test'
+  ...
+# Subtest: contract: discord.add-my-message-reaction
+ok 52 - contract: discord.add-my-message-reaction
+  ---
+  duration_ms: 0.100053
+  type: 'test'
+  ...
+# Subtest: contract: discord.list-message-reactions-by-emoji
+ok 53 - contract: discord.list-message-reactions-by-emoji
+  ---
+  duration_ms: 0.083194
+  type: 'test'
+  ...
+# Subtest: contract: discord.delete-my-message-reaction
+ok 54 - contract: discord.delete-my-message-reaction
+  ---
+  duration_ms: 0.050298
+  type: 'test'
+  ...
+# Subtest: contract: discord.trigger-typing-indicator
+ok 55 - contract: discord.trigger-typing-indicator
+  ---
+  duration_ms: 0.042395
+  type: 'test'
+  ...
+# Subtest: contract: discord.get-answer-voters
+ok 56 - contract: discord.get-answer-voters
+  ---
+  duration_ms: 0.061091
+  type: 'test'
+  ...
+# Subtest: contract: discord.poll-expire
+ok 57 - contract: discord.poll-expire
+  ---
+  duration_ms: 0.047964
+  type: 'test'
+  ...
+# Subtest: contract: discord.list-guild-channels
+ok 58 - contract: discord.list-guild-channels
+  ---
+  duration_ms: 0.046213
+  type: 'test'
+  ...
+# Subtest: contract: discord.get-channel
+ok 59 - contract: discord.get-channel
+  ---
+  duration_ms: 0.045127
+  type: 'test'
+  ...
+# Subtest: contract: discord.create-guild-channel
+ok 60 - contract: discord.create-guild-channel
+  ---
+  duration_ms: 0.132944
+  type: 'test'
+  ...
+# Subtest: contract: discord.create-guild-channel.category
+ok 61 - contract: discord.create-guild-channel.category
+  ---
+  duration_ms: 0.066899
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-channel
+ok 62 - contract: discord.update-channel
+  ---
+  duration_ms: 0.162726
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-channel.category
+ok 63 - contract: discord.update-channel.category
+  ---
+  duration_ms: 0.084063
+  type: 'test'
+  ...
+# Subtest: contract: discord.delete-channel
+ok 64 - contract: discord.delete-channel
+  ---
+  duration_ms: 0.050896
+  type: 'test'
+  ...
+# Subtest: contract: discord.delete-channel.category
+ok 65 - contract: discord.delete-channel.category
+  ---
+  duration_ms: 0.047999
+  type: 'test'
+  ...
+# Subtest: contract: discord.delete-channel.thread
+ok 66 - contract: discord.delete-channel.thread
+  ---
+  duration_ms: 0.04709
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-channel.move
+ok 67 - contract: discord.update-channel.move
+  ---
+  duration_ms: 0.063879
+  type: 'test'
+  ...
+# Subtest: contract: discord.bulk-update-guild-channels
+ok 68 - contract: discord.bulk-update-guild-channels
+  ---
+  duration_ms: 0.064313
+  type: 'test'
+  ...
+# Subtest: contract: discord.get-active-guild-threads
+ok 69 - contract: discord.get-active-guild-threads
+  ---
+  duration_ms: 0.043104
+  type: 'test'
+  ...
+# Subtest: contract: discord.create-thread
+ok 70 - contract: discord.create-thread
+  ---
+  duration_ms: 0.07187
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-channel.arquivar
+ok 71 - contract: discord.update-channel.arquivar
+  ---
+  duration_ms: 0.056883
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-channel.desarquivar
+ok 72 - contract: discord.update-channel.desarquivar
+  ---
+  duration_ms: 0.042723
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-channel.bloquear
+ok 73 - contract: discord.update-channel.bloquear
+  ---
+  duration_ms: 0.041391
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-channel.desbloquear
+ok 74 - contract: discord.update-channel.desbloquear
+  ---
+  duration_ms: 0.041538
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-channel.thread
+ok 75 - contract: discord.update-channel.thread
+  ---
+  duration_ms: 0.200206
+  type: 'test'
+  ...
+# Subtest: contract: discord.join-thread
+ok 76 - contract: discord.join-thread
+  ---
+  duration_ms: 0.054243
+  type: 'test'
+  ...
+# Subtest: contract: discord.leave-thread
+ok 77 - contract: discord.leave-thread
+  ---
+  duration_ms: 0.045693
+  type: 'test'
+  ...
+# Subtest: contract: discord.add-thread-member
+ok 78 - contract: discord.add-thread-member
+  ---
+  duration_ms: 0.056789
+  type: 'test'
+  ...
+# Subtest: contract: discord.delete-thread-member
+ok 79 - contract: discord.delete-thread-member
+  ---
+  duration_ms: 0.048547
+  type: 'test'
+  ...
+# Subtest: contract: discord.get-thread-member
+ok 80 - contract: discord.get-thread-member
+  ---
+  duration_ms: 0.047688
+  type: 'test'
+  ...
+# Subtest: contract: discord.list-thread-members
+ok 81 - contract: discord.list-thread-members
+  ---
+  duration_ms: 0.051499
+  type: 'test'
+  ...
+# Subtest: contract: discord.get-guild-member
+ok 82 - contract: discord.get-guild-member
+  ---
+  duration_ms: 0.049147
+  type: 'test'
+  ...
+# Subtest: contract: discord.get-user
+ok 83 - contract: discord.get-user
+  ---
+  duration_ms: 0.043008
+  type: 'test'
+  ...
+# Subtest: contract: discord.list-guild-members
+ok 84 - contract: discord.list-guild-members
+  ---
+  duration_ms: 0.048459
+  type: 'test'
+  ...
+# Subtest: contract: discord.search-guild-members
+ok 85 - contract: discord.search-guild-members
+  ---
+  duration_ms: 0.051892
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-guild-member.nick
+ok 86 - contract: discord.update-guild-member.nick
+  ---
+  duration_ms: 0.082059
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-guild-member.reset-nick
+ok 87 - contract: discord.update-guild-member.reset-nick
+  ---
+  duration_ms: 0.095433
+  type: 'test'
+  ...
+# Subtest: contract: discord.add-guild-member-role
+ok 88 - contract: discord.add-guild-member-role
+  ---
+  duration_ms: 0.055948
+  type: 'test'
+  ...
+# Subtest: contract: discord.delete-guild-member-role
+ok 89 - contract: discord.delete-guild-member-role
+  ---
+  duration_ms: 0.04737
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-guild-member.timeout
+ok 90 - contract: discord.update-guild-member.timeout
+  ---
+  duration_ms: 0.367284
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-guild-member.untimeout
+ok 91 - contract: discord.update-guild-member.untimeout
+  ---
+  duration_ms: 0.089499
+  type: 'test'
+  ...
+# Subtest: contract: discord.list-guild-roles
+ok 92 - contract: discord.list-guild-roles
+  ---
+  duration_ms: 0.049421
+  type: 'test'
+  ...
+# Subtest: contract: discord.get-guild-role
+ok 93 - contract: discord.get-guild-role
+  ---
+  duration_ms: 0.134752
+  type: 'test'
+  ...
+# Subtest: contract: discord.create-guild-role
+ok 94 - contract: discord.create-guild-role
+  ---
+  duration_ms: 0.201115
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-guild-role
+ok 95 - contract: discord.update-guild-role
+  ---
+  duration_ms: 0.107067
+  type: 'test'
+  ...
+# Subtest: contract: discord.delete-guild-role
+ok 96 - contract: discord.delete-guild-role
+  ---
+  duration_ms: 0.059636
+  type: 'test'
+  ...
+# Subtest: contract: discord.guild-role-member-counts
+ok 97 - contract: discord.guild-role-member-counts
+  ---
+  duration_ms: 0.052361
+  type: 'test'
+  ...
+# Subtest: contract: discord.get-channel-member-permissions
+ok 98 - contract: discord.get-channel-member-permissions
+  ---
+  duration_ms: 0.055898
+  type: 'test'
+  ...
+# Subtest: contract: discord.get-voice-state
+ok 99 - contract: discord.get-voice-state
+  ---
+  duration_ms: 0.046189
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-guild-member.silenciar
+ok 100 - contract: discord.update-guild-member.silenciar
+  ---
+  duration_ms: 0.07211
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-guild-member.reativar
+ok 101 - contract: discord.update-guild-member.reativar
+  ---
+  duration_ms: 0.05165
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-guild-member.desativar
+ok 102 - contract: discord.update-guild-member.desativar
+  ---
+  duration_ms: 0.047367
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-guild-member.ativar
+ok 103 - contract: discord.update-guild-member.ativar
+  ---
+  duration_ms: 0.045139
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-guild-member.move
+ok 104 - contract: discord.update-guild-member.move
+  ---
+  duration_ms: 0.067089
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-guild-member.disconnect
+ok 105 - contract: discord.update-guild-member.disconnect
+  ---
+  duration_ms: 0.054971
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-voice-channel-status
+ok 106 - contract: discord.update-voice-channel-status
+  ---
+  duration_ms: 0.064781
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-voice-channel-status.clear
+ok 107 - contract: discord.update-voice-channel-status.clear
+  ---
+  duration_ms: 0.052951
+  type: 'test'
+  ...
+# Subtest: contract: discord.list-voice-regions
+ok 108 - contract: discord.list-voice-regions
+  ---
+  duration_ms: 0.046465
+  type: 'test'
+  ...
+# Subtest: contract: discord.get-guild
+ok 109 - contract: discord.get-guild
+  ---
+  duration_ms: 0.044408
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-guild
+ok 110 - contract: discord.update-guild
+  ---
+  duration_ms: 0.210063
+  type: 'test'
+  ...
+# Subtest: contract: discord.get-guild-widget-settings
+ok 111 - contract: discord.get-guild-widget-settings
+  ---
+  duration_ms: 0.066411
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-guild-widget-settings
+ok 112 - contract: discord.update-guild-widget-settings
+  ---
+  duration_ms: 0.090227
+  type: 'test'
+  ...
+# Subtest: contract: discord.get-guild-welcome-screen
+ok 113 - contract: discord.get-guild-welcome-screen
+  ---
+  duration_ms: 0.046541
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-guild-welcome-screen
+ok 114 - contract: discord.update-guild-welcome-screen
+  ---
+  duration_ms: 0.074093
+  type: 'test'
+  ...
+# Subtest: contract: discord.get-guilds-onboarding
+ok 115 - contract: discord.get-guilds-onboarding
+  ---
+  duration_ms: 0.044378
+  type: 'test'
+  ...
+# Subtest: contract: discord.list-guild-integrations
+ok 116 - contract: discord.list-guild-integrations
+  ---
+  duration_ms: 0.09418
+  type: 'test'
+  ...
+# Subtest: contract: discord.delete-guild-integration
+ok 117 - contract: discord.delete-guild-integration
+  ---
+  duration_ms: 0.060335
+  type: 'test'
+  ...
+# Subtest: contract: discord.get-guild-vanity-url
+ok 118 - contract: discord.get-guild-vanity-url
+  ---
+  duration_ms: 0.044566
+  type: 'test'
+  ...
+# Subtest: contract: discord.list-guild-templates
+ok 119 - contract: discord.list-guild-templates
+  ---
+  duration_ms: 0.041429
+  type: 'test'
+  ...
+# Subtest: contract: discord.create-guild-template
+ok 120 - contract: discord.create-guild-template
+  ---
+  duration_ms: 0.080072
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-guild-template
+ok 121 - contract: discord.update-guild-template
+  ---
+  duration_ms: 0.107035
+  type: 'test'
+  ...
+# Subtest: contract: discord.sync-guild-template
+ok 122 - contract: discord.sync-guild-template
+  ---
+  duration_ms: 1.189369
+  type: 'test'
+  ...
+# Subtest: contract: discord.delete-guild-template
+ok 123 - contract: discord.delete-guild-template
+  ---
+  duration_ms: 0.237372
+  type: 'test'
+  ...
+# Subtest: contract: discord.list-guild-invites
+ok 124 - contract: discord.list-guild-invites
+  ---
+  duration_ms: 0.122449
+  type: 'test'
+  ...
+# Subtest: contract: discord.create-channel-invite
+ok 125 - contract: discord.create-channel-invite
+  ---
+  duration_ms: 0.137753
+  type: 'test'
+  ...
+# Subtest: contract: discord.list-guild-scheduled-events
+ok 126 - contract: discord.list-guild-scheduled-events
+  ---
+  duration_ms: 0.059161
+  type: 'test'
+  ...
+# Subtest: contract: discord.get-guild-scheduled-event
+ok 127 - contract: discord.get-guild-scheduled-event
+  ---
+  duration_ms: 0.056811
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-guild-scheduled-event.iniciar
+ok 128 - contract: discord.update-guild-scheduled-event.iniciar
+  ---
+  duration_ms: 0.1514
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-guild-scheduled-event.concluir
+ok 129 - contract: discord.update-guild-scheduled-event.concluir
+  ---
+  duration_ms: 0.063251
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-guild-scheduled-event.cancelar
+ok 130 - contract: discord.update-guild-scheduled-event.cancelar
+  ---
+  duration_ms: 0.055319
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-guild-scheduled-event
+ok 131 - contract: discord.update-guild-scheduled-event
+  ---
+  duration_ms: 0.083475
+  type: 'test'
+  ...
+# Subtest: contract: discord.delete-guild-scheduled-event
+ok 132 - contract: discord.delete-guild-scheduled-event
+  ---
+  duration_ms: 0.055446
+  type: 'test'
+  ...
+# Subtest: contract: discord.list-guild-scheduled-event-users
+ok 133 - contract: discord.list-guild-scheduled-event-users
+  ---
+  duration_ms: 0.058008
+  type: 'test'
+  ...
+# Subtest: contract: discord.list-guild-emojis
+ok 134 - contract: discord.list-guild-emojis
+  ---
+  duration_ms: 0.04104
+  type: 'test'
+  ...
+# Subtest: contract: discord.get-guild-emoji
+ok 135 - contract: discord.get-guild-emoji
+  ---
+  duration_ms: 0.047251
+  type: 'test'
+  ...
+# Subtest: contract: discord.delete-guild-emoji
+ok 136 - contract: discord.delete-guild-emoji
+  ---
+  duration_ms: 0.043925
+  type: 'test'
+  ...
+# Subtest: contract: discord.list-guild-stickers
+ok 137 - contract: discord.list-guild-stickers
+  ---
+  duration_ms: 0.043535
+  type: 'test'
+  ...
+# Subtest: contract: discord.get-guild-sticker
+ok 138 - contract: discord.get-guild-sticker
+  ---
+  duration_ms: 0.048077
+  type: 'test'
+  ...
+# Subtest: contract: discord.delete-guild-sticker
+ok 139 - contract: discord.delete-guild-sticker
+  ---
+  duration_ms: 0.045041
+  type: 'test'
+  ...
+# Subtest: contract: discord.list-guild-soundboard-sounds
+ok 140 - contract: discord.list-guild-soundboard-sounds
+  ---
+  duration_ms: 0.048632
+  type: 'test'
+  ...
+# Subtest: contract: discord.get-guild-soundboard-sound
+ok 141 - contract: discord.get-guild-soundboard-sound
+  ---
+  duration_ms: 0.054396
+  type: 'test'
+  ...
+# Subtest: contract: discord.delete-guild-soundboard-sound
+ok 142 - contract: discord.delete-guild-soundboard-sound
+  ---
+  duration_ms: 0.088394
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-guild-emoji
+ok 143 - contract: discord.update-guild-emoji
+  ---
+  duration_ms: 0.077656
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-guild-sticker
+ok 144 - contract: discord.update-guild-sticker
+  ---
+  duration_ms: 0.078066
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-guild-soundboard-sound
+ok 145 - contract: discord.update-guild-soundboard-sound
+  ---
+  duration_ms: 0.068341
+  type: 'test'
+  ...
+# Subtest: contract: discord.get-guild-webhooks
+ok 146 - contract: discord.get-guild-webhooks
+  ---
+  duration_ms: 0.043768
+  type: 'test'
+  ...
+# Subtest: contract: discord.create-webhook
+ok 147 - contract: discord.create-webhook
+  ---
+  duration_ms: 0.050784
+  type: 'test'
+  ...
+# Subtest: contract: discord.create-message.poll
+ok 148 - contract: discord.create-message.poll
+  ---
+  duration_ms: 0.162303
+  type: 'test'
+  ...
+# Subtest: contract: discord.create-thread.forum
+ok 149 - contract: discord.create-thread.forum
+  ---
+  duration_ms: 0.077308
+  type: 'test'
+  ...
+# Subtest: contract: discord.create-thread-from-message
+ok 150 - contract: discord.create-thread-from-message
+  ---
+  duration_ms: 0.065697
+  type: 'test'
+  ...
+# Subtest: contract: discord.list-public-archived-threads
+ok 151 - contract: discord.list-public-archived-threads
+  ---
+  duration_ms: 0.043528
+  type: 'test'
+  ...
+# Subtest: contract: discord.follow-channel
+ok 152 - contract: discord.follow-channel
+  ---
+  duration_ms: 0.050334
+  type: 'test'
+  ...
+# Subtest: contract: discord.set-channel-permission-overwrite
+ok 153 - contract: discord.set-channel-permission-overwrite
+  ---
+  duration_ms: 0.303976
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-guild-role.permissions
+ok 154 - contract: discord.update-guild-role.permissions
+  ---
+  duration_ms: 0.112872
+  type: 'test'
+  ...
+# Subtest: contract: discord.bulk-update-guild-roles
+ok 155 - contract: discord.bulk-update-guild-roles
+  ---
+  duration_ms: 0.095519
+  type: 'test'
+  ...
+# Subtest: contract: discord.get-my-user
+ok 156 - contract: discord.get-my-user
+  ---
+  duration_ms: 0.043076
+  type: 'test'
+  ...
+# Subtest: contract: discord.get-my-application
+ok 157 - contract: discord.get-my-application
+  ---
+  duration_ms: 0.041203
+  type: 'test'
+  ...
+# Subtest: contract: discord.get-my-guild-member
+ok 158 - contract: discord.get-my-guild-member
+  ---
+  duration_ms: 0.037124
+  type: 'test'
+  ...
+# Subtest: contract: discord.get-guild-template
+ok 159 - contract: discord.get-guild-template
+  ---
+  duration_ms: 0.044732
+  type: 'test'
+  ...
+# Subtest: contract: discord.invite-resolve
+ok 160 - contract: discord.invite-resolve
+  ---
+  duration_ms: 0.038046
+  type: 'test'
+  ...
+# Subtest: contract: discord.invite-revoke
+ok 161 - contract: discord.invite-revoke
+  ---
+  duration_ms: 0.039103
+  type: 'test'
+  ...
+# Subtest: contract: discord.list-channel-invites
+ok 162 - contract: discord.list-channel-invites
+  ---
+  duration_ms: 0.044083
+  type: 'test'
+  ...
+# Subtest: contract: discord.create-guild-scheduled-event
+ok 163 - contract: discord.create-guild-scheduled-event
+  ---
+  duration_ms: 0.311048
+  type: 'test'
+  ...
+# Subtest: contract: discord.create-stage-instance
+ok 164 - contract: discord.create-stage-instance
+  ---
+  duration_ms: 0.102171
+  type: 'test'
+  ...
+# Subtest: contract: discord.get-stage-instance
+ok 165 - contract: discord.get-stage-instance
+  ---
+  duration_ms: 0.053123
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-stage-instance
+ok 166 - contract: discord.update-stage-instance
+  ---
+  duration_ms: 0.061328
+  type: 'test'
+  ...
+# Subtest: contract: discord.delete-stage-instance
+ok 167 - contract: discord.delete-stage-instance
+  ---
+  duration_ms: 0.044359
+  type: 'test'
+  ...
+# Subtest: contract: discord.get-webhook
+ok 168 - contract: discord.get-webhook
+  ---
+  duration_ms: 0.107369
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-webhook
+ok 169 - contract: discord.update-webhook
+  ---
+  duration_ms: 0.09042
+  type: 'test'
+  ...
+# Subtest: contract: discord.delete-webhook
+ok 170 - contract: discord.delete-webhook
+  ---
+  duration_ms: 0.043575
+  type: 'test'
+  ...
+# Subtest: contract: discord.count-guild-scheduled-event-users
+ok 171 - contract: discord.count-guild-scheduled-event-users
+  ---
+  duration_ms: 0.052553
+  type: 'test'
+  ...
+# Subtest: contract: discord.delete-user-message-reaction
+ok 172 - contract: discord.delete-user-message-reaction
+  ---
+  duration_ms: 0.064794
+  type: 'test'
+  ...
+# Subtest: contract: discord.delete-all-message-reactions-by-emoji
+ok 173 - contract: discord.delete-all-message-reactions-by-emoji
+  ---
+  duration_ms: 0.044163
+  type: 'test'
+  ...
+# Subtest: contract: discord.delete-all-message-reactions
+ok 174 - contract: discord.delete-all-message-reactions
+  ---
+  duration_ms: 0.082362
+  type: 'test'
+  ...
+# Subtest: contract: discord.list-private-archived-threads
+ok 175 - contract: discord.list-private-archived-threads
+  ---
+  duration_ms: 0.045689
+  type: 'test'
+  ...
+# Subtest: contract: discord.list-my-private-archived-threads
+ok 176 - contract: discord.list-my-private-archived-threads
+  ---
+  duration_ms: 0.040091
+  type: 'test'
+  ...
+# Subtest: contract: discord.list-channel-webhooks
+ok 177 - contract: discord.list-channel-webhooks
+  ---
+  duration_ms: 0.045562
+  type: 'test'
+  ...
+# Subtest: contract: discord.get-guild-preview
+ok 178 - contract: discord.get-guild-preview
+  ---
+  duration_ms: 0.039921
+  type: 'test'
+  ...
+# Subtest: contract: discord.list-guild-voice-regions
+ok 179 - contract: discord.list-guild-voice-regions
+  ---
+  duration_ms: 0.0414
+  type: 'test'
+  ...
+# Subtest: contract: discord.get-self-voice-state
+ok 180 - contract: discord.get-self-voice-state
+  ---
+  duration_ms: 0.037919
+  type: 'test'
+  ...
+# Subtest: contract: discord.list-sticker-packs
+ok 181 - contract: discord.list-sticker-packs
+  ---
+  duration_ms: 0.040313
+  type: 'test'
+  ...
+# Subtest: contract: discord.get-sticker-pack
+ok 182 - contract: discord.get-sticker-pack
+  ---
+  duration_ms: 0.046272
+  type: 'test'
+  ...
+# Subtest: contract: discord.get-sticker
+ok 183 - contract: discord.get-sticker
+  ---
+  duration_ms: 0.03984
+  type: 'test'
+  ...
+# Subtest: contract: discord.get-soundboard-default-sounds
+ok 184 - contract: discord.get-soundboard-default-sounds
+  ---
+  duration_ms: 0.048659
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-my-guild-member
+ok 185 - contract: discord.update-my-guild-member
+  ---
+  duration_ms: 0.070284
+  type: 'test'
+  ...
+# Subtest: contract: discord.get-guild-member-permissions
+ok 186 - contract: discord.get-guild-member-permissions
+  ---
+  duration_ms: 0.045288
+  type: 'test'
+  ...
+# Subtest: contract: discord.get-guild-role-permissions
+ok 187 - contract: discord.get-guild-role-permissions
+  ---
+  duration_ms: 0.043477
+  type: 'test'
+  ...
+# Subtest: contract: discord.get-channel-role-permissions
+ok 188 - contract: discord.get-channel-role-permissions
+  ---
+  duration_ms: 0.052403
+  type: 'test'
+  ...
+# Subtest: contract: discord.create-guild-emoji
+ok 189 - contract: discord.create-guild-emoji
+  ---
+  duration_ms: 0.169757
+  type: 'test'
+  ...
+# Subtest: contract: discord.delete-guild-member
+ok 190 - contract: discord.delete-guild-member
+  ---
+  duration_ms: 0.113359
+  type: 'test'
+  ...
+# Subtest: contract: discord.ban-user-from-guild
+ok 191 - contract: discord.ban-user-from-guild
+  ---
+  duration_ms: 0.085619
+  type: 'test'
+  ...
+# Subtest: contract: discord.unban-user-from-guild
+ok 192 - contract: discord.unban-user-from-guild
+  ---
+  duration_ms: 0.049276
+  type: 'test'
+  ...
+# Subtest: contract: discord.list-guild-bans
+ok 193 - contract: discord.list-guild-bans
+  ---
+  duration_ms: 0.044676
+  type: 'test'
+  ...
+# Subtest: contract: discord.get-guild-ban
+ok 194 - contract: discord.get-guild-ban
+  ---
+  duration_ms: 0.044322
+  type: 'test'
+  ...
+# Subtest: contract: discord.list-auto-moderation-rules
+ok 195 - contract: discord.list-auto-moderation-rules
+  ---
+  duration_ms: 0.045951
+  type: 'test'
+  ...
+# Subtest: contract: discord.get-auto-moderation-rule
+ok 196 - contract: discord.get-auto-moderation-rule
+  ---
+  duration_ms: 0.053393
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-auto-moderation-rule.ativar
+ok 197 - contract: discord.update-auto-moderation-rule.ativar
+  ---
+  duration_ms: 0.068637
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-auto-moderation-rule.desativar
+ok 198 - contract: discord.update-auto-moderation-rule.desativar
+  ---
+  duration_ms: 0.051962
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-auto-moderation-rule
+ok 199 - contract: discord.update-auto-moderation-rule
+  ---
+  duration_ms: 0.061951
+  type: 'test'
+  ...
+# Subtest: contract: discord.delete-auto-moderation-rule
+ok 200 - contract: discord.delete-auto-moderation-rule
+  ---
+  duration_ms: 0.048397
+  type: 'test'
+  ...
+# Subtest: contract: discord.list-guild-audit-log-entries
+ok 201 - contract: discord.list-guild-audit-log-entries
+  ---
+  duration_ms: 0.0614
+  type: 'test'
+  ...
+# Subtest: contract: discord.create-auto-moderation-rule
+ok 202 - contract: discord.create-auto-moderation-rule
+  ---
+  duration_ms: 0.119218
+  type: 'test'
+  ...
+# Subtest: contract: discord.preview-prune-guild
+ok 203 - contract: discord.preview-prune-guild
+  ---
+  duration_ms: 0.094296
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-guild-incident-actions.restringir.convites
+ok 204 - contract: discord.update-guild-incident-actions.restringir.convites
+  ---
+  duration_ms: 0.091566
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-guild-incident-actions.liberar.convites
+ok 205 - contract: discord.update-guild-incident-actions.liberar.convites
+  ---
+  duration_ms: 0.045443
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-guild-incident-actions.restringir.mensagens-diretas
+ok 206 - contract: discord.update-guild-incident-actions.restringir.mensagens-diretas
+  ---
+  duration_ms: 0.047811
+  type: 'test'
+  ...
+# Subtest: contract: discord.update-guild-incident-actions.liberar.mensagens-diretas
+ok 207 - contract: discord.update-guild-incident-actions.liberar.mensagens-diretas
+  ---
+  duration_ms: 0.049455
+  type: 'test'
+  ...
+# Subtest: adapter rejects cross-guild target before external write
+ok 208 - adapter rejects cross-guild target before external write
+  ---
+  duration_ms: 1.850247
+  type: 'test'
+  ...
+# Subtest: adapter creates channel and verifies with independent readback
+ok 209 - adapter creates channel and verifies with independent readback
+  ---
+  duration_ms: 1.544506
+  type: 'test'
+  ...
+# Subtest: adapter rejects privileged role assignment even with admin bot
+ok 210 - adapter rejects privileged role assignment even with admin bot
+  ---
+  duration_ms: 1.984819
+  type: 'test'
+  ...
+# Subtest: adapter never sends synthetic permission endpoint to Discord
+ok 211 - adapter never sends synthetic permission endpoint to Discord
+  ---
+  duration_ms: 1.094902
+  type: 'test'
+  ...
+# Subtest: adapter verifies webhook guild before lookup returns data
+ok 212 - adapter verifies webhook guild before lookup returns data
+  ---
+  duration_ms: 0.951357
+  type: 'test'
+  ...
+# Subtest: adapter filters invisible channel inventory
+ok 213 - adapter filters invisible channel inventory
+  ---
+  duration_ms: 1.431854
+  type: 'test'
+  ...
+# Subtest: multi-step workflow executes guarded steps and does not repeat
+ok 214 - multi-step workflow executes guarded steps and does not repeat
+  ---
+  duration_ms: 1.563792
+  type: 'test'
+  ...
+# Subtest: multi-step workflow rejects destructive capability at creation
+ok 215 - multi-step workflow rejects destructive capability at creation
+  ---
+  duration_ms: 1.013807
+  type: 'test'
+  ...
+# Subtest: blueprint calls shared executor twice, no writes
+ok 216 - blueprint calls shared executor twice, no writes
+  ---
+  duration_ms: 1.321676
+  type: 'test'
+  ...
+# Subtest: panel actions route through authenticated core and are not authority by themselves
+ok 217 - panel actions route through authenticated core and are not authority by themselves
+  ---
+  duration_ms: 1.597747
+  type: 'test'
+  ...
+# Subtest: real HTTP readiness and simulated Discord gateway slash ingress
+ok 218 - real HTTP readiness and simulated Discord gateway slash ingress
+  ---
+  duration_ms: 85.976892
+  type: 'test'
+  ...
+1..218
+# tests 218
+# suites 0
+# pass 218
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 287.015057
+
+> axyon@3.0.0 check:boundaries
+> node tools/check-boundaries.cjs
+
+Boundary check: 39 TypeScript files; no relative-import cycles; AI and Commands independent.

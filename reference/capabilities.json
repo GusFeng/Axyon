@@ -1,0 +1,4237 @@
+[
+  {
+    "id": "discord.list-messages",
+    "module": "administration",
+    "description": "Consulta mensagens recentes.",
+    "effect": "read",
+    "fields": {
+      "canal": {
+        "type": "id",
+        "required": false
+      },
+      "quantidade": {
+        "type": "integer",
+        "required": false,
+        "min": 1,
+        "max": 25
+      },
+      "antes": {
+        "type": "id",
+        "required": false
+      }
+    },
+    "actorMask": "66560",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.get-message",
+    "module": "administration",
+    "description": "Consulta mensagem pelo ID.",
+    "effect": "read",
+    "fields": {
+      "mensagem": {
+        "type": "id",
+        "required": true
+      },
+      "canal": {
+        "type": "id",
+        "required": false
+      }
+    },
+    "actorMask": "66560",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.create-message",
+    "module": "administration",
+    "description": "Envia mensagem sem menções automáticas.",
+    "effect": "write",
+    "fields": {
+      "texto": {
+        "type": "string",
+        "required": true,
+        "max": 1900
+      },
+      "canal": {
+        "type": "id",
+        "required": false
+      }
+    },
+    "actorMask": "3072",
+    "ai": true,
+    "automated": true,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-message",
+    "module": "administration",
+    "description": "Edita mensagem do próprio bot.",
+    "effect": "write",
+    "fields": {
+      "mensagem": {
+        "type": "id",
+        "required": true
+      },
+      "canal": {
+        "type": "id",
+        "required": false
+      },
+      "texto": {
+        "type": "string",
+        "required": true,
+        "max": 1900
+      }
+    },
+    "actorMask": "2048",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.delete-message",
+    "module": "administration",
+    "description": "Exclui mensagem pelo ID.",
+    "effect": "destructive",
+    "fields": {
+      "mensagem": {
+        "type": "id",
+        "required": true
+      },
+      "canal": {
+        "type": "id",
+        "required": false
+      }
+    },
+    "actorMask": "8192",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.bulk-delete-messages",
+    "module": "administration",
+    "description": "Exclui mensagens recentes, preservando fixadas e antigas.",
+    "effect": "destructive",
+    "fields": {
+      "canal": {
+        "type": "id",
+        "required": false
+      },
+      "quantidade": {
+        "type": "integer",
+        "required": true,
+        "min": 1,
+        "max": 100
+      },
+      "membro": {
+        "type": "id",
+        "required": false
+      }
+    },
+    "actorMask": "8192",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.crosspost-message",
+    "module": "administration",
+    "description": "Publica mensagem de anúncio.",
+    "effect": "write",
+    "fields": {
+      "mensagem": {
+        "type": "id",
+        "required": true
+      },
+      "canal": {
+        "type": "id",
+        "required": false
+      }
+    },
+    "actorMask": "2048",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.create-pin",
+    "module": "administration",
+    "description": "Fixa mensagem.",
+    "effect": "write",
+    "fields": {
+      "mensagem": {
+        "type": "id",
+        "required": true
+      },
+      "canal": {
+        "type": "id",
+        "required": false
+      }
+    },
+    "actorMask": "8192",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.delete-pin",
+    "module": "administration",
+    "description": "Desafixa mensagem.",
+    "effect": "write",
+    "fields": {
+      "mensagem": {
+        "type": "id",
+        "required": true
+      },
+      "canal": {
+        "type": "id",
+        "required": false
+      }
+    },
+    "actorMask": "8192",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.list-pins",
+    "module": "administration",
+    "description": "Lista mensagens fixadas.",
+    "effect": "read",
+    "fields": {
+      "canal": {
+        "type": "id",
+        "required": false
+      }
+    },
+    "actorMask": "65536",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.add-my-message-reaction",
+    "module": "administration",
+    "description": "Adiciona reação do bot.",
+    "effect": "write",
+    "fields": {
+      "mensagem": {
+        "type": "id",
+        "required": true
+      },
+      "canal": {
+        "type": "id",
+        "required": false
+      },
+      "emoji": {
+        "type": "string",
+        "required": true,
+        "max": 100
+      }
+    },
+    "actorMask": "1088",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.list-message-reactions-by-emoji",
+    "module": "administration",
+    "description": "Lista usuários de uma reação.",
+    "effect": "read",
+    "fields": {
+      "mensagem": {
+        "type": "id",
+        "required": true
+      },
+      "canal": {
+        "type": "id",
+        "required": false
+      },
+      "emoji": {
+        "type": "string",
+        "required": true,
+        "max": 100
+      },
+      "quantidade": {
+        "type": "integer",
+        "required": false,
+        "min": 1,
+        "max": 25
+      }
+    },
+    "actorMask": "65536",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.delete-my-message-reaction",
+    "module": "administration",
+    "description": "Remove reação do próprio bot.",
+    "effect": "write",
+    "fields": {
+      "mensagem": {
+        "type": "id",
+        "required": true
+      },
+      "canal": {
+        "type": "id",
+        "required": false
+      },
+      "emoji": {
+        "type": "string",
+        "required": true,
+        "max": 100
+      }
+    },
+    "actorMask": "8192",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.trigger-typing-indicator",
+    "module": "administration",
+    "description": "Indica digitação.",
+    "effect": "write",
+    "fields": {
+      "canal": {
+        "type": "id",
+        "required": false
+      }
+    },
+    "actorMask": "2048",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.get-answer-voters",
+    "module": "administration",
+    "description": "Lista votantes de uma opção.",
+    "effect": "read",
+    "fields": {
+      "mensagem": {
+        "type": "id",
+        "required": true
+      },
+      "canal": {
+        "type": "id",
+        "required": false
+      },
+      "opcao": {
+        "type": "integer",
+        "required": true,
+        "min": 1,
+        "max": 10
+      },
+      "quantidade": {
+        "type": "integer",
+        "required": false,
+        "min": 1,
+        "max": 25
+      }
+    },
+    "actorMask": "65536",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.poll-expire",
+    "module": "administration",
+    "description": "Encerra enquete do bot.",
+    "effect": "write",
+    "fields": {
+      "mensagem": {
+        "type": "id",
+        "required": true
+      },
+      "canal": {
+        "type": "id",
+        "required": false
+      }
+    },
+    "actorMask": "140737488357376",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.list-guild-channels",
+    "module": "administration",
+    "description": "Lista canais visíveis ao ator e ao bot.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "1024",
+    "ai": true,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.get-channel",
+    "module": "administration",
+    "description": "Consulta canal do servidor.",
+    "effect": "read",
+    "fields": {
+      "canal": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "1024",
+    "ai": true,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.create-guild-channel",
+    "module": "administration",
+    "description": "Cria canal de texto, voz, anúncio ou fórum.",
+    "effect": "write",
+    "fields": {
+      "nome": {
+        "type": "string",
+        "required": true,
+        "max": 100
+      },
+      "tipo": {
+        "type": "string",
+        "required": false,
+        "choices": [
+          "texto",
+          "voz",
+          "anuncios",
+          "forum"
+        ]
+      },
+      "categoria": {
+        "type": "id",
+        "required": false
+      },
+      "topico": {
+        "type": "string",
+        "required": false,
+        "max": 1024
+      },
+      "nsfw": {
+        "type": "boolean",
+        "required": false
+      },
+      "lento": {
+        "type": "integer",
+        "required": false,
+        "min": 0,
+        "max": 21600
+      }
+    },
+    "actorMask": "16",
+    "ai": true,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.create-guild-channel.category",
+    "module": "administration",
+    "description": "Cria categoria.",
+    "effect": "write",
+    "fields": {
+      "nome": {
+        "type": "string",
+        "required": true,
+        "max": 100
+      }
+    },
+    "actorMask": "16",
+    "ai": true,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-channel",
+    "module": "administration",
+    "description": "Edita propriedades do canal.",
+    "effect": "write",
+    "fields": {
+      "canal": {
+        "type": "id",
+        "required": true
+      },
+      "nome": {
+        "type": "string",
+        "required": false,
+        "max": 100
+      },
+      "topico": {
+        "type": "string",
+        "required": false,
+        "max": 1024
+      },
+      "nsfw": {
+        "type": "boolean",
+        "required": false
+      },
+      "lento": {
+        "type": "integer",
+        "required": false,
+        "min": 0,
+        "max": 21600
+      }
+    },
+    "actorMask": "16",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-channel.category",
+    "module": "administration",
+    "description": "Renomeia categoria.",
+    "effect": "write",
+    "fields": {
+      "canal": {
+        "type": "id",
+        "required": true
+      },
+      "nome": {
+        "type": "string",
+        "required": true,
+        "max": 100
+      }
+    },
+    "actorMask": "16",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.delete-channel",
+    "module": "administration",
+    "description": "Exclui alvo explícito após confirmação.",
+    "effect": "destructive",
+    "fields": {
+      "canal": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "16",
+    "ai": true,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.delete-channel.category",
+    "module": "administration",
+    "description": "Exclui alvo explícito após confirmação.",
+    "effect": "destructive",
+    "fields": {
+      "canal": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "16",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.delete-channel.thread",
+    "module": "administration",
+    "description": "Exclui alvo explícito após confirmação.",
+    "effect": "destructive",
+    "fields": {
+      "topico": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "16",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-channel.move",
+    "module": "administration",
+    "description": "Move canal para uma categoria.",
+    "effect": "write",
+    "fields": {
+      "canal": {
+        "type": "id",
+        "required": true
+      },
+      "categoria": {
+        "type": "id",
+        "required": true
+      },
+      "posicao": {
+        "type": "integer",
+        "required": false,
+        "min": 0,
+        "max": 500
+      }
+    },
+    "actorMask": "16",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.bulk-update-guild-channels",
+    "module": "administration",
+    "description": "Altera posição de canal.",
+    "effect": "write",
+    "fields": {
+      "canal": {
+        "type": "id",
+        "required": true
+      },
+      "posicao": {
+        "type": "integer",
+        "required": true,
+        "min": 0,
+        "max": 500
+      }
+    },
+    "actorMask": "16",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.get-active-guild-threads",
+    "module": "administration",
+    "description": "Lista tópicos ativos visíveis.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "1024",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.create-thread",
+    "module": "administration",
+    "description": "Cria tópico público sem mensagem inicial.",
+    "effect": "write",
+    "fields": {
+      "nome": {
+        "type": "string",
+        "required": true,
+        "max": 100
+      },
+      "canal": {
+        "type": "id",
+        "required": false
+      },
+      "duracao": {
+        "type": "integer",
+        "required": false,
+        "choices": [
+          60,
+          1440,
+          4320,
+          10080
+        ]
+      }
+    },
+    "actorMask": "34359738368",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-channel.arquivar",
+    "module": "administration",
+    "description": "arquivar tópico.",
+    "effect": "write",
+    "fields": {
+      "topico": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "17179869200",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-channel.desarquivar",
+    "module": "administration",
+    "description": "desarquivar tópico.",
+    "effect": "write",
+    "fields": {
+      "topico": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "17179869200",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-channel.bloquear",
+    "module": "administration",
+    "description": "bloquear tópico.",
+    "effect": "write",
+    "fields": {
+      "topico": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "17179869200",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-channel.desbloquear",
+    "module": "administration",
+    "description": "desbloquear tópico.",
+    "effect": "write",
+    "fields": {
+      "topico": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "17179869200",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-channel.thread",
+    "module": "administration",
+    "description": "Edita tópico.",
+    "effect": "write",
+    "fields": {
+      "topico": {
+        "type": "id",
+        "required": true
+      },
+      "nome": {
+        "type": "string",
+        "required": false,
+        "max": 100
+      },
+      "lento": {
+        "type": "integer",
+        "required": false,
+        "min": 0,
+        "max": 21600
+      }
+    },
+    "actorMask": "17179869200",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.join-thread",
+    "module": "administration",
+    "description": "Adiciona bot ao tópico.",
+    "effect": "write",
+    "fields": {
+      "topico": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "1024",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.leave-thread",
+    "module": "administration",
+    "description": "Remove bot do tópico.",
+    "effect": "write",
+    "fields": {
+      "topico": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "1024",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.add-thread-member",
+    "module": "administration",
+    "description": "Adiciona membro ao tópico.",
+    "effect": "write",
+    "fields": {
+      "topico": {
+        "type": "id",
+        "required": true
+      },
+      "pessoa": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "17179869184",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.delete-thread-member",
+    "module": "administration",
+    "description": "Remove membro do tópico.",
+    "effect": "write",
+    "fields": {
+      "topico": {
+        "type": "id",
+        "required": true
+      },
+      "pessoa": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "17179869184",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.get-thread-member",
+    "module": "administration",
+    "description": "Consulta membro do tópico.",
+    "effect": "read",
+    "fields": {
+      "topico": {
+        "type": "id",
+        "required": true
+      },
+      "pessoa": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "1024",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.list-thread-members",
+    "module": "administration",
+    "description": "Lista membros do tópico.",
+    "effect": "read",
+    "fields": {
+      "topico": {
+        "type": "id",
+        "required": true
+      },
+      "quantidade": {
+        "type": "integer",
+        "required": false,
+        "min": 1,
+        "max": 25
+      }
+    },
+    "actorMask": "1024",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.get-guild-member",
+    "module": "administration",
+    "description": "Consulta membro do servidor.",
+    "effect": "read",
+    "fields": {
+      "pessoa": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "1024",
+    "ai": true,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.get-user",
+    "module": "administration",
+    "description": "Consulta usuário membro do servidor.",
+    "effect": "read",
+    "fields": {
+      "pessoa": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "1024",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.list-guild-members",
+    "module": "administration",
+    "description": "Lista membros (intent pode ser exigida).",
+    "effect": "read",
+    "fields": {
+      "quantidade": {
+        "type": "integer",
+        "required": false,
+        "min": 1,
+        "max": 25
+      }
+    },
+    "actorMask": "1024",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.search-guild-members",
+    "module": "administration",
+    "description": "Busca membros por nome.",
+    "effect": "read",
+    "fields": {
+      "termo": {
+        "type": "string",
+        "required": true,
+        "max": 100
+      },
+      "quantidade": {
+        "type": "integer",
+        "required": false,
+        "min": 1,
+        "max": 25
+      }
+    },
+    "actorMask": "1024",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-guild-member.nick",
+    "module": "administration",
+    "description": "Altera apelido do membro.",
+    "effect": "write",
+    "fields": {
+      "pessoa": {
+        "type": "id",
+        "required": true
+      },
+      "apelido": {
+        "type": "string",
+        "required": true,
+        "max": 32
+      },
+      "motivo": {
+        "type": "string",
+        "required": false,
+        "max": 400
+      }
+    },
+    "actorMask": "134217728",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-guild-member.reset-nick",
+    "module": "administration",
+    "description": "Restaura apelido.",
+    "effect": "write",
+    "fields": {
+      "pessoa": {
+        "type": "id",
+        "required": true
+      },
+      "motivo": {
+        "type": "string",
+        "required": false,
+        "max": 400
+      }
+    },
+    "actorMask": "134217728",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.add-guild-member-role",
+    "module": "administration",
+    "description": "Atribui cargo não privilegiado a membro.",
+    "effect": "write",
+    "fields": {
+      "pessoa": {
+        "type": "id",
+        "required": true
+      },
+      "cargo": {
+        "type": "id",
+        "required": true
+      },
+      "motivo": {
+        "type": "string",
+        "required": false,
+        "max": 400
+      }
+    },
+    "actorMask": "268435456",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.delete-guild-member-role",
+    "module": "administration",
+    "description": "Remove cargo de membro.",
+    "effect": "write",
+    "fields": {
+      "pessoa": {
+        "type": "id",
+        "required": true
+      },
+      "cargo": {
+        "type": "id",
+        "required": true
+      },
+      "motivo": {
+        "type": "string",
+        "required": false,
+        "max": 400
+      }
+    },
+    "actorMask": "268435456",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-guild-member.timeout",
+    "module": "administration",
+    "description": "Aplica timeout em minutos.",
+    "effect": "write",
+    "fields": {
+      "pessoa": {
+        "type": "id",
+        "required": true
+      },
+      "duracao": {
+        "type": "integer",
+        "required": true,
+        "min": 1,
+        "max": 40320
+      },
+      "motivo": {
+        "type": "string",
+        "required": false,
+        "max": 400
+      }
+    },
+    "actorMask": "1099511627776",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-guild-member.untimeout",
+    "module": "administration",
+    "description": "Remove timeout.",
+    "effect": "write",
+    "fields": {
+      "pessoa": {
+        "type": "id",
+        "required": true
+      },
+      "motivo": {
+        "type": "string",
+        "required": false,
+        "max": 400
+      }
+    },
+    "actorMask": "1099511627776",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.list-guild-roles",
+    "module": "administration",
+    "description": "Lista cargos.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "1024",
+    "ai": true,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.get-guild-role",
+    "module": "administration",
+    "description": "Consulta cargo.",
+    "effect": "read",
+    "fields": {
+      "cargo": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "1024",
+    "ai": true,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.create-guild-role",
+    "module": "administration",
+    "description": "Cria cargo sem permissões privilegiadas.",
+    "effect": "write",
+    "fields": {
+      "nome": {
+        "type": "string",
+        "required": true,
+        "max": 100
+      },
+      "cor": {
+        "type": "string",
+        "required": false,
+        "max": 7
+      },
+      "mencionavel": {
+        "type": "boolean",
+        "required": false
+      }
+    },
+    "actorMask": "268435456",
+    "ai": true,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-guild-role",
+    "module": "administration",
+    "description": "Edita nome e cor do cargo.",
+    "effect": "write",
+    "fields": {
+      "cargo": {
+        "type": "id",
+        "required": true
+      },
+      "nome": {
+        "type": "string",
+        "required": false,
+        "max": 100
+      },
+      "cor": {
+        "type": "string",
+        "required": false,
+        "max": 7
+      },
+      "mencionavel": {
+        "type": "boolean",
+        "required": false
+      }
+    },
+    "actorMask": "268435456",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.delete-guild-role",
+    "module": "administration",
+    "description": "Exclui cargo após confirmação.",
+    "effect": "destructive",
+    "fields": {
+      "cargo": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "268435456",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.guild-role-member-counts",
+    "module": "administration",
+    "description": "Conta membros por cargo.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "1024",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.get-channel-member-permissions",
+    "module": "administration",
+    "description": "Consulta permissões efetivas de membro.",
+    "effect": "read",
+    "fields": {
+      "pessoa": {
+        "type": "id",
+        "required": true
+      },
+      "canal": {
+        "type": "id",
+        "required": false
+      }
+    },
+    "actorMask": "1024",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.get-voice-state",
+    "module": "administration",
+    "description": "Consulta estado de voz de membro.",
+    "effect": "read",
+    "fields": {
+      "pessoa": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "1024",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-guild-member.silenciar",
+    "module": "administration",
+    "description": "Altera estado de voz.",
+    "effect": "write",
+    "fields": {
+      "pessoa": {
+        "type": "id",
+        "required": true
+      },
+      "motivo": {
+        "type": "string",
+        "required": false,
+        "max": 400
+      }
+    },
+    "actorMask": "4194304",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-guild-member.reativar",
+    "module": "administration",
+    "description": "Altera estado de voz.",
+    "effect": "write",
+    "fields": {
+      "pessoa": {
+        "type": "id",
+        "required": true
+      },
+      "motivo": {
+        "type": "string",
+        "required": false,
+        "max": 400
+      }
+    },
+    "actorMask": "4194304",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-guild-member.desativar",
+    "module": "administration",
+    "description": "Altera estado de voz.",
+    "effect": "write",
+    "fields": {
+      "pessoa": {
+        "type": "id",
+        "required": true
+      },
+      "motivo": {
+        "type": "string",
+        "required": false,
+        "max": 400
+      }
+    },
+    "actorMask": "8388608",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-guild-member.ativar",
+    "module": "administration",
+    "description": "Altera estado de voz.",
+    "effect": "write",
+    "fields": {
+      "pessoa": {
+        "type": "id",
+        "required": true
+      },
+      "motivo": {
+        "type": "string",
+        "required": false,
+        "max": 400
+      }
+    },
+    "actorMask": "8388608",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-guild-member.move",
+    "module": "administration",
+    "description": "Move membro para canal de voz.",
+    "effect": "write",
+    "fields": {
+      "pessoa": {
+        "type": "id",
+        "required": true
+      },
+      "canal": {
+        "type": "id",
+        "required": true
+      },
+      "motivo": {
+        "type": "string",
+        "required": false,
+        "max": 400
+      }
+    },
+    "actorMask": "16777216",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-guild-member.disconnect",
+    "module": "administration",
+    "description": "Desconecta membro de voz.",
+    "effect": "write",
+    "fields": {
+      "pessoa": {
+        "type": "id",
+        "required": true
+      },
+      "motivo": {
+        "type": "string",
+        "required": false,
+        "max": 400
+      }
+    },
+    "actorMask": "16777216",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-voice-channel-status",
+    "module": "administration",
+    "description": "Define status do canal de voz.",
+    "effect": "write",
+    "fields": {
+      "canal": {
+        "type": "id",
+        "required": true
+      },
+      "status": {
+        "type": "string",
+        "required": true,
+        "max": 500
+      }
+    },
+    "actorMask": "1048576",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-voice-channel-status.clear",
+    "module": "administration",
+    "description": "Remove status do canal de voz.",
+    "effect": "write",
+    "fields": {
+      "canal": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "1048576",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.list-voice-regions",
+    "module": "administration",
+    "description": "Lista regiões de voz.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "1024",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.get-guild",
+    "module": "administration",
+    "description": "Consulta informações do servidor.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "1024",
+    "ai": true,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-guild",
+    "module": "administration",
+    "description": "Edita nome e nível de verificação.",
+    "effect": "write",
+    "fields": {
+      "nome": {
+        "type": "string",
+        "required": false,
+        "max": 100
+      },
+      "verificacao": {
+        "type": "integer",
+        "required": false,
+        "min": 0,
+        "max": 4
+      }
+    },
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.get-guild-widget-settings",
+    "module": "administration",
+    "description": "Consulta configuração do widget.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-guild-widget-settings",
+    "module": "administration",
+    "description": "Configura widget.",
+    "effect": "write",
+    "fields": {
+      "ativo": {
+        "type": "boolean",
+        "required": false
+      },
+      "canal": {
+        "type": "id",
+        "required": false
+      }
+    },
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.get-guild-welcome-screen",
+    "module": "administration",
+    "description": "Consulta tela de boas-vindas.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "1024",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-guild-welcome-screen",
+    "module": "administration",
+    "description": "Edita ativação e descrição da tela.",
+    "effect": "write",
+    "fields": {
+      "ativo": {
+        "type": "boolean",
+        "required": false
+      },
+      "descricao": {
+        "type": "string",
+        "required": false,
+        "max": 140
+      }
+    },
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.get-guilds-onboarding",
+    "module": "administration",
+    "description": "Consulta onboarding.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.list-guild-integrations",
+    "module": "administration",
+    "description": "Lista integrações.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.delete-guild-integration",
+    "module": "administration",
+    "description": "Remove integração após confirmação.",
+    "effect": "destructive",
+    "fields": {
+      "id": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.get-guild-vanity-url",
+    "module": "administration",
+    "description": "Consulta link personalizado.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.list-guild-templates",
+    "module": "administration",
+    "description": "Lista modelos de servidor.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.create-guild-template",
+    "module": "administration",
+    "description": "Cria modelo.",
+    "effect": "write",
+    "fields": {
+      "nome": {
+        "type": "string",
+        "required": true,
+        "max": 100
+      },
+      "descricao": {
+        "type": "string",
+        "required": false,
+        "max": 120
+      }
+    },
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-guild-template",
+    "module": "administration",
+    "description": "Edita modelo.",
+    "effect": "write",
+    "fields": {
+      "codigo": {
+        "type": "string",
+        "required": true,
+        "max": 64
+      },
+      "nome": {
+        "type": "string",
+        "required": false,
+        "max": 100
+      },
+      "descricao": {
+        "type": "string",
+        "required": false,
+        "max": 120
+      }
+    },
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.sync-guild-template",
+    "module": "administration",
+    "description": "Sincroniza modelo do servidor.",
+    "effect": "write",
+    "fields": {
+      "codigo": {
+        "type": "string",
+        "required": true,
+        "max": 64
+      }
+    },
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.delete-guild-template",
+    "module": "administration",
+    "description": "Exclui modelo.",
+    "effect": "destructive",
+    "fields": {
+      "codigo": {
+        "type": "string",
+        "required": true,
+        "max": 64
+      }
+    },
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.list-guild-invites",
+    "module": "administration",
+    "description": "Lista convites do servidor.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.create-channel-invite",
+    "module": "administration",
+    "description": "Cria convite com validade e usos limitados.",
+    "effect": "write",
+    "fields": {
+      "canal": {
+        "type": "id",
+        "required": false
+      },
+      "validade": {
+        "type": "integer",
+        "required": false,
+        "min": 60,
+        "max": 604800
+      },
+      "usos": {
+        "type": "integer",
+        "required": false,
+        "min": 1,
+        "max": 100
+      },
+      "temporario": {
+        "type": "boolean",
+        "required": false
+      }
+    },
+    "actorMask": "1",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.list-guild-scheduled-events",
+    "module": "administration",
+    "description": "Lista eventos agendados.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "1024",
+    "ai": true,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.get-guild-scheduled-event",
+    "module": "administration",
+    "description": "Consulta evento.",
+    "effect": "read",
+    "fields": {
+      "id": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "1024",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-guild-scheduled-event.iniciar",
+    "module": "administration",
+    "description": "Altera estado do evento.",
+    "effect": "write",
+    "fields": {
+      "id": {
+        "type": "id",
+        "required": true
+      },
+      "motivo": {
+        "type": "string",
+        "required": false,
+        "max": 400
+      }
+    },
+    "actorMask": "8589934592",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-guild-scheduled-event.concluir",
+    "module": "administration",
+    "description": "Altera estado do evento.",
+    "effect": "write",
+    "fields": {
+      "id": {
+        "type": "id",
+        "required": true
+      },
+      "motivo": {
+        "type": "string",
+        "required": false,
+        "max": 400
+      }
+    },
+    "actorMask": "8589934592",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-guild-scheduled-event.cancelar",
+    "module": "administration",
+    "description": "Altera estado do evento.",
+    "effect": "write",
+    "fields": {
+      "id": {
+        "type": "id",
+        "required": true
+      },
+      "motivo": {
+        "type": "string",
+        "required": false,
+        "max": 400
+      }
+    },
+    "actorMask": "8589934592",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-guild-scheduled-event",
+    "module": "administration",
+    "description": "Edita nome e descrição do evento.",
+    "effect": "write",
+    "fields": {
+      "id": {
+        "type": "id",
+        "required": true
+      },
+      "nome": {
+        "type": "string",
+        "required": false,
+        "max": 100
+      },
+      "descricao": {
+        "type": "string",
+        "required": false,
+        "max": 1000
+      }
+    },
+    "actorMask": "8589934592",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.delete-guild-scheduled-event",
+    "module": "administration",
+    "description": "Exclui evento.",
+    "effect": "destructive",
+    "fields": {
+      "id": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "8589934592",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.list-guild-scheduled-event-users",
+    "module": "administration",
+    "description": "Lista interessados.",
+    "effect": "read",
+    "fields": {
+      "id": {
+        "type": "id",
+        "required": true
+      },
+      "quantidade": {
+        "type": "integer",
+        "required": false,
+        "min": 1,
+        "max": 25
+      }
+    },
+    "actorMask": "1024",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.list-guild-emojis",
+    "module": "administration",
+    "description": "Lista emojis.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "1024",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.get-guild-emoji",
+    "module": "administration",
+    "description": "Consulta emoji.",
+    "effect": "read",
+    "fields": {
+      "emoji": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "1024",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.delete-guild-emoji",
+    "module": "administration",
+    "description": "Exclui emoji após confirmação.",
+    "effect": "destructive",
+    "fields": {
+      "emoji": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "1073741824",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.list-guild-stickers",
+    "module": "administration",
+    "description": "Lista figurinhas.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "1024",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.get-guild-sticker",
+    "module": "administration",
+    "description": "Consulta figurinha.",
+    "effect": "read",
+    "fields": {
+      "figurinha": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "1024",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.delete-guild-sticker",
+    "module": "administration",
+    "description": "Exclui figurinha após confirmação.",
+    "effect": "destructive",
+    "fields": {
+      "figurinha": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "1073741824",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.list-guild-soundboard-sounds",
+    "module": "administration",
+    "description": "Lista sons.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "1024",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.get-guild-soundboard-sound",
+    "module": "administration",
+    "description": "Consulta som.",
+    "effect": "read",
+    "fields": {
+      "som": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "1024",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.delete-guild-soundboard-sound",
+    "module": "administration",
+    "description": "Exclui som após confirmação.",
+    "effect": "destructive",
+    "fields": {
+      "som": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "1073741824",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-guild-emoji",
+    "module": "administration",
+    "description": "Renomeia emoji.",
+    "effect": "write",
+    "fields": {
+      "emoji": {
+        "type": "id",
+        "required": true
+      },
+      "novo-nome": {
+        "type": "string",
+        "required": true,
+        "max": 32
+      }
+    },
+    "actorMask": "1073741824",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-guild-sticker",
+    "module": "administration",
+    "description": "Edita figurinha.",
+    "effect": "write",
+    "fields": {
+      "figurinha": {
+        "type": "id",
+        "required": true
+      },
+      "nome": {
+        "type": "string",
+        "required": false,
+        "max": 30
+      },
+      "tags": {
+        "type": "string",
+        "required": false,
+        "max": 200
+      },
+      "descricao": {
+        "type": "string",
+        "required": false,
+        "max": 100
+      }
+    },
+    "actorMask": "1073741824",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-guild-soundboard-sound",
+    "module": "administration",
+    "description": "Renomeia som.",
+    "effect": "write",
+    "fields": {
+      "som": {
+        "type": "id",
+        "required": true
+      },
+      "nome": {
+        "type": "string",
+        "required": true,
+        "max": 32
+      }
+    },
+    "actorMask": "1073741824",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.get-guild-webhooks",
+    "module": "administration",
+    "description": "Lista metadados seguros de webhooks.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "536870912",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.create-webhook",
+    "module": "administration",
+    "description": "Cria webhook; token nunca é exibido.",
+    "effect": "write",
+    "fields": {
+      "canal": {
+        "type": "id",
+        "required": true
+      },
+      "nome": {
+        "type": "string",
+        "required": true,
+        "max": 80
+      }
+    },
+    "actorMask": "536870912",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.create-message.poll",
+    "module": "administration",
+    "description": "Cria enquete nativa com 2 a 10 alternativas.",
+    "effect": "write",
+    "fields": {
+      "pergunta": {
+        "type": "string",
+        "required": true,
+        "max": 300
+      },
+      "opcoes": {
+        "type": "string",
+        "required": true,
+        "max": 550
+      },
+      "duracao": {
+        "type": "integer",
+        "required": false,
+        "min": 1,
+        "max": 168
+      },
+      "multipla": {
+        "type": "boolean",
+        "required": false
+      },
+      "canal": {
+        "type": "id",
+        "required": false
+      }
+    },
+    "actorMask": "140737488358400",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.create-thread.forum",
+    "module": "administration",
+    "description": "Publica tópico de fórum com conteúdo inicial.",
+    "effect": "write",
+    "fields": {
+      "nome": {
+        "type": "string",
+        "required": true,
+        "max": 100
+      },
+      "mensagem": {
+        "type": "string",
+        "required": true,
+        "max": 1900
+      },
+      "canal": {
+        "type": "id",
+        "required": false
+      }
+    },
+    "actorMask": "34359738368",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.create-thread-from-message",
+    "module": "administration",
+    "description": "Cria tópico a partir de mensagem.",
+    "effect": "write",
+    "fields": {
+      "nome": {
+        "type": "string",
+        "required": true,
+        "max": 100
+      },
+      "mensagem": {
+        "type": "id",
+        "required": true
+      },
+      "canal": {
+        "type": "id",
+        "required": false
+      },
+      "duracao": {
+        "type": "integer",
+        "required": false,
+        "choices": [
+          60,
+          1440,
+          4320,
+          10080
+        ]
+      }
+    },
+    "actorMask": "34359738368",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.list-public-archived-threads",
+    "module": "administration",
+    "description": "Lista tópicos públicos arquivados.",
+    "effect": "read",
+    "fields": {
+      "canal": {
+        "type": "id",
+        "required": false
+      }
+    },
+    "actorMask": "65536",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.follow-channel",
+    "module": "administration",
+    "description": "Segue anúncio em canal de destino.",
+    "effect": "write",
+    "fields": {
+      "canal": {
+        "type": "id",
+        "required": true
+      },
+      "destino": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "16",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.set-channel-permission-overwrite",
+    "module": "administration",
+    "description": "Define permissões por máscara decimal, após confirmação.",
+    "effect": "write",
+    "fields": {
+      "canal": {
+        "type": "id",
+        "required": true
+      },
+      "alvo": {
+        "type": "id",
+        "required": true
+      },
+      "tipo-alvo": {
+        "type": "integer",
+        "required": true,
+        "choices": [
+          0,
+          1
+        ]
+      },
+      "permitir": {
+        "type": "string",
+        "required": false,
+        "max": 20
+      },
+      "negar": {
+        "type": "string",
+        "required": false,
+        "max": 20
+      }
+    },
+    "actorMask": "268435456",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-guild-role.permissions",
+    "module": "administration",
+    "description": "Altera permissões de cargo sem permitir escalada.",
+    "effect": "write",
+    "fields": {
+      "cargo": {
+        "type": "id",
+        "required": true
+      },
+      "permissoes": {
+        "type": "string",
+        "required": true,
+        "max": 20
+      }
+    },
+    "actorMask": "268435456",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.bulk-update-guild-roles",
+    "module": "administration",
+    "description": "Altera posição de cargo abaixo da hierarquia do ator e bot.",
+    "effect": "write",
+    "fields": {
+      "cargo": {
+        "type": "id",
+        "required": true
+      },
+      "posicao": {
+        "type": "integer",
+        "required": true,
+        "min": 1,
+        "max": 250
+      }
+    },
+    "actorMask": "268435456",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.get-my-user",
+    "module": "administration",
+    "description": "Consulta o próprio perfil do bot.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "1024",
+    "ai": true,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.get-my-application",
+    "module": "administration",
+    "description": "Consulta metadados públicos da própria aplicação.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.get-my-guild-member",
+    "module": "administration",
+    "description": "Consulta membro correspondente ao bot.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "1024",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.get-guild-template",
+    "module": "administration",
+    "description": "Consulta modelo vinculado a este servidor.",
+    "effect": "read",
+    "fields": {
+      "codigo": {
+        "type": "string",
+        "required": true,
+        "max": 64
+      }
+    },
+    "actorMask": "1024",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.invite-resolve",
+    "module": "administration",
+    "description": "Consulta convite do próprio servidor.",
+    "effect": "read",
+    "fields": {
+      "codigo": {
+        "type": "string",
+        "required": true,
+        "max": 64
+      }
+    },
+    "actorMask": "1024",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.invite-revoke",
+    "module": "administration",
+    "description": "Revoga convite do próprio servidor.",
+    "effect": "write",
+    "fields": {
+      "codigo": {
+        "type": "string",
+        "required": true,
+        "max": 64
+      }
+    },
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.list-channel-invites",
+    "module": "administration",
+    "description": "Lista convites de canal.",
+    "effect": "read",
+    "fields": {
+      "canal": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "16",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.create-guild-scheduled-event",
+    "module": "administration",
+    "description": "Cria evento externo ou de voz com horário ISO UTC.",
+    "effect": "write",
+    "fields": {
+      "nome": {
+        "type": "string",
+        "required": true,
+        "max": 100
+      },
+      "tipo": {
+        "type": "string",
+        "required": true,
+        "choices": [
+          "voz",
+          "externo"
+        ]
+      },
+      "inicio": {
+        "type": "string",
+        "required": true,
+        "max": 40
+      },
+      "canal": {
+        "type": "id",
+        "required": false
+      },
+      "duracao-minutos": {
+        "type": "integer",
+        "required": true,
+        "min": 1,
+        "max": 10080
+      },
+      "descricao": {
+        "type": "string",
+        "required": false,
+        "max": 1000
+      },
+      "local": {
+        "type": "string",
+        "required": false,
+        "max": 100
+      }
+    },
+    "actorMask": "8589934592",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.create-stage-instance",
+    "module": "administration",
+    "description": "Inicia palco no canal informado.",
+    "effect": "write",
+    "fields": {
+      "canal": {
+        "type": "id",
+        "required": true
+      },
+      "topico": {
+        "type": "string",
+        "required": true,
+        "max": 120
+      }
+    },
+    "actorMask": "4194320",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.get-stage-instance",
+    "module": "administration",
+    "description": "Consulta palco.",
+    "effect": "read",
+    "fields": {
+      "canal": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "1024",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-stage-instance",
+    "module": "administration",
+    "description": "Edita tópico do palco.",
+    "effect": "write",
+    "fields": {
+      "canal": {
+        "type": "id",
+        "required": true
+      },
+      "topico": {
+        "type": "string",
+        "required": true,
+        "max": 120
+      }
+    },
+    "actorMask": "4194320",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.delete-stage-instance",
+    "module": "administration",
+    "description": "Encerra palco após confirmação.",
+    "effect": "write",
+    "fields": {
+      "canal": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "4194320",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.get-webhook",
+    "module": "administration",
+    "description": "Consulta metadados de webhook sem token.",
+    "effect": "read",
+    "fields": {
+      "id": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "536870912",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-webhook",
+    "module": "administration",
+    "description": "Edita nome de webhook pertencente ao servidor.",
+    "effect": "write",
+    "fields": {
+      "id": {
+        "type": "id",
+        "required": true
+      },
+      "nome": {
+        "type": "string",
+        "required": true,
+        "max": 80
+      }
+    },
+    "actorMask": "536870912",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.delete-webhook",
+    "module": "administration",
+    "description": "Exclui webhook pertencente ao servidor.",
+    "effect": "destructive",
+    "fields": {
+      "id": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "536870912",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.count-guild-scheduled-event-users",
+    "module": "administration",
+    "description": "Consulta número de interessados.",
+    "effect": "read",
+    "fields": {
+      "id": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "1024",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.delete-user-message-reaction",
+    "module": "administration",
+    "description": "Remove reação específica de membro.",
+    "effect": "write",
+    "fields": {
+      "mensagem": {
+        "type": "id",
+        "required": true
+      },
+      "canal": {
+        "type": "id",
+        "required": false
+      },
+      "emoji": {
+        "type": "string",
+        "required": true,
+        "max": 100
+      },
+      "pessoa": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "8192",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.delete-all-message-reactions-by-emoji",
+    "module": "administration",
+    "description": "Remove todas as reações do emoji informado.",
+    "effect": "destructive",
+    "fields": {
+      "mensagem": {
+        "type": "id",
+        "required": true
+      },
+      "canal": {
+        "type": "id",
+        "required": false
+      },
+      "emoji": {
+        "type": "string",
+        "required": true,
+        "max": 100
+      }
+    },
+    "actorMask": "8192",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.delete-all-message-reactions",
+    "module": "administration",
+    "description": "Remove todas as reações da mensagem.",
+    "effect": "destructive",
+    "fields": {
+      "mensagem": {
+        "type": "id",
+        "required": true
+      },
+      "canal": {
+        "type": "id",
+        "required": false
+      }
+    },
+    "actorMask": "8192",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.list-private-archived-threads",
+    "module": "administration",
+    "description": "Lista tópicos privados arquivados autorizados.",
+    "effect": "read",
+    "fields": {
+      "canal": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "17179869184",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.list-my-private-archived-threads",
+    "module": "administration",
+    "description": "Lista tópicos privados do bot visíveis ao ator.",
+    "effect": "read",
+    "fields": {
+      "canal": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "65536",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.list-channel-webhooks",
+    "module": "administration",
+    "description": "Lista metadados de webhooks do canal.",
+    "effect": "read",
+    "fields": {
+      "canal": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "536870912",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.get-guild-preview",
+    "module": "administration",
+    "description": "Consulta prévia do servidor.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "1024",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.list-guild-voice-regions",
+    "module": "administration",
+    "description": "Lista regiões disponíveis no servidor.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "1024",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.get-self-voice-state",
+    "module": "administration",
+    "description": "Consulta estado de voz do bot.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "1024",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.list-sticker-packs",
+    "module": "administration",
+    "description": "Lista pacotes públicos de figurinhas.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "1024",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.get-sticker-pack",
+    "module": "administration",
+    "description": "Consulta pacote público de figurinhas.",
+    "effect": "read",
+    "fields": {
+      "id": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "1024",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.get-sticker",
+    "module": "administration",
+    "description": "Consulta figurinha pública.",
+    "effect": "read",
+    "fields": {
+      "id": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "1024",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.get-soundboard-default-sounds",
+    "module": "administration",
+    "description": "Lista sons padrão do Discord.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "1024",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-my-guild-member",
+    "module": "administration",
+    "description": "Altera apelido do bot no servidor.",
+    "effect": "write",
+    "fields": {
+      "apelido": {
+        "type": "string",
+        "required": true,
+        "max": 32
+      }
+    },
+    "actorMask": "201326592",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.get-guild-member-permissions",
+    "module": "administration",
+    "description": "Consulta permissões de membro no servidor.",
+    "effect": "read",
+    "fields": {
+      "pessoa": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "1024",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.get-guild-role-permissions",
+    "module": "administration",
+    "description": "Consulta permissões de cargo no servidor.",
+    "effect": "read",
+    "fields": {
+      "cargo": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "1024",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.get-channel-role-permissions",
+    "module": "administration",
+    "description": "Consulta permissões de cargo em canal.",
+    "effect": "read",
+    "fields": {
+      "cargo": {
+        "type": "id",
+        "required": true
+      },
+      "canal": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "1024",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.create-guild-emoji",
+    "module": "administration",
+    "description": "Cria emoji usando imagem PNG/JPEG/GIF em data URI.",
+    "effect": "write",
+    "fields": {
+      "nome": {
+        "type": "string",
+        "required": true,
+        "min": 2,
+        "max": 32
+      },
+      "imagem": {
+        "type": "string",
+        "required": true,
+        "max": 6000
+      }
+    },
+    "actorMask": "1073741824",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.delete-guild-member",
+    "module": "moderation",
+    "description": "Expulsa membro após confirmação.",
+    "effect": "destructive",
+    "fields": {
+      "pessoa": {
+        "type": "id",
+        "required": true
+      },
+      "motivo": {
+        "type": "string",
+        "required": false,
+        "max": 400
+      }
+    },
+    "actorMask": "2",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.ban-user-from-guild",
+    "module": "moderation",
+    "description": "Bane membro após confirmação.",
+    "effect": "destructive",
+    "fields": {
+      "pessoa": {
+        "type": "id",
+        "required": true
+      },
+      "apagar-dias": {
+        "type": "integer",
+        "required": false,
+        "min": 0,
+        "max": 7
+      },
+      "motivo": {
+        "type": "string",
+        "required": false,
+        "max": 400
+      }
+    },
+    "actorMask": "4",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.unban-user-from-guild",
+    "module": "moderation",
+    "description": "Remove banimento.",
+    "effect": "write",
+    "fields": {
+      "usuario-id": {
+        "type": "id",
+        "required": true
+      },
+      "motivo": {
+        "type": "string",
+        "required": false,
+        "max": 400
+      }
+    },
+    "actorMask": "4",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.list-guild-bans",
+    "module": "moderation",
+    "description": "Lista banimentos.",
+    "effect": "read",
+    "fields": {
+      "quantidade": {
+        "type": "integer",
+        "required": false,
+        "min": 1,
+        "max": 25
+      }
+    },
+    "actorMask": "4",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.get-guild-ban",
+    "module": "moderation",
+    "description": "Consulta banimento.",
+    "effect": "read",
+    "fields": {
+      "usuario-id": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "4",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.list-auto-moderation-rules",
+    "module": "moderation",
+    "description": "Lista regras de AutoMod.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.get-auto-moderation-rule",
+    "module": "moderation",
+    "description": "Consulta regra de AutoMod.",
+    "effect": "read",
+    "fields": {
+      "regra": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-auto-moderation-rule.ativar",
+    "module": "moderation",
+    "description": "Altera ativação da regra.",
+    "effect": "write",
+    "fields": {
+      "regra": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-auto-moderation-rule.desativar",
+    "module": "moderation",
+    "description": "Altera ativação da regra.",
+    "effect": "write",
+    "fields": {
+      "regra": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-auto-moderation-rule",
+    "module": "moderation",
+    "description": "Renomeia regra de AutoMod.",
+    "effect": "write",
+    "fields": {
+      "regra": {
+        "type": "id",
+        "required": true
+      },
+      "nome": {
+        "type": "string",
+        "required": true,
+        "max": 100
+      }
+    },
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.delete-auto-moderation-rule",
+    "module": "moderation",
+    "description": "Exclui regra de AutoMod.",
+    "effect": "destructive",
+    "fields": {
+      "regra": {
+        "type": "id",
+        "required": true
+      }
+    },
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.list-guild-audit-log-entries",
+    "module": "moderation",
+    "description": "Consulta registro de auditoria.",
+    "effect": "read",
+    "fields": {
+      "autor": {
+        "type": "id",
+        "required": false
+      },
+      "tipo": {
+        "type": "integer",
+        "required": false,
+        "min": 1,
+        "max": 200
+      },
+      "quantidade": {
+        "type": "integer",
+        "required": false,
+        "min": 1,
+        "max": 25
+      }
+    },
+    "actorMask": "128",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.create-auto-moderation-rule",
+    "module": "moderation",
+    "description": "Cria regra de palavras bloqueadas.",
+    "effect": "write",
+    "fields": {
+      "nome": {
+        "type": "string",
+        "required": true,
+        "max": 100
+      },
+      "termo": {
+        "type": "string",
+        "required": true,
+        "max": 1000
+      }
+    },
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.preview-prune-guild",
+    "module": "moderation",
+    "description": "Estima membros inativos, sem efeitos.",
+    "effect": "read",
+    "fields": {
+      "dias": {
+        "type": "integer",
+        "required": false,
+        "min": 1,
+        "max": 30
+      }
+    },
+    "actorMask": "2",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-guild-incident-actions.restringir.convites",
+    "module": "moderation",
+    "description": "restringir convites no servidor.",
+    "effect": "write",
+    "fields": {
+      "duracao": {
+        "type": "integer",
+        "required": true,
+        "min": 1,
+        "max": 1440
+      }
+    },
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-guild-incident-actions.liberar.convites",
+    "module": "moderation",
+    "description": "liberar convites no servidor.",
+    "effect": "write",
+    "fields": {},
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-guild-incident-actions.restringir.mensagens-diretas",
+    "module": "moderation",
+    "description": "restringir mensagens-diretas no servidor.",
+    "effect": "write",
+    "fields": {
+      "duracao": {
+        "type": "integer",
+        "required": true,
+        "min": 1,
+        "max": 1440
+      }
+    },
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "discord.update-guild-incident-actions.liberar.mensagens-diretas",
+    "module": "moderation",
+    "description": "liberar mensagens-diretas no servidor.",
+    "effect": "write",
+    "fields": {},
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": true,
+    "executor": "discord-plan"
+  },
+  {
+    "id": "system.ping",
+    "module": "control-plane",
+    "description": "Verifica resposta do bot.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "0",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.status",
+    "module": "control-plane",
+    "description": "Estado local do framework.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "0",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.diagnostico",
+    "module": "control-plane",
+    "description": "Diagnóstico local e métricas de execução.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.ajuda.inicio",
+    "module": "control-plane",
+    "description": "Lista grupos de capacidades.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "0",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.ajuda.buscar",
+    "module": "control-plane",
+    "description": "Busca capacidades implementadas.",
+    "effect": "read",
+    "fields": {
+      "termo": {
+        "type": "string",
+        "required": true,
+        "max": 100
+      }
+    },
+    "actorMask": "0",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.ia.status",
+    "module": "control-plane",
+    "description": "Configuração da IA no servidor.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.ia.configurar",
+    "module": "control-plane",
+    "description": "Configura comportamento, canais, acesso, memória e segurança.",
+    "effect": "write",
+    "fields": {
+      "chave": {
+        "type": "string",
+        "required": true,
+        "choices": [
+          "enabled",
+          "mode",
+          "mentions",
+          "direct",
+          "blocked",
+          "allowUsers",
+          "denyUsers",
+          "allowRoles",
+          "denyRoles",
+          "memory",
+          "retentionMinutes",
+          "language",
+          "style",
+          "personality",
+          "domains",
+          "emergency",
+          "dryRun",
+          "threads",
+          "dms",
+          "protectedChannels",
+          "protectedRoles",
+          "protectedUsers"
+        ]
+      },
+      "valor": {
+        "type": "string",
+        "required": true,
+        "min": 0,
+        "max": 1000
+      }
+    },
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.ia.diagnostico",
+    "module": "control-plane",
+    "description": "Mostra estado e resultados registrados, sem inferência sintética.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.ia.consentimento",
+    "module": "control-plane",
+    "description": "Autoriza memória pessoal neste servidor.",
+    "effect": "write",
+    "fields": {
+      "ativo": {
+        "type": "boolean",
+        "required": true
+      }
+    },
+    "actorMask": "0",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.ia.esquecer",
+    "module": "control-plane",
+    "description": "Exclui memória deste usuário no servidor.",
+    "effect": "write",
+    "fields": {},
+    "actorMask": "0",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.modulos.listar",
+    "module": "control-plane",
+    "description": "Lista módulos, dependências e estados efetivos.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.modulos.definir",
+    "module": "control-plane",
+    "description": "Ativa ou desativa um módulo opcional.",
+    "effect": "write",
+    "fields": {
+      "modulo": {
+        "type": "string",
+        "required": true,
+        "max": 100
+      },
+      "ativo": {
+        "type": "boolean",
+        "required": true
+      }
+    },
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.registros.acoes",
+    "module": "control-plane",
+    "description": "Mostra registros recentes sem conteúdo ou credenciais.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.sistema.metricas",
+    "module": "control-plane",
+    "description": "Métricas reais por servidor.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.sistema.limites",
+    "module": "control-plane",
+    "description": "Limites configurados localmente.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.configurar.ver",
+    "module": "control-plane",
+    "description": "Configurações do servidor.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.axyon.estado",
+    "module": "control-plane",
+    "description": "Resumo da plataforma.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.axyon.operacoes",
+    "module": "control-plane",
+    "description": "Pesquisa operações implementadas.",
+    "effect": "read",
+    "fields": {
+      "filtro": {
+        "type": "string",
+        "required": false,
+        "max": 100
+      }
+    },
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.ajuda.modulo",
+    "module": "control-plane",
+    "description": "Descreve módulo e capacidades.",
+    "effect": "read",
+    "fields": {
+      "nome": {
+        "type": "string",
+        "required": true,
+        "max": 100
+      }
+    },
+    "actorMask": "0",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.ajuda.comando",
+    "module": "control-plane",
+    "description": "Consulta capacidade pelo identificador.",
+    "effect": "read",
+    "fields": {
+      "nome": {
+        "type": "string",
+        "required": true,
+        "max": 100
+      }
+    },
+    "actorMask": "0",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.axyon.modulos",
+    "module": "control-plane",
+    "description": "Exibe manifesto de módulos.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.axyon.configurar",
+    "module": "control-plane",
+    "description": "Mostra acesso ao plano de controle.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.configurar.definir",
+    "module": "control-plane",
+    "description": "Define configuração da IA ou segurança.",
+    "effect": "write",
+    "fields": {
+      "chave": {
+        "type": "string",
+        "required": true,
+        "choices": [
+          "enabled",
+          "mode",
+          "mentions",
+          "direct",
+          "blocked",
+          "allowUsers",
+          "denyUsers",
+          "allowRoles",
+          "denyRoles",
+          "memory",
+          "retentionMinutes",
+          "language",
+          "style",
+          "personality",
+          "domains",
+          "emergency",
+          "dryRun",
+          "threads",
+          "dms",
+          "protectedChannels",
+          "protectedRoles",
+          "protectedUsers"
+        ]
+      },
+      "valor": {
+        "type": "string",
+        "required": true,
+        "min": 0,
+        "max": 1000
+      }
+    },
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.configurar.redefinir",
+    "module": "control-plane",
+    "description": "Redefine uma configuração específica para o padrão.",
+    "effect": "write",
+    "fields": {
+      "chave": {
+        "type": "string",
+        "required": true,
+        "choices": [
+          "enabled",
+          "mode",
+          "mentions",
+          "direct",
+          "blocked",
+          "allowUsers",
+          "denyUsers",
+          "allowRoles",
+          "denyRoles",
+          "memory",
+          "retentionMinutes",
+          "language",
+          "style",
+          "personality",
+          "domains",
+          "emergency",
+          "dryRun",
+          "threads",
+          "dms",
+          "protectedChannels",
+          "protectedRoles",
+          "protectedUsers"
+        ]
+      }
+    },
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.configurar.exportar",
+    "module": "control-plane",
+    "description": "Exporta configuração deste servidor, sem credenciais.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.registros.config",
+    "module": "control-plane",
+    "description": "Consulta revisão de configuração.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.registros.agenda",
+    "module": "control-plane",
+    "description": "Consulta rotinas registradas.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.sistema.sessao",
+    "module": "control-plane",
+    "description": "Informa runtime e processo.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.gateway.estado",
+    "module": "control-plane",
+    "description": "Informa transporte ativo no processo.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.gateway.intents",
+    "module": "control-plane",
+    "description": "Informa intents solicitadas pelo processo.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.comandos.listar",
+    "module": "control-plane",
+    "description": "Lista capacidades da interface local.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.comandos.info",
+    "module": "control-plane",
+    "description": "Consulta contrato de capacidade.",
+    "effect": "read",
+    "fields": {
+      "comando": {
+        "type": "string",
+        "required": true,
+        "max": 100
+      }
+    },
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.conexoes.estado",
+    "module": "control-plane",
+    "description": "Exibe integrações configuradas sem segredos.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.fluxo.criar",
+    "module": "workflows",
+    "description": "Cria fluxo de até 5 envios, executado uma vez após intervalo.",
+    "effect": "write",
+    "fields": {
+      "nome": {
+        "type": "string",
+        "required": true,
+        "max": 40
+      },
+      "canal": {
+        "type": "id",
+        "required": true
+      },
+      "minutos": {
+        "type": "integer",
+        "required": true,
+        "min": 1,
+        "max": 10080
+      },
+      "passos": {
+        "type": "string",
+        "required": true,
+        "max": 6000
+      }
+    },
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.fluxo.listar",
+    "module": "workflows",
+    "description": "Lista fluxos programados.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.agenda.criar",
+    "module": "scheduler",
+    "description": "Cria rotina de mensagem sem menções, executada com autorização atual.",
+    "effect": "write",
+    "fields": {
+      "nome": {
+        "type": "string",
+        "required": true,
+        "max": 40
+      },
+      "canal": {
+        "type": "id",
+        "required": true
+      },
+      "texto": {
+        "type": "string",
+        "required": true,
+        "max": 1900
+      },
+      "minutos": {
+        "type": "integer",
+        "required": true,
+        "min": 1,
+        "max": 10080
+      },
+      "repetir": {
+        "type": "boolean",
+        "required": false
+      }
+    },
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.agenda.listar",
+    "module": "scheduler",
+    "description": "Lista rotinas deste servidor.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.agenda.detalhar",
+    "module": "scheduler",
+    "description": "Exibe detalhes de rotina.",
+    "effect": "read",
+    "fields": {
+      "nome": {
+        "type": "string",
+        "required": true,
+        "max": 100
+      }
+    },
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.agenda.pausar",
+    "module": "scheduler",
+    "description": "Altera ativação da rotina.",
+    "effect": "write",
+    "fields": {
+      "nome": {
+        "type": "string",
+        "required": true,
+        "max": 100
+      }
+    },
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.agenda.retomar",
+    "module": "scheduler",
+    "description": "Altera ativação da rotina.",
+    "effect": "write",
+    "fields": {
+      "nome": {
+        "type": "string",
+        "required": true,
+        "max": 100
+      }
+    },
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.agenda.agora",
+    "module": "scheduler",
+    "description": "Executa rotina agora com a autorização do solicitante.",
+    "effect": "write",
+    "fields": {
+      "nome": {
+        "type": "string",
+        "required": true,
+        "max": 100
+      }
+    },
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.agenda.remover",
+    "module": "scheduler",
+    "description": "Remove rotina.",
+    "effect": "write",
+    "fields": {
+      "nome": {
+        "type": "string",
+        "required": true,
+        "max": 100
+      }
+    },
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.automacao.criar",
+    "module": "automation",
+    "description": "Cria rotina de mensagem sem menções, executada com autorização atual.",
+    "effect": "write",
+    "fields": {
+      "nome": {
+        "type": "string",
+        "required": true,
+        "max": 40
+      },
+      "canal": {
+        "type": "id",
+        "required": true
+      },
+      "texto": {
+        "type": "string",
+        "required": true,
+        "max": 1900
+      },
+      "prefixo": {
+        "type": "string",
+        "required": true,
+        "max": 100
+      }
+    },
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.automacao.listar",
+    "module": "automation",
+    "description": "Lista rotinas deste servidor.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.automacao.detalhar",
+    "module": "automation",
+    "description": "Exibe detalhes de rotina.",
+    "effect": "read",
+    "fields": {
+      "nome": {
+        "type": "string",
+        "required": true,
+        "max": 100
+      }
+    },
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.automacao.pausar",
+    "module": "automation",
+    "description": "Altera ativação da rotina.",
+    "effect": "write",
+    "fields": {
+      "nome": {
+        "type": "string",
+        "required": true,
+        "max": 100
+      }
+    },
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.automacao.retomar",
+    "module": "automation",
+    "description": "Altera ativação da rotina.",
+    "effect": "write",
+    "fields": {
+      "nome": {
+        "type": "string",
+        "required": true,
+        "max": 100
+      }
+    },
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.automacao.testar",
+    "module": "automation",
+    "description": "Valida plano sem produzir efeitos.",
+    "effect": "read",
+    "fields": {
+      "nome": {
+        "type": "string",
+        "required": true,
+        "max": 100
+      }
+    },
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.automacao.remover",
+    "module": "automation",
+    "description": "Remove rotina.",
+    "effect": "write",
+    "fields": {
+      "nome": {
+        "type": "string",
+        "required": true,
+        "max": 100
+      }
+    },
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  },
+  {
+    "id": "system.blueprint.export",
+    "module": "blueprint",
+    "description": "Exporta inventário visível de canais e cargos, sem restaurar ou aplicar alterações.",
+    "effect": "read",
+    "fields": {},
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
+  }
+]

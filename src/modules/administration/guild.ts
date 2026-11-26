@@ -1,0 +1,21 @@
+import { Fault, Json, Obj, P, str, num } from '../../contracts';
+import { f, copy, read, write, cOpt, mOpt, memberOpt, roleOpt, threadOpt, eventOpt, ruleOpt, reason, channelTarget, messageTarget, memberTarget, roleTarget, threadTarget, eventTarget, ruleTarget } from '../operations/definitions';
+const codeOpt = { codigo: f.s(true, 64) }, codeTarget = { code: 'codigo' };
+read('consultar/servidor', 'get-guild', 'Consulta informações do servidor.', {}, undefined, undefined, true);
+write('editar/servidor', 'update-guild', 'Edita nome e nível de verificação.', { nome: f.s(false), verificacao: f.i(false, 0, 4) }, undefined, i => copy(i, { nome: 'name', verificacao: 'verification_level' }), { confirm: true });
+read('consultar/widget-do-servidor', 'get-guild-widget-settings', 'Consulta configuração do widget.');
+write('configurar/widget-do-servidor', 'update-guild-widget-settings', 'Configura widget.', { ativo: f.b(), canal: f.id(false) }, undefined, i => copy(i, { ativo: 'enabled', canal: 'channel_id' }), { confirm: true });
+read('consultar/tela-de-boas-vindas', 'get-guild-welcome-screen', 'Consulta tela de boas-vindas.');
+write('editar/tela-de-boas-vindas', 'update-guild-welcome-screen', 'Edita ativação e descrição da tela.', { ativo: f.b(), descricao: f.s(false, 140) }, undefined, i => copy(i, { ativo: 'enabled', descricao: 'description' }));
+read('consultar/entrada-de-novos-membros', 'get-guilds-onboarding', 'Consulta onboarding.');
+read('listar/integrações', 'list-guild-integrations', 'Lista integrações.');
+write('excluir/integração', 'delete-guild-integration', 'Remove integração após confirmação.', { id: f.id() }, { integration: 'id' }, undefined, { confirm: true });
+read('consultar/link-personalizado', 'get-guild-vanity-url', 'Consulta link personalizado.');
+read('listar/modelos-do-servidor', 'list-guild-templates', 'Lista modelos de servidor.');
+write('criar/modelo-do-servidor', 'create-guild-template', 'Cria modelo.', { nome: f.s(), descricao: f.s(false, 120) }, undefined, i => copy(i, { nome: 'name', descricao: 'description' }));
+write('editar/modelo-do-servidor', 'update-guild-template', 'Edita modelo.', { ...codeOpt, nome: f.s(false), descricao: f.s(false, 120) }, codeTarget, i => copy(i, { nome: 'name', descricao: 'description' }));
+write('sincronizar/modelo-do-servidor', 'sync-guild-template', 'Sincroniza modelo do servidor.', codeOpt, codeTarget, undefined, { confirm: true });
+write('excluir/modelo-do-servidor', 'delete-guild-template', 'Exclui modelo.', codeOpt, codeTarget, undefined, { confirm: true });
+read('listar/convites', 'list-guild-invites', 'Lista convites do servidor.');
+write('criar/convite', 'create-channel-invite', 'Cria convite com validade e usos limitados.', { ...cOpt, validade: f.i(false, 60, 604800), usos: f.i(false, 1, 100), temporario: f.b() }, channelTarget, i => ({ max_age: i.validade ?? 3600, max_uses: i.usos ?? 1, temporary: i.temporario ?? false, unique: true }));
+
