@@ -8,3 +8,5 @@ Independent origin and identity lookups overlap; same origin/target is reused. R
 
 ## Telemetry
 Railway edge tracing enabled. The official OpenTelemetry Node SDK exports bounded application spans via the OTLP endpoint provided by Railway, with no message text, target IDs or tokens in attributes. Selected spans cover Discord authorization, execution, verification, interaction/event handling and provider inference. Shutdown flush is bounded. SSE is collected incrementally, but a final response is sent only after reauthorization; this is not progressive Discord message delivery.
+
+The optional startup performance check reads channel metadata with the bot principal, compares a fresh authorization with a warmed snapshot, and verifies catalog discovery. It creates no Discord resources and reads no messages. It measures a single authorization path, not whole-system latency. The initial OpenTelemetry deployment exported two application spans.
