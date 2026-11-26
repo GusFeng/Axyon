@@ -8,6 +8,7 @@ import { configure, askAI, AIError } from '../modules/intelligence/provider';
 import { log } from '../modules/observability/metrics';
 import { recoverInterrupted } from '../modules/recovery/reconcile';
 import { assertDatabaseIntegrity, operationalReadiness } from './readiness';
+import { stagingConfiguration, verifyStagingApplication } from './staging';
 import { panelFor,panelAction } from '../modules/control-plane/panels';
 import { Outcome } from '../core/kernel';
 import { liveSmoke } from './smoke';
@@ -127,6 +128,8 @@ export async function main(env: NodeJS.ProcessEnv = process.env, sdkOverride?: S
     if (!token)
         throw new Fault('missing_discord_token');
     const guildId = id(env.DISCORD_GUILD_ID || env.AI_GUILD_ID || env.RAIBOT_CONTROL_GUILD);
+    const staging = stagingConfiguration(env, guildId);
+    if (staging) await verifyStagingApplication(staging, token);
     const sdk = sdkOverride ?? require('discord.js') as SDK;
     if (typeof sdk.Client !== 'function')
         throw new Fault('discord_sdk_unavailable');
