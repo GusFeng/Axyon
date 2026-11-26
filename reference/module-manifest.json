@@ -36,6 +36,12 @@
     "capabilities": []
   },
   {
+    "id": "performance",
+    "essential": true,
+    "dependencies": [],
+    "capabilities": []
+  },
+  {
     "id": "administration",
     "essential": false,
     "dependencies": [
