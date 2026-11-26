@@ -4358,6 +4358,20 @@
         "name": "exportar",
         "description": "Exporta inventário visível de canais e cargos, sem restaurar ou aplicar alterações.",
         "options": []
+      },
+      {
+        "type": 1,
+        "name": "planejar",
+        "description": "Simula renomeação de recursos gerenciados, sem aplicar alterações.",
+        "options": [
+          {
+            "name": "recursos",
+            "description": "recursos (string)",
+            "type": 3,
+            "required": true,
+            "max_length": 4000
+          }
+        ]
       }
     ]
   },
