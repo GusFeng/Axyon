@@ -4233,5 +4233,23 @@
     "automated": false,
     "confirm": false,
     "executor": "local"
+  },
+  {
+    "id": "system.blueprint.preview",
+    "module": "blueprint",
+    "description": "Simula renomeação de recursos gerenciados, sem aplicar alterações.",
+    "effect": "read",
+    "fields": {
+      "recursos": {
+        "type": "string",
+        "required": true,
+        "max": 4000
+      }
+    },
+    "actorMask": "32",
+    "ai": false,
+    "automated": false,
+    "confirm": false,
+    "executor": "local"
   }
 ]

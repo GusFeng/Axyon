@@ -56,7 +56,7 @@ export class Intelligence {
         }
         ;
         const action = /^(?:ação|acao|execute|executar)\s*:\s*/i.test(prompt);
-        const eligible = this.kernel.registry.list().filter(cap => cap.ai && this.kernel.registry.enabled(cap.module, settings.modules) && (!a.domains.length || a.domains.includes(cap.module)) && (a.mode === 'operate' || a.mode === 'read' && cap.effect === 'read'));
+        const eligible = this.kernel.registry.list().filter(cap => cap.ai && has(access.actor,cap.actorMask) && this.kernel.registry.enabled(cap.module, settings.modules) && (!a.domains.length || a.domains.includes(cap.module)) && (a.mode === 'operate' || a.mode === 'read' && cap.effect === 'read'));
         if (action) {
             if (a.mode === 'chat') {
                 this.kernel.store.finish(c.guild, 'ai:' + c.nonce, 'done');
@@ -80,6 +80,8 @@ export class Intelligence {
             catch {
                 throw new Fault('invalid_ai_plan', 'A IA não produziu um plano válido. Nenhuma ação executada.');
             }
+            if (Object.keys(parsed).some(key=>!['question','capability','input'].includes(key)) || (typeof parsed.question==='string' && (parsed.capability!==undefined || parsed.input!==undefined)))
+                throw new Fault('invalid_ai_plan');
             if (typeof parsed.question === 'string')
                 result = { kind: 'text', text: parsed.question.slice(0, 1000) };
             else {

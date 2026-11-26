@@ -36,6 +36,12 @@
     "capabilities": []
   },
   {
+    "id": "performance",
+    "essential": true,
+    "dependencies": [],
+    "capabilities": []
+  },
+  {
     "id": "administration",
     "essential": false,
     "dependencies": [
@@ -334,7 +340,8 @@
       "operations"
     ],
     "capabilities": [
-      "system.blueprint.export"
+      "system.blueprint.export",
+      "system.blueprint.preview"
     ]
   }
 ]

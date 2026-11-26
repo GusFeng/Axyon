@@ -66,11 +66,15 @@ export class Store {
     consent(guild: string, actor: string, enabled: boolean) { if (enabled)
         this.db.prepare('INSERT OR IGNORE INTO consent VALUES(?,?)').run(guild, actor);
     else {
-        this.db.prepare('DELETE FROM consent WHERE guild=? AND actor=?').run(guild, actor);
-        this.clearMemory(guild, actor);
+        this.db.exec('BEGIN IMMEDIATE');
+        try {
+            this.db.prepare('DELETE FROM consent WHERE guild=? AND actor=?').run(guild, actor);
+            this.clearMemory(guild, actor);
+            this.db.exec('COMMIT');
+        } catch (e) { this.db.exec('ROLLBACK'); throw e; }
     } }
-    getMemory(c: Context): Json { const r = this.db.prepare('SELECT data FROM memory WHERE guild=? AND channel=? AND actor=? AND expires>?').get(c.guild, c.channel, c.actor, Date.now()); return r ? JSON.parse(String(r.data)) as Json : []; }
-    setMemory(c: Context, data: Json, minutes: number) { this.db.prepare('INSERT INTO memory VALUES(?,?,?,?,?) ON CONFLICT(guild,channel,actor) DO UPDATE SET expires=excluded.expires,data=excluded.data').run(c.guild, c.channel, c.actor, Date.now() + minutes * 60000, JSON.stringify(data)); }
+    getMemory(c: Context): Json { const r = this.db.prepare('SELECT data FROM memory WHERE guild=? AND channel=? AND actor=? AND expires>? AND EXISTS(SELECT 1 FROM consent WHERE consent.guild=memory.guild AND consent.actor=memory.actor)').get(c.guild, c.channel, c.actor, Date.now()); return r ? JSON.parse(String(r.data)) as Json : []; }
+    setMemory(c: Context, data: Json, minutes: number) { this.db.prepare('INSERT INTO memory SELECT ?,?,?,?,? WHERE EXISTS(SELECT 1 FROM consent WHERE guild=? AND actor=?) ON CONFLICT(guild,channel,actor) DO UPDATE SET expires=excluded.expires,data=excluded.data').run(c.guild, c.channel, c.actor, Date.now() + minutes * 60000, JSON.stringify(data), c.guild, c.actor); }
     clearMemory(guild: string, actor?: string) { if (actor)
         this.db.prepare('DELETE FROM memory WHERE guild=? AND actor=?').run(guild, actor);
     else

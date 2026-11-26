@@ -1,11 +1,11 @@
 {
   "totals": {
-    "modules": 15,
-    "capabilities": 216,
+    "modules": 16,
+    "capabilities": 217,
     "remotePlanVariants": 166,
-    "localCapabilities": 50,
+    "localCapabilities": 51,
     "roots": 67,
-    "slashProjections": 218,
+    "slashProjections": 219,
     "aiCapabilities": 13,
     "legacyOperations": 153,
     "legacyOperationsMapped": 135,

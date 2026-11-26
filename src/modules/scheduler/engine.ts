@@ -11,8 +11,8 @@ export class Scheduler {
                     continue;
                 const due = j.next;
                 const next = j.interval ? due + Math.max(1, Math.floor((now - due) / j.interval) + 1) * j.interval : 0;
-                this.workflows.store.saveJob({ ...j, next, enabled: !!j.interval }, j.revision);
-                await this.workflows.fire(j, `schedule:${j.id}:${due}`);
+                const claimed = this.workflows.store.saveJob({ ...j, next, enabled: !!j.interval }, j.revision);
+                await this.workflows.fire(j, `schedule:${j.id}:${due}`, claimed.revision);
             }
             catch (e) {
                 console.warn('SCHEDULE_ERROR', e instanceof Fault ? e.code : 'internal');
