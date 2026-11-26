@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "discord.js": "14.18.0",
-    "@opentelemetry/api": "1.9.0",
+    "@opentelemetry/api": "1.10.0",
     "@opentelemetry/sdk-node": "0.301.2"
   },
   "devDependencies": {
