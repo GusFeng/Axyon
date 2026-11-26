@@ -12,3 +12,16 @@ O núcleo reutilizável está em src/operations.ts. O código da interface remot
 Variáveis: DISCORD_BOT_TOKEN (secreto), DISCORD_GUILD_ID (opcional), PORT, RAIBOT_CONTROL_ENABLED (opcional), RAIBOT_CONTROL_KEY e RAIBOT_CONTROL_GUILD (somente controle remoto).
 
 Build: npm install; npm run build; npm test; npm start. Docker executa os testes antes de publicar a imagem.
+
+## IA por menção
+
+No servidor autorizado, mencione @Buteco e escreva a pergunta. O bot envia somente a pergunta à API externa e publica a resposta. Não executa ações administrativas por meio da IA. Ignora outros bots, webhooks e outros servidores. As respostas não disparam menções; há limite de frequência e de simultaneidade.
+
+Variáveis Railway:
+- API (ou AI_API_KEY): credencial secreta.
+- AI_API_URL: URL HTTPS completa do endpoint de geração (sem query string).
+- AI_MODEL: identificador exato do modelo escolhido.
+- AI_FORMAT: openai (padrão, chat completions compatível), anthropic (Messages) ou gemini (generateContent; URL deve conter o modelo).
+- AI_GUILD_ID: opcional; usa RAIBOT_CONTROL_GUILD se omitida.
+
+Sem URL e modelo, o bot não envia a chave a nenhum provedor. A IA está pronta para configuração, não há memória persistente. Não envie credenciais no Discord, logs ou repositório.

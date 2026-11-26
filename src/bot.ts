@@ -1,8 +1,9 @@
 import { ApplicationCommandType, Client, Events, GatewayIntentBits, MessageFlags, PermissionFlagsBits, Routes, SlashCommandBuilder } from "discord.js";
 import { createChannel, deleteMessages, errorCode, InputError, isTextTarget, ping } from "./operations";
 import { startControl } from "./control";
+import { installAI } from "./ai/handler";
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages] });
 const commands = [
   new SlashCommandBuilder().setName("ping").setDescription("Responde pong."),
   new SlashCommandBuilder().setName("deletemsg").setDescription("Apaga até 100 mensagens recentes do canal atual.")
@@ -16,6 +17,7 @@ const commands = [
 let ready = false;
 const expected = new Set(commands.map(c => c.name));
 const server = startControl(client, () => ready);
+installAI(client);
 client.once(Events.ClientReady, async c => {
   try {
     const guildId = process.env.DISCORD_GUILD_ID;
