@@ -4,7 +4,7 @@ import { application } from '../core/application';
 import { DiscordAdapter, ClientPort } from '../integrations/discord/port';
 import { Store } from '../modules/persistence/store';
 import { Intelligence } from '../modules/intelligence/engine';
-import { configure } from '../modules/intelligence/provider';
+import { configure, askAI, AIError } from '../modules/intelligence/provider';
 import { log } from '../modules/observability/metrics';
 import { recoverInterrupted } from '../modules/recovery/reconcile';
 import { panelFor,panelAction } from '../modules/control-plane/panels';
@@ -136,6 +136,7 @@ export async function main(env: NodeJS.ProcessEnv = process.env, sdkOverride?: S
         intents.push(intent.DirectMessages);
     const client = new sdk.Client({ intents, ...(env.AXYON_ENABLE_DMS === 'true' ? { partials: [sdk.Partials.Channel] } : {}) });
     const store = new Store(env.AXYON_DB_PATH || ':memory:');
+    if (!sdkOverride) log('DATABASE_READY', { persistent: !!env.AXYON_DB_PATH, integrity: store.db.prepare('PRAGMA quick_check').get()?.quick_check === 'ok' });
     log('RECOVERY', { uncertain: recoverInterrupted(store) });
     const adapter = new DiscordAdapter(client);
     const app = application(store, adapter);
@@ -163,7 +164,7 @@ export async function main(env: NodeJS.ProcessEnv = process.env, sdkOverride?: S
     await new Promise<void>((resolve, reject) => { server.once('error', reject); server.listen(port, '0.0.0.0', resolve); });
     await app.registry.start();
     client.once(sdk.Events.ClientReady, () => track((async () => { if (!client.application)
-        throw new Fault('application_missing'); const route = `/applications/${client.application.id}/guilds/${guildId}/commands`; if (env.AXYON_REGISTER_COMMANDS === 'true') {
+        throw new Fault('application_missing'); const route = `/applications/${client.application.id}/guilds/${guildId}/commands`; if (!sdkOverride) { const guild = await client.guilds.fetch(guildId); if (guild.id !== guildId) throw new Fault('guild_scope'); const me = await guild.members.fetchMe({force:true}); if (me.id !== client.user?.id) throw new Fault('bot_identity'); log('DISCORD_REST_VERIFIED', { guild: guild.id, bot: me.id }); } if (env.AXYON_REGISTER_COMMANDS === 'true') {
         const current = await client.rest.get(route);
         if (!Array.isArray(current))
             throw new Fault('registration_read_failed');
@@ -173,10 +174,12 @@ export async function main(env: NodeJS.ProcessEnv = process.env, sdkOverride?: S
         const result = await client.rest.put(route, { body: app.catalog.roots.map(({ dm_permission, ...r }) => r) });
         if (!Array.isArray(result) || result.length !== app.catalog.roots.length || result.some(x => !known.has(String((x as Record<string, unknown>).name))))
             throw new Fault('registration_verification_failed');
-        log('COMMANDS_REGISTERED', { count: result.length });
+        const observed = await client.rest.get(route);
+        if (!Array.isArray(observed) || observed.length !== known.size || observed.some(x => !known.has(String((x as Record<string,unknown>).name)))) throw new Fault('registration_readback_failed');
+        log('COMMANDS_REGISTERED', { count: observed.length, scope: 'guild' });
     }
     else
-        log('COMMAND_REGISTRATION_DISABLED', { candidate: app.catalog.roots.length }); ready = true; log('GATEWAY_READY', { runtime: process.version, modules: app.registry.manifest().length, persistent: !!env.AXYON_DB_PATH }); timer = setInterval(() => track(app.scheduler.tick()), 5000); maintenance = setInterval(() => { try {
+        log('COMMAND_REGISTRATION_DISABLED', { candidate: app.catalog.roots.length }); ready = true; log('GATEWAY_READY', { runtime: process.version, modules: app.registry.manifest().length, capabilities: app.registry.list().length, persistent: !!env.AXYON_DB_PATH, revision: env.RAILWAY_GIT_COMMIT_SHA ?? 'unknown' }); if (!sdkOverride && env.AI_STARTUP_CHECK === 'true') track((async()=>{ if (!aiConfig) { log('AI_PROVIDER_UNCONFIGURED'); return; } const t=performance.now(); try {const result=await askAI(aiConfig,'Responda apenas OK.',fetch,[],'Teste técnico de conectividade. Responda OK.'); log('AI_PROVIDER_VERIFIED',{model:aiConfig.model,ms:Math.round(performance.now()-t),nonempty:!!result.trim()});} catch(e){log('AI_PROVIDER_FAILED',{code:e instanceof AIError?e.kind:errorName(e),status:e instanceof AIError?e.status??0:0});} })()); timer = setInterval(() => track(app.scheduler.tick()), 5000); maintenance = setInterval(() => { try {
         store.prune();
     }
     catch (e) {
@@ -207,6 +210,7 @@ export async function main(env: NodeJS.ProcessEnv = process.env, sdkOverride?: S
             reply = describe(await app.kernel.execute(p.cap, p.input, c), p.cap);
         }
         await i.editReply(reply);
+        if (!sdkOverride) log('INTERACTION_REPLY_SENT',{command:i.isButton()?'component':i.commandName});
     }
     catch (e) {
         log('INTERACTION_FAILED', { code: errorName(e), command: i.commandName ?? 'component' });
@@ -253,6 +257,7 @@ export async function main(env: NodeJS.ProcessEnv = process.env, sdkOverride?: S
                         await m.channel.send(message(part));
                 }
             }
+            if (!sdkOverride) log('AI_REPLY_SENT',{kind:r.kind, model:aiConfig?.model??'none'});
         }
         catch (e) {
             log('AI_FAILED', { code: errorName(e) });
