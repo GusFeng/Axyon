@@ -340,7 +340,8 @@
       "operations"
     ],
     "capabilities": [
-      "system.blueprint.export"
+      "system.blueprint.export",
+      "system.blueprint.preview"
     ]
   }
 ]

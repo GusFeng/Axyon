@@ -30,6 +30,6 @@ jobs:
       - run: npm run check
       - run: npm run inventory
       - name: Verify generated inventories
-        run: git diff --exit-code -- reference/coverage.json reference/candidate-commands.json reference/module-manifest.json reference/capabilities.json
+        run: git diff --exit-code -- reference/coverage.json reference/candidate-commands.json reference/module-manifest.json reference/capabilities.json reference/capability-evidence.json
       - name: Verify production image build
         run: docker build --tag axyon-ci .

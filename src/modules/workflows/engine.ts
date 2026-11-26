@@ -5,13 +5,16 @@ import { Store, Job } from '../persistence/store';
 import { fields as f, Projection } from '../operations/definitions';
 export class Workflows {
     constructor(readonly kernel: Kernel, readonly store: Store) { }
-    async fire(j: Job, nonce: string) { const context: Context = { guild: j.guild, channel: j.channel, actor: j.actor, nonce, source: j.kind === 'schedule' ? 'scheduler' : 'automation' }; try {
+    async fire(j: Job, nonce: string, expectedRevision = j.revision) { const context: Context = { guild: j.guild, channel: j.channel, actor: j.actor, nonce, source: j.kind === 'schedule' ? 'scheduler' : 'automation' }; try {
+        const stillCurrent = () => this.store.jobs(j.guild).some(current => current.id === j.id && current.revision === expectedRevision && current.actor === j.actor && current.kind === j.kind);
+        if (!stillCurrent()) throw new Fault('job_stale');
         if (j.steps?.length) {
             if (!this.store.claim(j.guild, nonce + ':flow'))
                 throw new Fault('duplicate');
             const results: Json[] = [];
             try {
                 for (const [index, step] of j.steps.entries()) {
+                    if (!stillCurrent()) throw new Fault('job_stale');
                     const result = await this.kernel.execute(step.capability, step.input, { ...context, nonce: nonce + ':' + index });
                     if (result.status !== 'ok')
                         throw new Fault('job_not_executed');
@@ -31,7 +34,7 @@ export class Workflows {
         return result.data;
     }
     catch (e) {
-        if (e instanceof Fault && ['duplicate', 'module_disabled', 'automation_denied'].includes(e.code))
+        if (e instanceof Fault && ['duplicate', 'module_disabled', 'automation_denied', 'job_stale'].includes(e.code))
             return null;
         const fresh = this.store.jobs(j.guild).find(x => x.id === j.id);
         if (fresh?.enabled)

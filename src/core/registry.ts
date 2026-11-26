@@ -13,11 +13,19 @@ export class Registry {
     private order: string[] = [];
     private sealed = false;
     register(m: Module) { if (this.sealed || this.modules.has(m.id))
-        throw new Fault('duplicate_module', m.id); for (const c of m.capabilities) {
-        if (c.module !== m.id || this.caps.has(c.id))
+        throw new Fault('duplicate_module', m.id); const ids = new Set<string>();
+    const caps = m.capabilities.map(c => {
+        if (c.module !== m.id || this.caps.has(c.id) || ids.has(c.id))
             throw new Fault('duplicate_capability', c.id);
-        this.caps.set(c.id, Object.freeze(c));
-    } this.modules.set(m.id, Object.freeze(m)); }
+        ids.add(c.id);
+        const fields = Object.freeze(Object.fromEntries(Object.entries(c.fields).map(([key, field]) =>
+            [key, Object.freeze({ ...field, ...(field.choices ? { choices: Object.freeze([...field.choices]) } : {}) })])));
+        return Object.freeze({ ...c, fields });
+    });
+    // Publish only after the entire module validates, so a rejected module
+    // cannot leave orphan capabilities or retain mutable manifest references.
+    for (const c of caps) this.caps.set(c.id, c);
+    this.modules.set(m.id, Object.freeze({ ...m, dependencies:Object.freeze([...m.dependencies]), capabilities:Object.freeze(caps) })); }
     seal() { const visiting = new Set<string>(), done = new Set<string>(); const visit = (key: string) => { if (visiting.has(key))
         throw new Fault('dependency_cycle', key); if (done.has(key))
         return; const m = this.modules.get(key); if (!m)
