@@ -20,6 +20,32 @@ async def respond_ping(interaction):
              interaction.id, original.id)
 
 
+async def channel_smoke(client):
+    import discord
+    if client.user.id != 1575354711501185117:
+        raise RuntimeError("Unexpected bot identity")
+    guild = client.get_guild(1573896254419632169)
+    if guild is None:
+        raise RuntimeError("Test guild not found")
+    channels = await guild.fetch_channels()
+    log.info("CHANNEL_TEST_TARGET guild_id=%s guild_name=%s", guild.id, guild.name)
+    for name, kind, create in (
+        ("bar", discord.ChannelType.text, guild.create_text_channel),
+        ("pagode", discord.ChannelType.voice, guild.create_voice_channel),
+    ):
+        try:
+            matches = [c for c in channels if c.name == name and c.type == kind]
+            if len(matches) > 1:
+                raise RuntimeError("Multiple existing matching channels")
+            created = not matches
+            channel = matches[0] if matches else await create(name, reason="Authorized RaiBot channel creation test")
+            confirmed = await client.fetch_channel(channel.id)
+            if confirmed.name != name or confirmed.type != kind or confirmed.guild.id != guild.id:
+                raise RuntimeError("Channel verification mismatch")
+            log.info("CHANNEL_VERIFIED name=%s type=%s channel_id=%s guild_id=%s created=%s", name, kind.value, confirmed.id, guild.id, created)
+        except Exception as error:
+            log.error("CHANNEL_TEST_FAILED name=%s type=%s error=%s status=%s discord_code=%s", name, kind.value, type(error).__name__, getattr(error, "status", None), getattr(error, "code", None))
+
 def probe_discord():
     """Real public HTTPS request; no credential required."""
     try:
@@ -48,6 +74,7 @@ async def run_bot(token, guild_id):
         def __init__(self):
             super().__init__(intents=discord.Intents(guilds=True))
             self.tree = app_commands.CommandTree(self)
+            self.smoke_started = False
 
         async def setup_hook(self):
             existing = await self.tree.fetch_commands(guild=guild)
@@ -63,6 +90,12 @@ async def run_bot(token, guild_id):
 
         async def on_ready(self):
             log.info("GATEWAY_READY bot_id=%s guild_count=%s", self.user.id, len(self.guilds))
+            if not self.smoke_started:
+                self.smoke_started = True
+                try:
+                    await channel_smoke(self)
+                except Exception as error:
+                    log.error("CHANNEL_TEST_ABORTED type=%s status=%s", type(error).__name__, getattr(error, "status", None))
 
     client = RaiClient()
 
