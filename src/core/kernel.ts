@@ -1,4 +1,5 @@
-import { Capability, Context, DiscordPort, Fault, Json, Obj, id, obj, str, validate } from '../contracts';
+import { Capability, Context, DiscordPort, Fault, Json, Obj, Plan, canonical, id, obj, str, validate } from '../contracts';
+import { createHash } from 'node:crypto';
 import { span } from '../modules/performance/telemetry';
 import { Store } from '../modules/persistence/store';
 import { Registry } from './registry';
@@ -11,6 +12,10 @@ export type Outcome = {
     token: string;
     summary: string;
 };
+function approvalDigest(cap: Capability, input: Obj, plan?: Plan): string {
+    const data: Json = { capability: cap.id, module: cap.module, effect: cap.effect, actorMask: String(cap.actorMask), input, plan: plan ? { id: plan.id, method: plan.method, path: plan.path, target: { ...plan.target }, query: { ...plan.query }, body: plan.body ?? null, actorMask: String(plan.actorMask), botMask: String(plan.botMask), effect: plan.effect, reason: plan.reason ?? null, local: plan.local ?? null } : null };
+    return createHash('sha256').update(canonical(data)).digest('hex');
+}
 export class Kernel {
     constructor(readonly registry: Registry, readonly store: Store, readonly discord: DiscordPort) { }
     async execute(capId: string, raw: unknown, ctx: Context, token?: string): Promise<Outcome> {
@@ -28,8 +33,10 @@ export class Kernel {
             let input: Obj = token ? {} : validate(cap.fields, raw);
             let effective = ctx;
             let sealed: Json | undefined;
+            let approval: Obj | undefined;
             if (token) {
                 const p = obj(this.store.consume(ctx, token));
+                approval = p;
                 if (p.cap !== capId)
                     throw new Fault('confirmation_mismatch');
                 input = validate(cap.fields, p.input);
@@ -39,7 +46,8 @@ export class Kernel {
                     throw new Fault('confirmation_source');
                 effective = { ...ctx, source, thread: p.thread === true };
             }
-            const config = this.store.settings(ctx.guild).value;
+            const initial = this.store.settings(ctx.guild);
+            const config = initial.value;
             let plan = cap.plan?.(input, effective);
             if (plan?.local === 'purge' && token) {
                 const selection = obj(sealed);
@@ -56,7 +64,7 @@ export class Kernel {
                 if (!this.store.claim(ctx.guild, ctx.nonce))
                     throw new Fault('duplicate');
                 claimed = true;
-                const confirmation = this.store.confirmation(ctx, { cap: cap.id, input, source: effective.source, thread: !!effective.thread, selection: plan?.local === 'purge' ? obj(plan.body) : null });
+                const confirmation = this.store.confirmation(ctx, { cap: cap.id, input, source: effective.source, thread: !!effective.thread, selection: plan?.local === 'purge' ? obj(plan.body) : null, revision: initial.revision, digest: approvalDigest(cap, input, plan) });
                 this.store.finish(ctx.guild, ctx.nonce, 'done');
                 claimed = false;
                 status = 'confirmation';
@@ -68,8 +76,11 @@ export class Kernel {
             // Reads have no asynchronous gap between this authorization and dispatch.
             // Writes and confirmed operations retain an independent fresh verification.
             const freshAccess = cap.effect === 'read' && !token ? access : await span('discord.revalidate',()=>this.discord.access(effective, plan, 'fresh'));
-            const fresh = this.store.settings(ctx.guild).value;
+            const current = this.store.settings(ctx.guild);
+            const fresh = current.value;
             authorize(this.registry, fresh, cap, effective, freshAccess, plan);
+            if (approval && (approval.revision !== current.revision || approval.digest !== approvalDigest(cap, input, plan)))
+                throw new Fault('approval_stale', 'O plano ou a política mudou. Solicite nova confirmação.');
             if (!token && effective.source === 'ai' && config.ai.dryRun && !fresh.ai.dryRun && cap.effect !== 'read')
                 throw new Fault('simulation_changed');
             if (effective.source === 'ai' && fresh.ai.dryRun && cap.effect !== 'read') {
