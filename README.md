@@ -15,7 +15,7 @@ Build: npm install; npm run build; npm test; npm start. Docker executa os testes
 
 ## IA por menção
 
-No servidor autorizado, mencione @Buteco e escreva a pergunta. O bot envia somente a pergunta à API externa e publica a resposta. Não executa ações administrativas por meio da IA. Ignora outros bots, webhooks e outros servidores. As respostas não disparam menções; há limite de frequência e de simultaneidade.
+No servidor autorizado, mencione @Buteco e escreva a pergunta. O bot envia a pergunta e o histórico recente daquela conversa à API externa e publica a resposta. O contexto fica em RAM, separado por servidor, canal e usuário, limitado a seis trocas e expira após 30 minutos de inatividade ou reinício. Mensagens não direcionadas ao bot não entram no contexto. Não executa ações administrativas por meio da IA. Ignora outros bots, webhooks e outros servidores. As respostas não disparam menções; há limite de frequência e de simultaneidade.
 
 Variáveis Railway:
 - API (ou AI_API_KEY): credencial secreta.
@@ -28,4 +28,4 @@ Sem URL e modelo, o bot não envia a chave a nenhum provedor. A IA está pronta 
 
 ### Cloudflare Workers AI
 
-Use AI_FORMAT=openai, AI_API_URL=https://api.cloudflare.com/client/v4/accounts/<account_id>/ai/v1/chat/completions e AI_MODEL=@cf/meta/llama-3.1-8b-instruct-fast. O token existente API precisa de permissão Workers AI Write. AI_STARTUP_CHECK=true habilita uma consulta curta de diagnóstico por inicialização, sem publicar mensagens no Discord. Respostas têm limite de 500 tokens no formato chat completions. O consumo está sujeito à franquia e ao plano Cloudflare.
+Use AI_FORMAT=openai, AI_API_URL=https://api.cloudflare.com/client/v4/accounts/<account_id>/ai/v1/chat/completions e AI_MODEL=@cf/meta/llama-3.1-8b-instruct-fast. O token existente API precisa de permissão Workers AI Write. AI_STARTUP_CHECK=true habilita três consultas curtas de diagnóstico por inicialização (respostas distintas e continuidade de contexto), sem publicar mensagens no Discord. Respostas têm limite de 500 tokens no formato chat completions. O consumo está sujeito à franquia e ao plano Cloudflare.

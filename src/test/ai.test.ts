@@ -14,3 +14,5 @@ test("API call uses configured endpoint and rejects redirects",async()=>{const m
 test("HTTP error is handled without exposing credentials",async()=>{const mock:typeof fetch=async()=>new Response("secret body",{status:401});await assert.rejects(askAI(config,"oi",mock),(error:unknown)=>error instanceof AIError&&error.status===401&&error.message==="provider_http_error");});
 test("mention removal",()=>assert.equal(mentionPrompt("<@123> olá <@!123>","123"),"olá"));
 test("Discord reply length limit",()=>{const parts=splitReply("😀".repeat(5000));assert.ok(parts.length<=3);assert.ok(parts.every(p=>p.length<=1900));});
+
+test("conversation context is included in provider requests",()=>{const history=[{role:"user" as const,content:"Meu nome é Ana"},{role:"assistant" as const,content:"Oi Ana"}];const request=requestData(config,"Qual meu nome?",history);assert.deepEqual((request.body.messages as unknown[]).slice(1),[...history,{role:"user",content:"Qual meu nome?"}]);});

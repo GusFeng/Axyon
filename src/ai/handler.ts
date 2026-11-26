@@ -1,6 +1,7 @@
 import { Client, Events } from "discord.js";
 import { AIConfig, AIError, askAI, configure } from "./client";
 import { isTextTarget } from "../operations";
+import { ConversationStore } from "./conversation";
 
 export function mentionPrompt(content:string,id:string):string {
   return content.replace(new RegExp("<@!?"+id+">","g"),"").trim();
@@ -28,12 +29,17 @@ export function installAI(client:Client) {
   console.log("AI_MENTION_HANDLER",JSON.stringify({configured:Boolean(config),guild_scoped:Boolean(guildId),format:config?.format??null}));
   if(config && process.env.AI_STARTUP_CHECK==="true") {
     const current=config;
-    client.once(Events.ClientReady,()=>{void askAI(current,"Responda apenas com a palavra OK.").then(reply=>{
-      console.log("AI_PROVIDER_VERIFIED",JSON.stringify({model:current.model,nonempty:Boolean(reply.trim())}));
-    }).catch(error=>{
+    client.once(Events.ClientReady,()=>{void (async()=>{
+      const firstPrompt="Para um teste técnico, responda apenas com a palavra abacaxi.";
+      const first=await askAI(current,firstPrompt);
+      const second=await askAI(current,"Qual palavra você acabou de escrever? Responda apenas com essa palavra.",fetch,[{role:"user",content:firstPrompt},{role:"assistant",content:first}]);
+      const third=await askAI(current,"Quanto é 7 + 5? Responda apenas com o número.");
+      console.log("AI_PROVIDER_DIALOGUE_CHECK",JSON.stringify({model:current.model,first_matches:/abacaxi/i.test(first),context_matches:/abacaxi/i.test(second),math_matches:/\b12\b/.test(third),distinct:first.trim()!==third.trim()}));
+    })().catch(error=>{
       console.warn("AI_PROVIDER_CHECK_FAILED",JSON.stringify({kind:error instanceof AIError?error.kind:"unknown",status:error instanceof AIError?error.status:undefined}));
     });});
   }
+  const conversations=new ConversationStore();
   let inFlight=0;
   let recent:number[]=[];
   const active=new Set<string>(), last=new Map<string,number>();
@@ -55,13 +61,16 @@ export function installAI(client:Client) {
     active.add(id);inFlight++;
     try {
       await message.channel.sendTyping().catch(()=>undefined);
-      const reply=await askAI(config,prompt);
+      const conversationKey=message.guildId+":"+message.channelId+":"+id;
+      const history=conversations.get(conversationKey);
+      const reply=await askAI(config,prompt,fetch,history);
       const parts=splitReply(reply);
       for(let i=0;i<parts.length;i++){
         if(i===0)await message.reply({content:parts[i],...options});
         else await message.channel.send({content:parts[i],...options});
       }
-      console.log("AI_REPLY_SENT",JSON.stringify({message_id:message.id,parts:parts.length}));
+      conversations.append(conversationKey,prompt,parts.join(""));
+      console.log("AI_REPLY_SENT",JSON.stringify({message_id:message.id,parts:parts.length,context_turns:history.length,model:config.model}));
     } catch(error) {
       console.warn("AI_REPLY_FAILED",JSON.stringify({kind:error instanceof AIError?error.kind:"discord_or_internal_error",status:error instanceof AIError?error.status:undefined}));
       await message.reply({content:"Não consegui consultar a IA agora. Tente novamente mais tarde.",...options}).catch(()=>undefined);

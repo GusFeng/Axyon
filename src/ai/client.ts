@@ -2,7 +2,8 @@ export type AIConfig = { url: string; model: string; key: string; format: "opena
 export class AIError extends Error {
   constructor(public readonly kind: string, public readonly status?: number) { super(kind); }
 }
-export const SYSTEM = "Você é o assistente do bot Buteco no Discord. Responda naturalmente no idioma do usuário, com clareza. Não afirme ter executado ações administrativas; você apenas conversa. Não invente dados nem solicite segredos.";
+export const SYSTEM = "Você é o Buteco, participante de uma conversa no Discord. Fale no idioma e no tom da pessoa, de maneira espontânea e direta. Continue o assunto usando o contexto anterior. Não repita apresentações, saudações ou perguntas de encerramento por hábito. Responda primeiro ao que foi pedido; use detalhes, humor ou informalidade quando fizer sentido. Não finja ser humano nem ter realizado ações administrativas. Não invente fatos nem solicite segredos.";
+export type Turn = {role:"user"|"assistant";content:string};
 export function configure(env: NodeJS.ProcessEnv): AIConfig | null {
   const key=(env.AI_API_KEY || env.API || "").trim().replace(/^Bearer\s+/i,"");
   const url=(env.AI_API_URL || "").trim();
@@ -18,11 +19,12 @@ export function configure(env: NodeJS.ProcessEnv): AIConfig | null {
   return {key,url:endpoint.toString(),model,format};
 }
 type RequestData = {headers:Record<string,string>; body:Record<string,unknown>};
-export function requestData(config:AIConfig, prompt:string):RequestData {
+export function requestData(config:AIConfig, prompt:string, history:readonly Turn[]=[]):RequestData {
   const base={"Content-Type":"application/json"};
-  if(config.format==="anthropic") return {headers:{...base,"x-api-key":config.key,"anthropic-version":"2023-06-01"},body:{model:config.model,max_tokens:700,system:SYSTEM,messages:[{role:"user",content:prompt}]}};
-  if(config.format==="gemini") return {headers:{...base,"x-goog-api-key":config.key},body:{systemInstruction:{parts:[{text:SYSTEM}]},contents:[{role:"user",parts:[{text:prompt}]}],generationConfig:{maxOutputTokens:700}}};
-  return {headers:{...base,Authorization:"Bearer "+config.key},body:{model:config.model,max_tokens:500,messages:[{role:"system",content:SYSTEM},{role:"user",content:prompt}]}};
+  const turns:Turn[]=[...history,{role:"user",content:prompt}];
+  if(config.format==="anthropic") return {headers:{...base,"x-api-key":config.key,"anthropic-version":"2023-06-01"},body:{model:config.model,max_tokens:700,system:SYSTEM,messages:turns}};
+  if(config.format==="gemini") return {headers:{...base,"x-goog-api-key":config.key},body:{systemInstruction:{parts:[{text:SYSTEM}]},contents:turns.map(turn=>({role:turn.role==="assistant"?"model":"user",parts:[{text:turn.content}]})),generationConfig:{maxOutputTokens:700}}};
+  return {headers:{...base,Authorization:"Bearer "+config.key},body:{model:config.model,max_tokens:500,temperature:0.8,messages:[{role:"system",content:SYSTEM},...turns]}};
 }
 function record(value:unknown):Record<string,unknown> {
   return value!==null && typeof value==="object" && !Array.isArray(value) ? value as Record<string,unknown> : {};
@@ -38,8 +40,8 @@ export function extractReply(data:unknown,format:AIConfig["format"]):string {
   if(typeof reply!=="string"||!reply.trim()) throw new AIError("empty_reply");
   return reply.trim();
 }
-export async function askAI(config:AIConfig,prompt:string,send:typeof fetch=fetch):Promise<string> {
-  const data=requestData(config,prompt);
+export async function askAI(config:AIConfig,prompt:string,send:typeof fetch=fetch, history:readonly Turn[]=[]):Promise<string> {
+  const data=requestData(config,prompt,history);
   let response:Response;
   try {response=await send(config.url,{method:"POST",headers:data.headers,body:JSON.stringify(data.body),signal:AbortSignal.timeout(30000),redirect:"error"});}
   catch(error) {
