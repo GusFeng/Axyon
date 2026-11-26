@@ -4,11 +4,12 @@ export class AIError extends Error {
 }
 export const SYSTEM = "Você é o assistente do bot Buteco no Discord. Responda naturalmente no idioma do usuário, com clareza. Não afirme ter executado ações administrativas; você apenas conversa. Não invente dados nem solicite segredos.";
 export function configure(env: NodeJS.ProcessEnv): AIConfig | null {
-  const key=(env.AI_API_KEY || env.API || "").trim();
+  const key=(env.AI_API_KEY || env.API || "").trim().replace(/^Bearer\s+/i,"");
   const url=(env.AI_API_URL || "").trim();
   const model=(env.AI_MODEL || "").trim();
   const format=(env.AI_FORMAT || "openai").trim();
   if (!key || !url || !model) return null;
+  if(!/^[\x21-\x7e]+$/.test(key)) throw new AIError("invalid_token_format");
   if(format!=="openai" && format!=="anthropic" && format!=="gemini") throw new AIError("invalid_format");
   let endpoint: URL;
   try { endpoint=new URL(url); } catch { throw new AIError("invalid_endpoint"); }
@@ -41,7 +42,13 @@ export async function askAI(config:AIConfig,prompt:string,send:typeof fetch=fetc
   const data=requestData(config,prompt);
   let response:Response;
   try {response=await send(config.url,{method:"POST",headers:data.headers,body:JSON.stringify(data.body),signal:AbortSignal.timeout(30000),redirect:"error"});}
-  catch {throw new AIError("network_or_timeout");}
+  catch(error) {
+    const cause=error instanceof Error ? error.cause : undefined;
+    const code=typeof cause==="object" && cause!==null && "code" in cause ? cause.code : undefined;
+    const allowed=["ENOTFOUND","EAI_AGAIN","ECONNREFUSED","ECONNRESET","ETIMEDOUT","UND_ERR_CONNECT_TIMEOUT","UND_ERR_HEADERS_TIMEOUT","UND_ERR_SOCKET","CERT_HAS_EXPIRED","UNABLE_TO_VERIFY_LEAF_SIGNATURE","ERR_TLS_CERT_ALTNAME_INVALID"];
+    const kind=typeof code==="string"&&allowed.includes(code)?code:error instanceof Error && error.name==="TimeoutError"?"timeout":"network_or_request_error";
+    throw new AIError(kind);
+  }
   if(!response.ok) throw new AIError("provider_http_error",response.status);
   try {return extractReply(await response.json(),config.format);}
   catch(error) {if(error instanceof AIError)throw error;throw new AIError("invalid_response");}
