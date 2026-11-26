@@ -1,0 +1,35 @@
+name: AXYON delivery gate
+on:
+  push:
+    branches:
+      - 'engineering/**'
+      - main
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+concurrency:
+  group: axyon-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  verify:
+    name: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Node 22
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: npm run check
+      - run: npm run inventory
+      - name: Verify generated inventories
+        run: git diff --exit-code -- reference/coverage.json reference/candidate-commands.json reference/module-manifest.json reference/capabilities.json
+      - name: Verify production image build
+        run: docker build --tag axyon-ci .
