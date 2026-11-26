@@ -7,7 +7,7 @@ export class SnapshotCache<T> {
  invalidate(){this.generation++;this.values.clear();this.counters.invalidations++;}
  async get(key:string,load:()=>Promise<T>):Promise<T>{
    const now=this.clock(), old=this.values.get(key);
-   if(old&&old.until>now){this.counters.hit++;return old.value;}
+   if(old&&old.until>now){this.counters.hit++;const result=await old.value;return old.generation===this.generation?result:load();}
    this.counters.miss++;const generation=this.generation;
    if(this.values.size>=this.limit)this.values.delete(this.values.keys().next().value!);
    const value=Promise.resolve().then(load);

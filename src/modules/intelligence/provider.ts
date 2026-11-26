@@ -3,6 +3,7 @@ export type AIConfig = {
     model: string;
     key: string;
     format: "openai" | "anthropic" | "gemini";
+    streaming?: boolean;
 };
 export class AIError extends Error {
     constructor(public readonly kind: string, public readonly status?: number) { super(kind); }
@@ -32,7 +33,7 @@ export function configure(env: NodeJS.ProcessEnv): AIConfig | null {
     }
     if (endpoint.protocol !== "https:" || endpoint.username || endpoint.password || endpoint.hash || endpoint.search)
         throw new AIError("invalid_endpoint");
-    return { key, url: endpoint.toString(), model, format };
+    return { key, url: endpoint.toString(), model, format, ...(format==='openai'&&env.AI_STREAMING==='true'?{streaming:true}:{}) };
 }
 type RequestData = {
     headers: Record<string, string>;
@@ -68,6 +69,7 @@ export function extractReply(data: unknown, format: AIConfig["format"]): string 
 }
 export async function askAI(config: AIConfig, prompt: string, send: typeof fetch = fetch, history: readonly Turn[] = [], documentation = "", systemOverride?: string): Promise<string> {
     const data = requestData(config, prompt, history, documentation, systemOverride);
+    if(config.streaming&&config.format==='openai')data.body.stream=true;
     let response: Response;
     try {
         response = await send(config.url, { method: "POST", headers: data.headers, body: JSON.stringify(data.body), signal: AbortSignal.timeout(30000), redirect: "error" });
@@ -82,6 +84,7 @@ export async function askAI(config: AIConfig, prompt: string, send: typeof fetch
     if (!response.ok)
         throw new AIError("provider_http_error", response.status);
     try {
+        if(config.streaming&&response.headers.get('content-type')?.includes('text/event-stream'))return await collectSSE(response);
         return extractReply(await response.json(), config.format);
     }
     catch (error) {
@@ -91,3 +94,15 @@ export async function askAI(config: AIConfig, prompt: string, send: typeof fetch
     }
 }
 
+
+ // SSE is consumed incrementally. No partial response is sent before final authorization.
+export async function collectSSE(response:Response):Promise<string>{
+ const reader=response.body?.getReader();if(!reader)throw new AIError('empty_stream');
+ const decoder=new TextDecoder();let pending='',output='',finished=false;
+ try{while(!finished){const {value,done}=await reader.read();pending+=decoder.decode(value,{stream:!done});if(pending.length>65536)throw new AIError('stream_limit');
+ const lines=pending.split(/\r?\n/);pending=done?'':lines.pop()??'';
+ for(const line of lines){if(!line.startsWith('data:'))continue;const data=line.slice(5).trim();if(!data)continue;if(data==='[DONE]'){finished=true;break;}const chunk=record(JSON.parse(data));if(chunk.error)throw new AIError('stream_provider_error');const choice=record(array(chunk.choices)[0]);const delta=record(choice.delta).content;if(typeof delta==='string')output+=delta;if(output.length>12000)throw new AIError('stream_limit');if(typeof choice.finish_reason==='string')finished=true;}
+ if(done)break;}
+ if(!finished||!output.trim())throw new AIError('incomplete_stream');return output.trim();
+ }finally{await reader.cancel().catch(()=>{});reader.releaseLock();}
+}

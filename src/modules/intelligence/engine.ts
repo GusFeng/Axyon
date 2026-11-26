@@ -43,7 +43,7 @@ export class Intelligence {
     constructor(private kernel: Kernel, private config: AIConfig | null, private send: typeof fetch = fetch, private catalog = new RuntimeCatalog()) { }
     async handle(i: AIInput): Promise<AIResult> { const c = { ...i.context, thread: i.thread }; const settings = this.kernel.store.settings(c.guild).value; const a = settings.ai; if (!this.kernel.registry.enabled('intelligence', settings.modules) || !a.enabled || a.emergency)
         return { kind: 'ignored' }; const actionRequested=/^(?:ação|acao|execute|executar)\s*:\s*/i.test(i.prompt);
-        const strict=actionRequested||a.allowRoles.length>0||a.denyRoles.length>0||a.allowUsers.length>0||a.denyUsers.length>0;
+        const strict=actionRequested||/(comandos?|slash|\/\p{L})/iu.test(i.prompt)||a.allowRoles.length>0||a.denyRoles.length>0||a.allowUsers.length>0||a.denyUsers.length>0;
         const access = await this.kernel.discord.access(c,undefined,strict?'fresh':'snapshot'); if (!allowedAI(settings, c.actor, access.roles, c.channel, i.mention, i.thread))
         return { kind: 'ignored' }; if (!this.config)
         return { kind: 'text', text: 'IA não configurada.' }; const key = contextKey(c); if (this.running >= 3 || this.active.has(key) || !this.kernel.store.reserve(c.guild, c.actor))
@@ -107,7 +107,8 @@ export class Intelligence {
             const strictAfter=strict||fresh.ai.allowRoles.length>0||fresh.ai.denyRoles.length>0||fresh.ai.allowUsers.length>0||fresh.ai.denyUsers.length>0;
             const latestAccess=await this.kernel.discord.access(c,undefined,strictAfter?'fresh':'snapshot');
             const latest=this.kernel.store.settings(c.guild).value;
-            const nowAllowed = allowedAI(latest, c.actor, latestAccess.roles, c.channel, i.mention, i.thread);
+            const changedRestriction=!strictAfter&&(latest.ai.allowRoles.length>0||latest.ai.denyRoles.length>0||latest.ai.allowUsers.length>0||latest.ai.denyUsers.length>0);
+            const nowAllowed = !changedRestriction&&allowedAI(latest, c.actor, latestAccess.roles, c.channel, i.mention, i.thread);
             if (!nowAllowed || !this.kernel.registry.enabled('intelligence', latest.modules)) {
                 this.kernel.store.finish(c.guild, 'ai:' + c.nonce, 'done');
                 return { kind: 'ignored' };
